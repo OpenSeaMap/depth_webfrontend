@@ -1,0 +1,24 @@
+body {
+  padding-top    : 60px;
+  padding-bottom : 40px;
+}
+
+.navbar .oseam-logo {
+    float      : left;
+    margin     : 4px 4px 0px 0px;
+    padding    : 0px;
+    height     : 32px;
+    width      : 32px;
+    background : url(../images/openseamap-logo-32.png) no-repeat;
+}
+
+.oseam-map-tracks {
+    height:600px;
+    border: 1px solid #E3E3E3;
+}
+
+/* revert bootstrap settings */
+.oseam-map-tracks img {
+    max-width: none;
+    vertical-align: none;
+}

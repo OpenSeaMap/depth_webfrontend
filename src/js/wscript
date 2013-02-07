@@ -1,0 +1,50 @@
+def configure(ctx):
+    ctx.find_program('closure-compiler', var='CLOSURECOMPILER')
+    ctx.find_program('handlebars', var='HANDLEBARS')
+    ctx.env.CLOSURECOMPILERFLAGS = '--compilation_level SIMPLE_OPTIMIZATIONS'
+    ctx.env.JSSTAGE1 = [
+        'oseam.js',
+        'oseam-routers-router.js',
+        'oseam-models-frontend.js',
+        'oseam-views-toolbar.js',
+        'oseam-views-navbar.js',
+        'oseam-views-home.js',
+        'init.js'
+    ]
+    ctx.env.JSSTAGE2 = [
+        'oseam-views-about.js',
+        'oseam-views-maptracks.js',
+        'oseam-views-license.js',
+        'oseam-views-attributions.js'
+    ]
+    ctx.env.JSSTAGE1NAME = 'all-stage1.js'
+    ctx.env.JSSTAGE2NAME = 'all-stage2.js'
+
+
+
+def build(ctx):
+
+    ctx(
+        rule         = '${HANDLEBARS} -m ${SRC} -f ${TGT}',
+        source       = ctx.path.ant_glob('templates/*.handlebars'),
+        target       = 'templates.js',
+        install_path = '${PREFIX}/js'
+    )
+
+    if ctx.env.NAME == 'release':
+        ctx(
+            rule         = '${CLOSURECOMPILER} ${CLOSURECOMPILERFLAGS} --js ${SRC} --js_output_file ${TGT}',
+            source       = ctx.env.JSSTAGE1,
+            target       = ctx.env.JSSTAGE1NAME,
+            install_path = '${PREFIX}/js'
+        )
+
+        ctx(
+            rule         = '${CLOSURECOMPILER} ${CLOSURECOMPILERFLAGS} --js ${SRC} --js_output_file ${TGT}',
+            source       = ctx.env.JSSTAGE2,
+            target       = ctx.env.JSSTAGE2NAME,
+            install_path = '${PREFIX}/js'
+        )
+
+    if ctx.env.NAME == 'debug':
+        ctx.install_files('${PREFIX}/js', ctx.path.ant_glob('*.js'))

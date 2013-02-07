@@ -1,0 +1,2 @@
+src/lib/*:
+  External libraries have their own license.
