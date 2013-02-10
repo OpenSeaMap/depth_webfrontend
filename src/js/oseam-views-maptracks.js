@@ -46,25 +46,26 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPoints = new OpenLayers.Layer.WMS('Track Points',
-            'http:///osm.franken.de:8080/geoserver/wms', {
-                layers: 'gebco:trackpoints_cor1',
+            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+                layers: 'trackpoints_cor1',
                 projection: this.projectionMercator,
                 type: 'png',
                 transparent: true
             },{
                 isBaseLayer: false,
-                maxResolution: 76.44
+                maxResolution: 76.44,
+                tileSize: new OpenLayers.Size(1024,1024)
             }
         );
-        this.layerZoom10 = this.createLayer('Zoom 10', 'gebco:zoom_10_cor_1_points',    76.44,   152.88);
-        this.layerZoom9  = this.createLayer('Zoom 9',  'gebco:zoom_9_cor_1_points',    152.88,   305.75);
-        this.layerZoom8  = this.createLayer('Zoom 8',  'gebco:zoom_8_cor_1_points',    305.75,   611.50);
-        this.layerZoom7  = this.createLayer('Zoom 7',  'gebco:zoom_7_cor_1_points',    611.50,  1223.00);
-        this.layerZoom6  = this.createLayer('Zoom 6',  'gebco:zoom_6_cor_1_points',   1223.00,  2446.00);
-        this.layerZoom5  = this.createLayer('Zoom 5',  'gebco:zoom_5_cor_1_points',   2446.00,  4892.00);
-        this.layerZoom4  = this.createLayer('Zoom 4',  'gebco:zoom_4_cor_1_points',   4892.00,  9784.00);
-        this.layerZoom3  = this.createLayer('Zoom 3',  'gebco:zoom_3_cor_1_points',   9784.00, 19568.00);
-        this.layerZoom2  = this.createLayer('Zoom 2',  'gebco:zoom_2_cor_1_points',  19568.00, 39136.00);
+        this.layerZoom10 = this.createLayer('Zoom 10', 'zoom_10_cor_1_points',    76.44,   152.88);
+        this.layerZoom9  = this.createLayer('Zoom 9',  'zoom_9_cor_1_points',    152.88,   305.75);
+        this.layerZoom8  = this.createLayer('Zoom 8',  'zoom_8_cor_1_points',    305.75,   611.50);
+        this.layerZoom7  = this.createLayer('Zoom 7',  'zoom_7_cor_1_points',    611.50,  1223.00);
+        this.layerZoom6  = this.createLayer('Zoom 6',  'zoom_6_cor_1_points',   1223.00,  2446.00);
+        this.layerZoom5  = this.createLayer('Zoom 5',  'zoom_5_cor_1_points',   2446.00,  4892.00);
+        this.layerZoom4  = this.createLayer('Zoom 4',  'zoom_4_cor_1_points',   4892.00,  9784.00);
+        this.layerZoom3  = this.createLayer('Zoom 3',  'zoom_3_cor_1_points',   9784.00, 19568.00);
+        this.layerZoom2  = this.createLayer('Zoom 2',  'zoom_2_cor_1_points',  19568.00, 39136.00);
 
         this.map.addLayers([
             this.layerBase,
@@ -91,7 +92,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
     },
     createLayer: function(name, layerName, minResolution, maxResolution) {
         layer = new OpenLayers.Layer.WMS(name,
-            'http:///osm.franken.de:8080/geoserver/wms', {
+            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
                 layers: layerName,
                 projection: this.projectionWGS84,
                 type: 'png',
@@ -99,7 +100,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             },{
                 isBaseLayer: false,
                 minResolution: minResolution,
-                maxResolution: maxResolution
+                maxResolution: maxResolution,
+                tileSize: new OpenLayers.Size(1024,1024)
             }
         );
         return layer;
