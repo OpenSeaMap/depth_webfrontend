@@ -12,8 +12,12 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Home = OSeaM.View.extend({
+    initialize: function() {
+        OSeaM.frontend.on('change:language', this.render, this);
+    },
     render: function() {
-        var template = OSeaM.loadTemplate('home');
+        var language = OSeaM.frontend.getLanguage();
+        var template = OSeaM.loadTemplate('home-' + language);
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
