@@ -19,7 +19,7 @@ OSeaM.views.ToolBar = OSeaM.View.extend({
         var template = OSeaM.loadTemplate('toolbar');
         var content = $(template());
         OSeaM.frontend.translate(content);
-        this.$el.append(content);
+        this.$el.prepend(content);
         return this;
     },
     setActive: function(name) {
