@@ -25,6 +25,7 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         this.actualView.render();
     },
     setLanguage: function(language) {
+        this.set({language: language});
         if (this.translations[language] === undefined) {
             var me = this;
             jQuery.ajax({
@@ -32,7 +33,6 @@ OSeaM.models.Frontend = Backbone.Model.extend({
                 dataType: 'json',
                 success: function(data, success, jqXHR) {
                     me.translations[language] = data;
-                    me.set({language: language});
                     me.translate($('body'));
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
