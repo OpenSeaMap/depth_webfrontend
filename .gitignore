@@ -1,0 +1,6 @@
+*.swp
+.lock-waf*
+.waf*
+build
+debug
+release
