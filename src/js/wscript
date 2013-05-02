@@ -4,7 +4,9 @@ def configure(ctx):
     ctx.env.CLOSURECOMPILERFLAGS = '--compilation_level SIMPLE_OPTIMIZATIONS'
     ctx.env.JSSTAGE1 = [
         'oseam.js',
+        'oseam-utils-validation.js',
         'oseam-routers-router.js',
+        'oseam-models-auth.js',
         'oseam-models-frontend.js',
         'oseam-views-toolbar.js',
         'oseam-views-navbar.js',
@@ -13,6 +15,7 @@ def configure(ctx):
     ]
     ctx.env.JSSTAGE2 = [
         'oseam-views-about.js',
+        'oseam-views-register.js',
         'oseam-views-introduction.js',
         'oseam-views-maptracks.js',
         'oseam-views-license.js',

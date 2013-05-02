@@ -15,18 +15,38 @@ OSeaM = {
     models: {},
     routers: {},
     views: {},
+    utils: {},
     container: null,
     frontend: null,
     router: null,
+    apiUrl: 'http://testdepth.openseamap.org/api1',
+    autoId: 0,
     init: function() {
+        OSeaM.configureBackboneSync();
         this.frontend = new OSeaM.models.Frontend();
         this.frontend.setLanguage('en');
         this.container = $('.oseam-container');
         this.router = new OSeaM.routers.Router();
         Backbone.history.start();
     },
+    configureBackboneSync: function() {
+        var originalSync = Backbone.sync;
+        Backbone.sync = function(method, model, options) {
+            options = options || {};
+            options.crossDomain = true;
+            options.xhrFields   = {
+                withCredentials: true
+            };
+            return originalSync(method, model, options);
+        };
+    },
     loadTemplate: function(template) {
         return Handlebars.templates[template];
+    },
+    id: function(prefix) {
+        prefix = prefix || 'oseam-';
+        this.autoId++;
+        return prefix + this.autoId;
     }
 };
 

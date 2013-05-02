@@ -1,0 +1,14 @@
+<div class="alert alert-block alert-error fade in">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4 class="alert-heading" data-trt="{{title}}"></h4>
+    {{#if msg}}
+    <p data-trt="{{msg}}"></p>
+    {{/if}}
+    {{#if errors}}
+    <ul>
+    {{#each errors}}
+      <li data-trt="{{this}}"></li>
+    {{/each}}
+    </ul>
+    {{/if}}
+</div>

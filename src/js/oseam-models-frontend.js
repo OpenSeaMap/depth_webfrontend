@@ -14,6 +14,14 @@
 OSeaM.models.Frontend = Backbone.Model.extend({
     actualView:null,
     translations: {},
+    getAuth: function() {
+        if (this.has('auth') === false) {
+            this.set({
+                auth: new OSeaM.models.Auth()
+            });
+        }
+        return this.get('auth');
+    },
     startView: function(name, settings) {
         if (this.actualView) {
             this.actualView.close();

@@ -17,6 +17,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
     routes: {
         'home'         : 'home',
         'about'        : 'about',
+        'register'     : 'register',
         'introduction' : 'introduction',
         'maptracks'    : 'maptracks',
         'license'      : 'license',
@@ -26,13 +27,15 @@ OSeaM.routers.Router = Backbone.Router.extend({
     renderTopAndNavBar: function(activeItem) {
         if (this.toolBar === null) {
             this.toolBar = new OSeaM.views.ToolBar({
-                el : $('body')
+                el    : $('body'),
+                model : OSeaM.frontend.getAuth()
             });
             this.toolBar.render();
         }
         if (this.navBar === null) {
             this.navBar = new OSeaM.views.NavBar({
-                el : $('.oseam-navbar')
+                el    : $('.oseam-navbar'),
+                model : OSeaM.frontend.getAuth()
             });
             this.navBar.render();
         }
@@ -46,6 +49,12 @@ OSeaM.routers.Router = Backbone.Router.extend({
     about: function() {
         this.renderTopAndNavBar('about');
         OSeaM.frontend.startView('About');
+    },
+    register: function() {
+        this.renderTopAndNavBar('register');
+        OSeaM.frontend.startView('Register', {
+            model: OSeaM.frontend.getAuth()
+        });
     },
     introduction: function() {
         this.renderTopAndNavBar('introduction');

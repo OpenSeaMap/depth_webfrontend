@@ -7,6 +7,14 @@
     background : url(../images/openseamap-logo-32.png) no-repeat;
 }
 
+.navbar form {
+    margin-top : 2px;
+}
+
+.navbar form input {
+    height : 16px;
+}
+
 .oseam-map-tracks {
     height:600px;
     border: 1px solid #E3E3E3;

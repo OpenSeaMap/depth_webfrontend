@@ -20,6 +20,20 @@
                         </ul>
                     </li>
                 </ul>
+                <ul class="nav pull-right" style="display:none">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="{{idUsernameReadOnly}}"></span>&nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu oseam-profile">
+                            <li><a data-target="logout" data-trt="1033:Logout"></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form pull-right" style="display:none">
+                    <input class="input-medium" type="text" id="{{idUsername}}" data-trt-placeholder="1004:Email">
+                    <input class="input-medium" type="password" id="{{idPassword}}" data-trt-placeholder="1005:Password">
+                    <button type="submit" id="{{idSubmit}}" class="btn btn-small btn-info" data-loading-text="Loading..." data-trt="1006:Sign in"></button>
+                    <a href="#register" class="btn btn-small" data-trt="1018:Register"></a>
+                </form>
             </div>
         </div>
     </div>
