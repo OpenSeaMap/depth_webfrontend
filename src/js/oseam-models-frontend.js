@@ -22,6 +22,14 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         return this.get('auth');
     },
+    getTracks: function() {
+        if (this.has('tracks') === false) {
+            this.set({
+                tracks: new OSeaM.models.Tracks()
+            });
+        }
+        return this.get('tracks');
+    },
     startView: function(name, settings) {
         if (this.actualView) {
             this.actualView.close();

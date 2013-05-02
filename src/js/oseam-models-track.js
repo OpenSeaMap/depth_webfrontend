@@ -1,0 +1,104 @@
+// -------------------------------------------------------------------------------------------------
+// OpenSeaMap Water Depth - Web frontend for depth data handling.
+//
+// Written in 2012 by Dominik Fässler dfa@bezono.org
+//
+// To the extent possible under law, the author(s) have dedicated all copyright
+// and related and neighboring rights to this software to the public domain
+// worldwide. This software is distributed without any warranty.
+//
+// You should have received a copy of the CC0 Public Domain Dedication along
+// with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+// -------------------------------------------------------------------------------------------------
+
+OSeaM.models.Track = Backbone.Model.extend({
+    // The API returns:
+    //   0 = not started yes (but id requested)
+    //   1 = upload done
+    STATUS_STARTING_UPLOAD : 97,
+    STATUS_REQUESTING_ID   : 98,
+    STATUS_UPLOADING       : 99,
+    STATUS_UPLOADED        : 1,
+    defaults: {
+        fileName   : '-',
+        progress   : null,
+        status     : null
+    },
+    getStatusText: function() {
+        switch (this.get('status')) {
+            case this.STATUS_STARTING_UPLOAD:
+                return '1038:Starting upload ...';
+            case this.STATUS_REQUESTING_ID:
+                return '1039:Requesting track id ...';
+            case this.STATUS_UPLOADING:
+                return '1044:Upload in progress ...';
+            case this.STATUS_UPLOADED:
+                return '1045:Upload done.';
+            default:
+                return '-';
+        }
+    },
+    uploadFile: function(file) {
+        this.set({
+            fileName : file.name,
+            status   : this.STATUS_STARTING_UPLOAD
+        });
+        this.requestNewId(file);
+    },
+    requestNewId: function(file) {
+        this.set('status', this.STATUS_REQUESTING_ID);
+        var fn = function(data) {
+            this.onNewId(file, data);
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: OSeaM.apiUrl + '/track/newid',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: jQuery.proxy(fn, this)
+        });
+    },
+    onNewId: function(file, data) {
+        this.set({
+            id       : data.trackId,
+            progress : 1
+        });
+        this.onReaderLoad(null, file);
+    },
+    onReaderLoad: function(evt, file) {
+        this.set('status', this.STATUS_UPLOADING);
+        var fd = new FormData();
+        fd.append('track', file);
+
+        var xmlRequest = new XMLHttpRequest();
+        xmlRequest.open('POST', OSeaM.apiUrl + '/track/upload', true);
+        xmlRequest.withCredentials = true;
+        xmlRequest.responseType = 'text';
+        var fnProgress = function(evt) {
+            this.onReaderProgress(evt);
+        };
+        xmlRequest.setRequestHeader('X-Track-Id', this.get('id'));
+        xmlRequest.upload.addEventListener('progress', jQuery.proxy(fnProgress, this));
+        var fnDone = function(evt) {
+            this.onUploadDone(xmlRequest, evt);
+        };
+        xmlRequest.addEventListener('load', jQuery.proxy(fnDone, this));
+        xmlRequest.send(fd);
+    },
+    onReaderProgress:function(evt) {
+        if (evt.lengthComputable) {
+            var percentComplete = Math.round(evt.loaded / evt.total * 100);
+            this.set('progress', percentComplete);
+        }
+    },
+    onUploadDone:function(request, evt) {
+        if (request.status == 200) {
+            this.set({
+                status   : this.STATUS_UPLOADED,
+                progress : null
+            });
+        }
+    }
+});

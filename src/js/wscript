@@ -14,9 +14,14 @@ def configure(ctx):
         'init.js'
     ]
     ctx.env.JSSTAGE2 = [
+        'oseam-models-track.js',
+        'oseam-models-tracks.js',
         'oseam-views-about.js',
         'oseam-views-register.js',
+        'oseam-views-login.js',
         'oseam-views-introduction.js',
+        'oseam-views-track.js',
+        'oseam-views-tracks.js',
         'oseam-views-maptracks.js',
         'oseam-views-license.js',
         'oseam-views-attributions.js'
