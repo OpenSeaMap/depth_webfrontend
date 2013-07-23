@@ -1,0 +1,48 @@
+Synopsis
+--------
+
+Web frontend for the depth project (http://depth.openseamap.org).
+
+
+Installation
+------------
+
+The Python build tool 'Waf' is used to build this repository. The
+following tools are required:
+
+  * Python (http://www.python.org/)
+  * Closure-Compiler (https://developers.google.com/closure/compiler/)
+    (works with version 20120403)
+  * Handlebars (http://handlebarsjs.com/precompilation.html)
+    (works with version 1.0.7)
+
+To build this project execute the following commands:
+
+  > ./waf configure
+  > ./waf build_debug && ./waf install_debug
+
+The install command will copy all necessary files into the folder
+'./debug'. To test your developments point your favourite web
+server to this directory.
+
+
+Tests
+-----
+
+Actually, we have no tests for the frontend. Feel free to create
+some (e.g. Selenium).
+
+
+Contributors
+------------
+
+Bug reports and pull requests are very welcome. Join us on the mailing
+list: https://lists.sourceforge.net/lists/listinfo/openseamap-develop
+
+
+License
+-------
+
+This work is released under the 'CC0 License' (see LICENSE file). Some
+parts (e.g. third party libraries) are licensed under a different
+license (see LICENSE_EXCEPTIONS).
