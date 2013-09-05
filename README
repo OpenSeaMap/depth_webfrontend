@@ -14,7 +14,7 @@ following tools are required:
   * Closure-Compiler (https://developers.google.com/closure/compiler/)
     (works with version 20120403)
   * Handlebars (http://handlebarsjs.com/precompilation.html)
-    (works with version 1.0.7)
+    (works with version 1.0.12)
 
 To build this project execute the following commands:
 
