@@ -15,10 +15,14 @@ OSeaM.models.Track = Backbone.Model.extend({
     // The API returns:
     //   0 = not started yes (but id requested)
     //   1 = upload done
-    STATUS_STARTING_UPLOAD : 97,
-    STATUS_REQUESTING_ID   : 98,
-    STATUS_UPLOADING       : 99,
-    STATUS_UPLOADED        : 1,
+    STATUS_STARTING_UPLOAD      : 97,
+    STATUS_REQUESTING_ID        : 98,
+    STATUS_UPLOADING            : 99,
+    STATUS_UPLOADED             : 1,
+    STATUS_FILE_CORRUPT         : 2,
+    STATUS_PREPROCESSED         : 3,
+    STATUS_FILE_CONTENT_UNKNOWN : 4,
+    STATUS_FILE_DUPLICATE       : 5,
     defaults: {
         fileName   : '-',
         progress   : null,
@@ -34,6 +38,14 @@ OSeaM.models.Track = Backbone.Model.extend({
                 return '1044:Upload in progress ...';
             case this.STATUS_UPLOADED:
                 return '1045:Upload done.';
+            case this.STATUS_FILE_CORRUPT:
+                return '1049:File corrupt.';
+            case this.STATUS_PREPROCESSED:
+                return '1050:Preprocessed.';
+            case this.STATUS_FILE_CONTENT_UNKNOWN:
+                return '1051:Content unknown.';
+            case this.STATUS_FILE_DUPLICATE:
+                return '1052:Duplicate.';
             default:
                 return '-';
         }
