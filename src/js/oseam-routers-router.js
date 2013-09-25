@@ -22,6 +22,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'tracks'       : 'tracks',
         'maptracks'    : 'maptracks',
         'license'      : 'license',
+        'instructions' : 'instructions',
         'attributions' : 'attributions',
         '*default'     : 'home'
     },
@@ -79,6 +80,10 @@ OSeaM.routers.Router = Backbone.Router.extend({
     maptracks: function() {
         this.renderTopAndNavBar('maptracks');
         OSeaM.frontend.startView('MapTracks');
+    },
+    instructions: function() {
+        this.renderTopAndNavBar('instructions');
+        OSeaM.frontend.startView('Instructions');
     },
     license: function() {
         this.renderTopAndNavBar('license');
