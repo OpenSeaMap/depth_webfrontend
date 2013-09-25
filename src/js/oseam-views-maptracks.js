@@ -37,7 +37,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             maxResolution: 156543.0399,
             units: 'meters'
         });
-
+ 
         this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap',
             'http://osm1.wtnet.de/tiles/base/${z}/${x}/${y}.png', {
                 attribution: 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',

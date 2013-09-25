@@ -35,7 +35,7 @@
     "1034":"Maps",
     "1035":"Tracks",
     "1036":"Warning!",
-    "1037":"The provided data will be processed manually. Therefore it can go some days between an upload and the visualization.",
+    "1037":"The provided data will be processed manually. Therefore it can take some days between an upload and the visualization.",
     "1038":"Starting upload ...",
     "1039":"Requesting track ID ...",
     "1040":"File Name",
@@ -46,5 +46,12 @@
     "1046":"JavaScript Libraries",
     "1047":"Images",
     "1048":"Fullscreen Chart",
+    "1049":"File Type",
+    "1050":"File Corrupt",
+    "1051":"Preprocessed",
+    "1052":"File Format Unknown",
+    "1053":"Duplicate",
+    "1054":"Processed",
+    "1055":"No usable data",
     "9103":"Username already exists."
 }

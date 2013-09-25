@@ -19,10 +19,19 @@ OSeaM.models.Track = Backbone.Model.extend({
     STATUS_REQUESTING_ID   : 98,
     STATUS_UPLOADING       : 99,
     STATUS_UPLOADED        : 1,
+    STATUS_FILECORRUPT     : 2,
+    STATUS_PREPROCESSED    : 3,
+    STATUS_CONTENT_UNKNOWN    : 4,
+    STATUS_DUPLICATE    : 5,
+    STATUS_PROCESSED    : 6,
+    STATUS_NODATA    : 7,
     defaults: {
         fileName   : '-',
         progress   : null,
         status     : null
+    },
+    url: function() {
+    	return OSeaM.apiUrl + '/track/' + this.get("id");
     },
     getStatusText: function() {
         switch (this.get('status')) {
@@ -34,6 +43,18 @@ OSeaM.models.Track = Backbone.Model.extend({
                 return '1044:Upload in progress ...';
             case this.STATUS_UPLOADED:
                 return '1045:Upload done.';
+            case this.STATUS_FILECORRUPT:
+                return '1050:File Corrupt.';
+            case this.STATUS_PREPROCESSED:
+                return '1051:Preprocessed';
+            case this.STATUS_CONTENT_UNKNOWN:
+                return '1052:Content Unknown.';
+            case this.STATUS_DUPLICATE:
+                return '1053:Duplicate';
+            case this.STATUS_PROCESSED:
+                return '1054:Processed';
+            case this.STATUS_NODATA:
+                return '1055:No usable data';
             default:
                 return '-';
         }
