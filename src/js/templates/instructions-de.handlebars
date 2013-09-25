@@ -1,0 +1,71 @@
+<h4>Upload Instructions</h4>
+Supported Formats are
+<ul>
+    <li>NMEA0183</li>
+    <li>Actisense&#174; NMEA 2000</li>
+    <li>Humminbird&#174; SON</li>
+    <li>Raymarine&#174; FSH</li>
+    <li>Winprofile&#174; Sharp Files</li>
+</ul>
+
+Unsupported Formats are
+<ul>
+    <li>Generic NMEA 2000 (CAN Recordings)</li>
+    <li>Lowrance&#174; Files</li>
+</ul>
+
+Supported Compressions are
+<ul>
+    <li>ZIP</li>
+    <li>GZIP</li>
+</ul>
+
+Unsupported Compressions are
+<ul>
+    <li>7z</li>
+    <li>rar</li>
+    <li>tar</li>
+</ul>
+
+<h5>File Format Notes</h5>
+<ol>
+    <li>NMEA0183</li>
+    <ol>
+        <li>
+Sentences may be prefixed with an accurate time but need not be prefixed:
+Both forms of sentences are processed as well:
+        <pre>2013-06-29 13:58:31.120664: $GPGSV,2,1,08,15,22,186,30,04,20,091,28,25,35,267,32,17,16,040,31*7A
+$GPGSV,2,1,08,15,22,186,30,04,20,091,28,25,35,267,32,17,16,040,31*7A</pre>The accurate time is not being analyzed, yet.
+        </li>
+        <li>
+        The sentence (i.e. GLL/RMC or DPT/DBT) with the highest update rate and most measurements is chosen to be displayed.
+        </li>
+    </ol>
+    <li>NMEA2000<br>
+    The binaray Actisense *.dat format can be read. The Rapid Position Update PGN is not being used right know as it does not have the measurement time.
+    </li>
+    <li>Raymarine&#174; FSH<br>
+The contents of these recordings miss substantial information such as the measurment time and a regular depth measurment.
+These are crucial for removing systematical errors in the measurment data.
+If you have any other option to record data like NMEA0183, use it instead of this format.
+    </li>
+    <li>Humminbird&#174; SON<br>
+The submitted files must be zipped for a single recording.
+The zip file must contain at least a .dat file and a folder of the first sensor that contains an .idx and a .son file.
+The data contained may have been recorded from several depth sensors like a depth sensor or a side scan image but only the depths from the regular depth measurment can be accounted for.
+Side scan imagery only conveys an idea of the sea profile but no accurate depth measurements.
+    </li>
+</ol>
+
+<h5>Packing Notes</h5>
+<ul>
+    <li>Provide data files only ONCE in a format that is supported. Providing data files in multiple formats will degrade the overall quality.</li>
+    <li>If you miss a format supply a git ticket with an example file, so we may add the processing facilities.</li>
+    <li>You may pack a single file into a zip or multiple files into a zip with the exception of Humminbird&#174; SON files.</li>
+    <li>Although we try to handle zip files with different format contents, we do not actively support it. Create zip files for every format you have.</li>
+</ul>
+
+<h5>Processing Notes</h5>
+<ul>
+    <li>The Kalman Filter is currently disabled. It is planned to supply a second layer where Kalman filtered data will be displayed.</li>
+</ul>
