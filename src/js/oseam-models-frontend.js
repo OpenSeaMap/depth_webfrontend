@@ -30,6 +30,14 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         return this.get('tracks');
     },
+    getVessels: function() {
+        if (this.has('vessels') === false) {
+            this.set({
+                vessels: new OSeaM.models.Vessels()
+            });
+        }
+        return this.get('vessels');
+    },
     startView: function(name, settings) {
         if (this.actualView) {
             this.actualView.close();

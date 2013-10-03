@@ -11,22 +11,12 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.models.Tracks = Backbone.Collection.extend({
-    model: OSeaM.models.Track,
-    url: OSeaM.apiUrl + 'track',
-    uploadFile: function(file) {
-        var track = new OSeaM.models.Track();
-        this.add(track);
-        track.uploadFile(file);
+OSeaM.models.Vessel = Backbone.Model.extend({
+    defaults: {
+        id   : null,
+        name   : '-'
     },
-    parse: function(response) {
-        for (var i = 0; i < response.length; i++) {
-        	var responseObject = response[i];
-            this.add({
-                id       : responseObject.id,
-                fileName : responseObject.fileName,
-                status   : responseObject.uploadstate
-            });
-        }
+    url: function() {
+    	return OSeaM.apiUrl + '/vesselconfig/' + this.get("id");
     }
 });
