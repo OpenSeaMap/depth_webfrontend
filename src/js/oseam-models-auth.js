@@ -33,7 +33,7 @@ OSeaM.models.Auth = Backbone.Model.extend({
         return this.get('username');
     },
     getCaptchaUrl: function() {
-        return OSeaM.apiUrl + '/auth/captcha#' + new Date().getTime();
+        return OSeaM.apiUrl + 'users/captcha';
     },
     create: function(params) {
         this.set({username : params.username});

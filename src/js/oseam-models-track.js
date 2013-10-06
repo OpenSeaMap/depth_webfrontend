@@ -73,7 +73,8 @@ OSeaM.models.Track = Backbone.Model.extend({
         };
         jQuery.ajax({
             type: 'POST',
-            url: OSeaM.apiUrl + '/track/newid',
+            url: OSeaM.apiUrl + 'track',
+            contentType: "application/json",
             dataType: 'json',
             xhrFields: {
                 withCredentials: true
@@ -83,24 +84,25 @@ OSeaM.models.Track = Backbone.Model.extend({
     },
     onNewId: function(file, data) {
         this.set({
-            id       : data.trackId,
+            id       : data.id,
             progress : 1
         });
-        this.onReaderLoad(null, file);
+        this.onReaderLoad(null, file, data.id);
     },
-    onReaderLoad: function(evt, file) {
+    onReaderLoad: function(evt, file, id) {
         this.set('status', this.STATUS_UPLOADING);
         var fd = new FormData();
         fd.append('track', file);
+        fd.append('id' , id)
 
         var xmlRequest = new XMLHttpRequest();
-        xmlRequest.open('POST', OSeaM.apiUrl + '/track/upload', true);
+        xmlRequest.open('PUT', OSeaM.apiUrl + 'track', true);
         xmlRequest.withCredentials = true;
         xmlRequest.responseType = 'text';
         var fnProgress = function(evt) {
             this.onReaderProgress(evt);
         };
-        xmlRequest.setRequestHeader('X-Track-Id', this.get('id'));
+//        xmlRequest.setRequestHeader('X-Track-Id', this.get('id'));
         xmlRequest.upload.addEventListener('progress', jQuery.proxy(fnProgress, this));
         var fnDone = function(evt) {
             this.onUploadDone(xmlRequest, evt);
