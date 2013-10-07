@@ -41,8 +41,24 @@ OSeaM.views.Register = OSeaM.View.extend({
         this.fieldCaptcha   = this.$el.find('#' + this.renderParams.idCaptcha);
         this.fieldLicense   = this.$el.find('#' + this.renderParams.idLicense);
         this.buttonSubmit   = this.$el.find('#' + this.renderParams.idSubmit);
+        var fn = function(data) {
+            this.replaceCaptcha(data);
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: OSeaM.apiUrl + 'users/captcha',
+            contentType: "application/json",
+            dataType: 'json',
+//            xhrFields: {
+//                withCredentials: true
+//            },
+            success: jQuery.proxy(fn, this)
+        });
         return this;
     },
+    replaceCaptcha: function(data) {
+    	this.$el.find('#captcha').removeClass('loading').append('<img src="data:image/png;base64,' + data.imageBase64 + '"/>')
+    },    
     validateForm: function() {
         this.removeAlerts();
         var errors = [];

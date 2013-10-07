@@ -39,7 +39,8 @@ OSeaM.models.Auth = Backbone.Model.extend({
         this.set({username : params.username});
         jQuery.ajax({
             type: 'POST',
-            url: OSeaM.apiUrl + '/auth/create',
+            url: OSeaM.apiUrl + 'users',
+            contentType: "application/x-www-form-urlencoded",
             dataType: 'json',
             data: params,
             context: this,
