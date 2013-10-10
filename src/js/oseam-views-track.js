@@ -27,6 +27,10 @@ OSeaM.views.Track = OSeaM.View.extend({
             id         : this.model.get('id'),
             fileName   : this.model.get('fileName'),
             progress   : this.model.get('progress'),
+            fileType   : this.model.get('fileType'),
+            compression   : this.model.get('compression'),
+            containertrack   : this.model.get('containertrack'),
+            license   : this.model.get('license'),
             status     : this.model.getStatusText()
         }));
         OSeaM.frontend.translate(content);

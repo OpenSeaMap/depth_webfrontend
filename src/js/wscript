@@ -21,6 +21,7 @@ def configure(ctx):
         'oseam-views-about.js',
         'oseam-views-register.js',
         'oseam-views-login.js',
+        'oseam-views-instructions.js',
         'oseam-views-introduction.js',
         'oseam-views-track.js',
         'oseam-views-tracks.js',

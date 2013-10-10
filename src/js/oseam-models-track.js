@@ -27,6 +27,10 @@ OSeaM.models.Track = Backbone.Model.extend({
     STATUS_NODATA    : 7,
     defaults: {
         fileName   : '-',
+        fileType   : '-',
+        compression   : '-',
+        containertrack   : '-',
+        license   : 'PDDL',
         progress   : null,
         status     : null
     },

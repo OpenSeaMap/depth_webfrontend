@@ -41,7 +41,6 @@ OSeaM.models.Auth = Backbone.Model.extend({
             type: 'POST',
             url: OSeaM.apiUrl + 'users',
             contentType: "application/x-www-form-urlencoded",
-            dataType: 'json',
             data: params,
             context: this,
             xhrFields: {
@@ -53,7 +52,7 @@ OSeaM.models.Auth = Backbone.Model.extend({
     },
     onCreateSuccess: function(data, success, jqXHR) {
         this.trigger('createSuccess', data);
-        this.setAuthenticated(true);
+//        this.setAuthenticated(true);
     },
     onCreateError: function(jqXHR, textStatus, errorThrown) {
         this.trigger('createFailure', jqXHR);
