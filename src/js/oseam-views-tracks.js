@@ -11,26 +11,163 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.models.Tracks = Backbone.Collection.extend({
-    model: OSeaM.models.Track,
-    url: OSeaM.apiUrl + 'track',
-    uploadFile: function(file) {
-        var track = new OSeaM.models.Track();
-        this.add(track);
-        track.uploadFile(file);
+OSeaM.views.Tracks = OSeaM.View.extend({
+    events: {
+        'change .oseam-upload-wrapper input' : 'onFileSelected',
+		'click .trackradios': 'onWaterTypeSelected',
+		'change .meta_lake_river': 'onValidateMeta',
+		'change .configId': 'onChangeConfigId'
     },
-    parse: function(response) {
-        for (var i = 0; i < response.length; i++) {
-                var responseObject = response[i];
-            this.add({
-                id : responseObject.id,
-                fileName : responseObject.fileName,
-                fileType : responseObject.fileType,
-                compression : responseObject.compression,
-                status : responseObject.upload_state,
-                containertrack : responseObject.containertrack,
-                license : responseObject.license
-            });
+    initialize: function() {
+        this.collection.on('add', this.onAddItem, this);
+    },
+    render: function() {
+		var wait = '';
+        var selection ='';
+		var entrees = '';
+		var singleConf = '';
+		var template = OSeaM.loadTemplate('tracks');
+        var content = $(template());
+        OSeaM.frontend.translate(content);
+        this.$el.html(content);
+        this.listEl = this.$el.find('tbody');
+        this.collection.forEach(this.onAddItem, this);
+        this.collection.fetch();
+		$("#trackBtn").hide();
+        $("#meta_lake_river").hide();
+		
+		this.listElMeta = this.$el.find('tbody2');
+		// does not work properly 
+		this.listElMeta.append(this.addMetadataList(function(response){
+			
+		selection = '<p><strong>Please choose the associated Vessel Configuration for the Upload of the Tracks</strong></p><form class="configId"><p><select id="selection" name="selection"><option value="" disabled selected>Select your Vessel Config</option>';
+		entrees = response.length;		
+		if (response.length === 1){
+		singleConf = response[0].name
+		// save in local storage
+			localStorage.setItem('configId', response[0].id);	
+	
+		} 
+		
+				for (var i = 0; i < response.length; i++) { 
+				//alert(data[i].name);
+				selection += '<option>'+response[i].name+'</option>'
+				}				
+				selection += '</select></p></form>';
+			wait = 1;	
+			return selection;
+		}));
+		
+		waitForElement();
+		
+		function waitForElement(){
+		
+		if(wait === 1){
+		
+	//alert('anzahl '+entrees);
+		if (entrees === 0){
+		selection = '<h3><font color="#990000">Please create a Vessel Configuration first: <a href="#vessels">here</a></font><h3>';
+		}
+		
+		if (entrees === 1){
+		selection = '<p><strong>Vessel Configuration: '+ singleConf +'<strong><p>';
+		}
+		
+		//	return renderer.this;
+			$('#tbody2').append(selection);
+		}
+    else{
+        setTimeout(function(){
+            waitForElement();
+        },250);
+		}
+		}
+
+    },
+
+    onFileSelected: function(evt) {
+	//alert('onFileSelected');
+        for (var i = 0; i < evt.target.files.length; i++) {
+            this.collection.uploadFile(evt.target.files[i]);
         }
-    }
+    },
+    onAddItem: function(model) {
+	//alert('additem');
+        var view = new OSeaM.views.Track({
+            model: model
+        });
+        this.listEl.append(view.render().el);
+        return this;
+    },
+	addMetadataList: function(callback) {
+			
+			
+			jQuery.ajax({
+	       type: 'GET',
+            url: "http://localhost:8080/org.osm.depth.upload/api2/vesselconfig",
+            dataType: 'json',
+          //  data: JSON.stringify(params),
+		    contentType: "application/json; charset=utf-8",
+            context: this,
+			xhrFields: {
+            withCredentials: true
+            },
+            success: function(response){
+                callback(response);
+        },
+
+			       error: function(){
+                alert('error');
+            }
+			
+        });	
+						
+	},
+onWaterTypeSelected: function(a) {
+        if (!$("#trackBtn").is(":visible")){
+        $("#trackBtn").show(); }
+        
+        
+       if (!$("#ocean").is(':checked')){
+            $("#meta_lake_river").show();
+       } else {$("#meta_lake_river").hide(); }
+      
+    
+    }	,
+	
+	onValidateMeta : function (){
+ 
+	this.removeAlerts();
+	        var errors = [];
+        		
+		if (OSeaM.utils.Validation.gauge($("#gauge").val()) !== true){
+		
+		this.markInvalid($('#gauge'), '1103:Please enter a decimal (e.g. 5.5)');
+            //what is this for?
+			//errors.push('1004:Email');
+        }
+				
+        return this.isValid;
+	
+	},
+		    markInvalid: function(field, text) {
+        field.parents('.control-group').addClass('error');
+        //field.next('.help-inline').attr('data-trt', text);
+	    this.$el.find('.help-inline').attr('data-trt', text);  
+        OSeaM.frontend.translate(this.$el);
+        this.isValid = false;
+    },
+    removeAlerts: function() {
+        this.$el.find('.alert').remove();
+        this.$el.find('.control-group').removeClass('error');
+        this.$el.find('.help-inline').removeAttr('data-trt');
+        this.$el.find('.help-inline').html('');
+        this.isValid = true;
+    },
+	
+	onChangeConfigId : function() {
+	
+	localStorage.setItem('configId', $("#selection").val());	
+	//alert(localStorage.getItem('configId'));
+	}
 });

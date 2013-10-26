@@ -32,7 +32,8 @@ OSeaM.models.Track = Backbone.Model.extend({
         containertrack : '-',
         license : 'PDDL',
         progress : null,
-        status : null
+        status : null,
+		vesselconfigid : '-'
     },
     url: function() {
             return OSeaM.apiUrl + '/track/' + this.get("id");
@@ -66,7 +67,8 @@ OSeaM.models.Track = Backbone.Model.extend({
     uploadFile: function(file) {
         this.set({
             fileName : file.name,
-            status : this.STATUS_STARTING_UPLOAD
+            status : this.STATUS_STARTING_UPLOAD,
+			vesselconfigid : localStorage.getItem('configId')
         });
         this.requestNewId(file);
     },
