@@ -1,0 +1,147 @@
+<div class="oseam-modal modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{idTitle}}" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="vesselTitle">Add Vessel - Step 1/20</h3>
+    </div>
+    <div class="modal-body">
+        <div id="current_step"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" id="oseam-cancel" aria-hidden="true">Cancel</button>
+        <button class="btn" id="prev_step_button" aria-hidden="true">Previous</button>
+        <button class="btn" id="next_step_button" aria-hidden="true">Next</button>
+        <button class="btn btn-primary" id="oseam-save">Save and Finish</button>
+    </div>
+</div>
+<!--
+        <form class="form-horizontal">
+            <legend data-trt="1050:Vessel"></legend>
+            <div class="control-group">
+                <label class="control-label" for="{{idVesselName}}">Vessel Name</label>
+                <div class="controls">
+                    <input type="text" id="{{idVesselName}}" name="name" data-trt-placeholder="1049:Vessel Name"/>
+                    <span class="help-block">Choose a suitable name for the vessel. It can be the real name or a fantasy name.</span>
+                </div>
+            </div>
+
+            <legend data-trt="1051:Verification Depth Settings"></legend>
+            <p>
+            Die Sensoren bzw. deren Anzeigegeräte sind oft mit einer Sicherheitsmarge kalibriert. Um die
+            automatisch gemessenen Tiefendaten korrigieren zu können, muss die Abweichung gemessen werden.
+            </p>
+            <p>
+            Verwende dazu ein Lot mit einem Senkblei – oder ein anderes geeignetes Instrument – und messe die
+            Wassertiefe bis zur Wasserlinie. Vergleiche parallel dazu den Wert auf der Echolotanzeige.
+            </p>
+            <p class="text-warning">
+            <strong>Achtung</strong>
+            Es muss darauf geachtet werden, dass die Yacht dabei ihre Position nicht grossartig
+            verändert (im Hafen oder vor Bug- und Heckanker). Die Messung ist nur brauchbar, wenn
+            die Leine senkrecht nach unten zeigt (keine Strömung).
+            </p>
+            <div class="control-group">
+                <label class="control-label" for="{{idDepthMeasured}}">Depth measured</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="number" id="{{idDepthMeasured}}" class="input-mini" name="depthMeasured" placeholder="0.0"/>
+                        <span class="add-on">m</span>
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="{{idDepthDisplayed}}">Depth displayed</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" id="{{idDepthDisplayed}}" class="input-mini" name="depthDisplayed" placeholder="0.0"/>
+                        <span class="add-on">m</span>
+                    </div>
+                </div>
+            </div>
+
+            <legend data-trt="1052:Sensor Positions"></legend>
+            <p>
+            Echolotsensor und GPS-Antenne sind im Normalfall an verschiedenen Stellen verbaut. Zeichne die
+            Positionen und Distanzen gemäss dem Beispiel ein.
+            </p>
+            <p class="text-warning">
+            <strong>Achtung</strong>
+            Die Position der Sensoren und nicht die Position der Anzeigegeräte ist relevant. Die Yacht
+            wird von oben betrachtet.
+            </p>
+            <div class="row">
+                <div class="span8">
+                    <div class="control-group">
+                        <label class="control-label" for="{{idDepthDisplayed}}">Position Echolot</label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" name="echoSounderInFront" value="1"> hinter der GPS Antenne (näher am Bug)
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" name="echoSounderRightOf" value="1"> rechts der GPS Antenne (mehr Steuerbord)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="{{idDepthDisplayed}}">Distanz längs</label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <input type="text" id="{{idDepthDisplayed}}" class="input-mini" name="distanceY" placeholder="0.00"/>
+                                <span class="add-on">m</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="{{idDepthDisplayed}}">Distanz quer</label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <input type="text" id="{{idDepthDisplayed}}" class="input-mini" name="distanceX" placeholder="0.00"/>
+                                <span class="add-on">m</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="oseam-canvas"></div>
+                </div>
+            </div>
+
+            <legend>Angaben zur Yacht</legend>
+            <p>
+            Mit der Angabe des Yachttyps können die Tiefendaten nochmals genauer zu berichtigt werden. Da im
+            Übergang von der Verdrängerfahrt zur Gleitfahrt (bei Motoryachten) die Echolotangaben ungenau sind,
+            wird die Geschwindigkeit in welcher die Yacht ins Gleiten kommt benötigt.
+            </p>
+            <div class="control-group">
+                <label class="control-label" for="{{idDepthDisplayed}}">Yachttyp</label>
+                <div class="controls">
+                    <label class="radio">
+                        <input type="radio" name="vesselType">Segelyacht (Sport)
+                    </label>
+                </div>
+                <div class="controls">
+                    <label class="radio">
+                        <input type="radio" name="vesselType">Motoryacht Gleiter (Sport)
+                    </label>
+                </div>
+                <div class="controls">
+                    <label class="radio">
+                        <input type="radio" name="vesselType">Motoryacht Verdränger (Sport)
+                    </label>
+                </div>
+                <div class="controls">
+                    <label class="radio">
+                        <input type="radio" name="vesselType">Motoryacht Komerziell (> 300 BRT)
+                    </label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="{{idDepthDisplayed}}">Gleitgeschwindigkeit</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" id="{{idDepthDisplayed}}" class="input-mini" name="depthDisplayed" placeholder="0.0"/>
+                        <span class="add-on">kn</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+-->

@@ -16,18 +16,34 @@ def configure(ctx):
     ctx.env.JSSTAGE2 = [
         'oseam-models-track.js',
         'oseam-models-tracks.js',
+        'oseam-models-vessel.js',
+        'oseam-models-vessels.js',
         'oseam-views-about.js',
         'oseam-views-register.js',
         'oseam-views-login.js',
         'oseam-views-introduction.js',
         'oseam-views-track.js',
         'oseam-views-tracks.js',
+        'oseam-views-vessel.js',
+        'oseam-views-vesselitem.js',
+        'oseam-views-vessels.js',
+		'oseam-views-meta1.js',
+		'oseam-views-meta2.js',
+		'oseam-views-meta3.js',
+		'oseam-views-meta4.js',
+        'oseam-views-vesselpage.js',
+        'oseam-views-vesselwizard.js',
+        'oseam-views-gpspage.js',
+        'oseam-views-depthsensorpage.js',
+        'oseam-views-wizard.js',
+        'oseam-views-sensorpositions.js',
         'oseam-views-maptracks.js',
         'oseam-views-license.js',
         'oseam-views-attributions.js'
     ]
     ctx.env.JSSTAGE1NAME = 'all-stage1.js'
     ctx.env.JSSTAGE2NAME = 'all-stage2.js'
+    ctx.env.NAME = 'release'
 
 
 

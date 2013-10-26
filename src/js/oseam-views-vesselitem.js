@@ -1,7 +1,7 @@
 // -------------------------------------------------------------------------------------------------
 // OpenSeaMap Water Depth - Web frontend for depth data handling.
 //
-// Written in 2012 by Dominik Fässler dfa@bezono.org
+// Written in 2013 by Dominik Fässler dfa@bezono.org
 //
 // To the extent possible under law, the author(s) have dedicated all copyright
 // and related and neighboring rights to this software to the public domain
@@ -11,23 +11,24 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.models.Tracks = Backbone.Collection.extend({
-    model: OSeaM.models.Track,
-    url: OSeaM.apiUrl + 'track',
-    uploadFile: function(file) {
-	alert('upload');
-        var track = new OSeaM.models.Track();
-        this.add(track);
-        track.uploadFile(file);
+OSeaM.views.Vesselitem = OSeaM.View.extend({
+    events: {
+        'click .icon-trash' : 'onDelete'
     },
-    parse: function(response) {
-        for (var i = 0; i < response.length; i++) {
-        	var responseObject = response[i];
-            this.add({
-                id       : responseObject.id,
-                fileName : responseObject.fileName,
-                status   : responseObject.uploadstate
-            });
-        }
+    initialize: function() {
+        this.model.on('change:id',       this.render,           this);
+    },
+    render: function() {
+        var template = OSeaM.loadTemplate('vesselitem');
+        var content = $(template({
+            id         : this.model.get('id'),
+            name   : this.model.get('name')
+        }));
+        OSeaM.frontend.translate(content);
+        this.$el.html(content);
+        return this;
+    },
+    onDelete: function() {
+        alert('Not implemented, yet.');
     }
 });

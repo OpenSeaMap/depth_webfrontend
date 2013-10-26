@@ -20,8 +20,10 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'register'     : 'register',
         'introduction' : 'introduction',
         'tracks'       : 'tracks',
+        'vessels'      : 'vessels',
         'maptracks'    : 'maptracks',
         'license'      : 'license',
+        'instructions' : 'instructions',
         'attributions' : 'attributions',
         '*default'     : 'home'
     },
@@ -70,15 +72,27 @@ OSeaM.routers.Router = Backbone.Router.extend({
     },
     tracks: function() {
         this.renderTopAndNavBar('tracks');
-        if (this.checkAuthenticated() === true) {
+//        if (this.checkAuthenticated() === true) {
             OSeaM.frontend.startView('Tracks', {
                 collection : OSeaM.frontend.getTracks()
             });
-        }
+//        }
+    },
+    vessels: function() {
+    	this.renderTopAndNavBar('vessels');
+//    	if (this.checkAuthenticated() === true) {
+    	OSeaM.frontend.startView('Vessels', {
+    			collection : OSeaM.frontend.getVessels()
+    			});
+//    	}
     },
     maptracks: function() {
         this.renderTopAndNavBar('maptracks');
         OSeaM.frontend.startView('MapTracks');
+    },
+    instructions: function() {
+        this.renderTopAndNavBar('instructions');
+        OSeaM.frontend.startView('Instructions');
     },
     license: function() {
         this.renderTopAndNavBar('license');
