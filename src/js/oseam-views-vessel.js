@@ -19,6 +19,7 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         'change [name=distanceY]'         : 'onChangeDistanceY',
         'change [name=distanceX]'         : 'onChangeDistanceX',
         'click #oseam-cancel'             : 'onCancel',
+		'click #close'             : 'onCancel',
         'click #oseam-save'               : 'onSave',
         "click #next_step_button" : "nextStep",
         "click #prev_step_button" : "prevStep"
