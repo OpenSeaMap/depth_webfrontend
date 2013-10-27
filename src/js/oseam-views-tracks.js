@@ -19,6 +19,7 @@ OSeaM.views.Tracks = OSeaM.View.extend({
 		'change .configId': 'onChangeConfigId'
     },
     initialize: function() {
+		OSeaM.frontend.on("change:language", this.render, this);
         this.collection.on('add', this.onAddItem, this);
     },
     render: function() {
@@ -26,7 +27,8 @@ OSeaM.views.Tracks = OSeaM.View.extend({
         var selection ='';
 		var entrees = '';
 		var singleConf = '';
-		var template = OSeaM.loadTemplate('tracks');
+		var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('tracks-' + language);
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
@@ -39,8 +41,22 @@ OSeaM.views.Tracks = OSeaM.View.extend({
 		this.listElMeta = this.$el.find('tbody2');
 		// does not work properly 
 		this.listElMeta.append(this.addMetadataList(function(response){
-			
-		selection = '<p><strong>Please choose the associated Vessel Configuration for the Upload of the Tracks</strong></p><form class="configId"><p><select id="selection" name="selection"><option value="" disabled selected>Select your Vessel Config</option>';
+	
+		var language = OSeaM.frontend.getLanguage();
+		
+	switch (language)
+	{
+	case 'en':
+	selection = '<p><strong>Please choose the associated Vessel Configuration for the Upload of the Tracks</strong></p><form class="configId"><p><select id="selection" name="selection"><option value="" disabled selected>Select your Vessel Config</option>';
+	break;
+	case 'de':
+	selection = '<p><strong>Bite wählen Sie die entsprechende Fahrzeugkonfiguration aus für das Hochladen der Tracks</strong></p><form class="configId"><p><select id="selection" name="selection"><option value="" disabled selected>Fahrzeugkonfiguration</option>';
+	break;
+	} 
+		
+		// selection = '<p><strong>Please choose the associated Vessel Configuration for the Upload of the Tracks</strong></p><form class="configId"><p><select id="selection" name="selection"><option value="" disabled selected>Select your Vessel Config</option>';
+	
+		
 		entrees = response.length;		
 		if (response.length === 1){
 		singleConf = response[0].name
@@ -66,11 +82,33 @@ OSeaM.views.Tracks = OSeaM.View.extend({
 		
 	//alert('anzahl '+entrees);
 		if (entrees === 0){
-		selection = '<h3><font color="#990000">Please create a Vessel Configuration first: <a href="#vessels">here</a></font><h3>';
+				var language = OSeaM.frontend.getLanguage();
+		
+	switch (language)
+	{
+	case 'en':
+			selection = '<h3><font color="#990000">Please create a Vessel Configuration first: <a href="#vessels">here</a></font><h3>';
+	break;
+	case 'de':
+		selection = '<h3><font color="#990000">Bitte erstellen Sie zunächst eine Fahrzeugkonfiguration: <a href="#vessels">hier klicken</a></font><h3>';
+	break;
+	} 
+		
 		}
 		
 		if (entrees === 1){
-		selection = '<p><strong>Vessel Configuration: '+ singleConf +'<strong><p>';
+				var language = OSeaM.frontend.getLanguage();
+		
+	switch (language)
+	{
+	case 'en':
+	selection = '<p><strong>Vessel Configuration: '+ singleConf +'<strong><p>';
+				break;
+	case 'de':
+	selection = '<p><strong>Fahrzeugkonfiguration: '+ singleConf +'<strong><p>';
+			break;
+	} 
+		
 		}
 		
 		//	return renderer.this;

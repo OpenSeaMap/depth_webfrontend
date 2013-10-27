@@ -25,7 +25,11 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         "click #prev_step_button" : "prevStep"
     },
     render: function() {
+		// initialize : {OSeaM.frontend.on('change:language', this.render, this);}
+	 
     	new OSeaM.views.Wizard();
+	//	var language = OSeaM.frontend.getLanguage();
+	//	var template = OSeaM.loadTemplate('vessel-' + language);
         var template = OSeaM.loadTemplate('vessel');
         this.renderParams =  {
         /*    idTitle          : OSeaM.id(),

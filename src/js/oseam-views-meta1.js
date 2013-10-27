@@ -14,9 +14,10 @@
 OSeaM.views.meta1 = OSeaM.View.extend({
     modalDialog:null,
     render: function() {
-        var template = OSeaM.loadTemplate('meta1');
 
-        
+		var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('meta1-' + language);
+	        
         var content = $(template({
         	  configname:this.model.get('name'),
 			  description:this.model.get('description')

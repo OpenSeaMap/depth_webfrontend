@@ -14,8 +14,8 @@
 OSeaM.views.meta4 = OSeaM.View.extend({
     modalDialog:null,
     render: function() {
-        var template = OSeaM.loadTemplate('meta4');
-
+			var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('meta4-' + language);
         
         var content = $(template({
 

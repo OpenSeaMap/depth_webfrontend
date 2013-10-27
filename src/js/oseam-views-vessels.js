@@ -17,6 +17,7 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         'click .oseam-add' : 'onAddVessel'
     },
     initialize: function() {
+	 OSeaM.frontend.on('change:language', this.render, this);
         this.collection.on('add', this.onAddItem, this);
     },
     render: function() {

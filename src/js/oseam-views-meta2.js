@@ -22,10 +22,9 @@ OSeaM.views.meta2 = OSeaM.View.extend({
     },
     render: function() {
 
-	var template = OSeaM.loadTemplate('meta2');
-
-        
-        var content = $(template({
+			var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('meta2-' + language);
+	        var content = $(template({
 		
 		echoSounderInFront:this.model.get('echoSounderInFront'),
 		echoSounderRightOf:this.model.get('echoSounderRightOf'), 
@@ -37,7 +36,7 @@ OSeaM.views.meta2 = OSeaM.View.extend({
         OSeaM.frontend.translate(content);
         this.$el.html(content);
 		
-	//	alert('renderer meta2');
+		//alert(this.$el.html(content).toSource());
 		 this.addSensorPosition();
         
 		return this;
@@ -48,12 +47,16 @@ OSeaM.views.meta2 = OSeaM.View.extend({
 //alert(this.$el.find('.oseam-canvas').toSource());	
 //alert($('.oseam-canvas').toSource());	
 		this.sensorPositions = new OSeaM.views.SensorPositions({	            
+				// ori
 					el: this.$el.find('.oseam-canvas')
-				//el : '.oseam-canvas'
+				//	el : $('#oseam-canvas')
+			
+			//el : '.oseam-canvas'
 				//	el: $('#oseam-canvas')
 					
         });
-		
+	//	alert($('#oseam-cavas').toSource());
+		//alert(this.$el.find('.oseam-canvas').toSource());
         this.sensorPositions.render();
     },
     onEchoSounderInFront: function(evt) {
@@ -75,7 +78,7 @@ OSeaM.views.meta2 = OSeaM.View.extend({
         this.sensorPositions.setVerticalDistance(value);
     },
     onChangeDistanceX: function(evt) {
-	alert(this.sensorPositions.toSource());
+
         var value = parseFloat($(evt.target).val()) * 100;
         this.sensorPositions.setHorizontalDistance(value);
     },

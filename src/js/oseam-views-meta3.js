@@ -14,10 +14,9 @@
 OSeaM.views.meta3 = OSeaM.View.extend({
  	modalDialog:null,
     render: function() {
-
-	var template = OSeaM.loadTemplate('meta3');
-
-        
+			var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('meta3-' + language);
+	    
         var content = $(template({
 		
 		slidingspeed:this.model.get('slidingspeed'),

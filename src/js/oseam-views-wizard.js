@@ -3,13 +3,16 @@ OSeaM.views.Wizard = OSeaM.View.extend({
   id: 'wizard',
  
   events: {
-    'click #next_step_button' : 'nextStep',
+// is in views-vessel ! delete?
+  'click #next_step_button' : 'nextStep',
     'click #prev_step_button' : 'prevStep',
    'click .oseam-cancel'             : 'onCancel',
    'click .oseam-save'               : 'onSave'
+   
   },
   
   initialize: function() {
+   OSeaM.frontend.on('change:language', this.render, this);
     _.bindAll(this, 'render');
     this.currentStep = 0;
   },
@@ -42,22 +45,31 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 	  	  switch(this.currentStep)
 	  {
 	  case 0:
-		  $('#vesselTitle').text("Add Vessel Configuration - Step 1/4");
+				var language = OSeaM.frontend.getLanguage();
+				if (language === 'en'){$('#vesselTitle').text("Add Vessel Configuration - Step 1/4");}
+				if (language === 'de'){$('#vesselTitle').text("Fahrzeugkonfiguration - Schritt 1/4");}
 		  $('#prev_step_button').hide();
 	    break;
 	  case 1:
-		  $('#vesselTitle').text("Add Vessel Configuration - Step 2/4");
-		  $('#prev_step_button').show();
+	  		var language = OSeaM.frontend.getLanguage();
+				if (language === 'en'){$('#vesselTitle').text("Add Vessel Configuration - Step 2/4");}
+				if (language === 'de'){$('#vesselTitle').text("Fahrzeugkonfiguration - Schritt 2/4");}
+		  		  $('#prev_step_button').show();
 		  $('#next_step_button').show();
 	    break;
 	  case 2:
-		  $('#vesselTitle').text("Add Vessel Configuration - Step 3/4");
+	  var language = OSeaM.frontend.getLanguage();
+				if (language === 'en'){$('#vesselTitle').text("Add Vessel Configuration - Step 3/4");}
+				if (language === 'de'){$('#vesselTitle').text("Fahrzeugkonfiguration - Schritt 3/4");}
+		  
 		  $('#prev_step_button').show();
 		  $('#next_step_button').show();
 		    break;
 	   case 3:
-		  $('#vesselTitle').text("Add Vessel Configuration- Finished");
-		  $('#next_step_button').hide();
+	   var language = OSeaM.frontend.getLanguage();
+				if (language === 'en'){$('#vesselTitle').text("Add Vessel Configuration - Finished");}
+				if (language === 'de'){$('#vesselTitle').text("Fahrzeugkonfiguration - Fertig");}
+		  		  $('#next_step_button').hide();
 		    break;
 	  }
 
