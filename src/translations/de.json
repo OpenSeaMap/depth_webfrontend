@@ -55,5 +55,13 @@
     "1054":"Verarbeitet",
     "1055":"Keine nutzbaren Daten",
     "1066":"Upload Hinweise",
+	"1067":"Name der Konfiguration",
+	"1068":"Verifizierung der Tiefenangaben",
+	"1069":"Positionen der Sensoren",
+	"1070":"Anmerkungen",
+	"1100":"Bitte geben Sie einen Namen ein",
+	"1101":"Bitte keine Sonderzeichen verwenden(nur 0-9 und A-Z)",
+	"1102":"Der Name der Fahrzeugkonfiguration existiert bereits, bitte geben Sie einen anderen Namen ein",
+	"1103":"Bitte geben Sie eine Dezimalzahl ein mit einem Punkt als Trennzeichen (z.B. 5.5)",
     "9103":"Benutzername existiert bereits."
 }
