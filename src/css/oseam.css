@@ -52,3 +52,111 @@
     max-width: none;
     vertical-align: none;
 }
+
+.olControlAttribution {
+    font-size: xx-small;
+    right: 3px;
+    bottom: 0.2em;
+    position: absolute;
+    display: block;
+}
+
+.oseam-modal {
+    /* new custom width */
+    width: 750px;
+    /* must be half of the width, minus scrollbar on the left (30px) */
+    margin-left: -375px;
+}
+
+.tabs li {
+    list-style:none;
+    display:inline;
+}
+
+.tabs a {
+    padding:5px 10px;
+    display:inline-block;
+    background:#666;
+    color:#fff;
+    text-decoration:none;
+    
+        -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -khtml-border-top-left-radius: 10px;
+    -khtml-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    
+}
+
+.tabs a.active {
+     
+    background:#eee;
+    color:#000;
+    
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -khtml-border-top-left-radius: 10px;
+    -khtml-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.tabsdiv {
+    
+    width:700px;
+    height: 450px;
+    position: relative;   
+    left: 25px;
+    overflow: auto;
+    
+    background: #eee;
+border: 1px solid #DDD;
+background: -moz-linear-gradient(top, #EEE, #FFF);    
+background: -webkit-linear-gradient(top, #eee, #fff);
+background: -ms-linear-gradient(top, #eee, #fff);
+background: -o-linear-gradient(top, #eee, #fff);
+box-shadow: 1px 2px 4px rgba(0,0,0, .2);
+    
+   /* padding:10px;
+    background:#fff;
+    outline:#00FF00; */
+  
+}
+
+.red {color: red}
+
+.textareabig{
+    width: 400px;
+    heigth: 50px;
+}
+
+.metadata-entrees-div{
+     margin-left:15px;
+     margin-top:15px;
+    }
+.trackradios{}    
+
+.tableft50 {
+        width: 15em;
+    display: block; 
+    float: left;
+}
+
+.tableft60 {
+        width: 12em;
+    display: block; 
+    float: left;
+}
+
+.tableft80 {
+ margin-left: 80px   
+}
+
+.tableft100 {
+ margin-left: 100px   
+}

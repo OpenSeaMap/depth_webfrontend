@@ -33,14 +33,14 @@ OSeaM.models.Auth = Backbone.Model.extend({
         return this.get('username');
     },
     getCaptchaUrl: function() {
-        return OSeaM.apiUrl + '/auth/captcha#' + new Date().getTime();
+        return OSeaM.apiUrl + 'users/captcha';
     },
     create: function(params) {
         this.set({username : params.username});
         jQuery.ajax({
             type: 'POST',
-            url: OSeaM.apiUrl + '/auth/create',
-            dataType: 'json',
+            url: OSeaM.apiUrl + 'users',
+            contentType: "application/x-www-form-urlencoded",
             data: params,
             context: this,
             xhrFields: {
@@ -52,7 +52,7 @@ OSeaM.models.Auth = Backbone.Model.extend({
     },
     onCreateSuccess: function(data, success, jqXHR) {
         this.trigger('createSuccess', data);
-        this.setAuthenticated(true);
+//        this.setAuthenticated(true);
     },
     onCreateError: function(jqXHR, textStatus, errorThrown) {
         this.trigger('createFailure', jqXHR);

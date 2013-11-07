@@ -17,9 +17,9 @@ OSeaM.views.Track = OSeaM.View.extend({
         'click .icon-trash' : 'onDelete'
     },
     initialize: function() {
-        this.model.on('change:id',       this.render,           this);
-        this.model.on('change:status',   this.render,           this);
-        this.model.on('change:progress', this.onProgressChange, this);
+        this.listenTo(this.model, 'change:id',       this.render);
+        this.listenTo(this.model, 'change:status',   this.render);
+        this.listenTo(this.model, 'change:progress', this.onProgressChange);
     },
     render: function() {
         var template = OSeaM.loadTemplate('track');
@@ -27,6 +27,10 @@ OSeaM.views.Track = OSeaM.View.extend({
             id         : this.model.get('id'),
             fileName   : this.model.get('fileName'),
             progress   : this.model.get('progress'),
+            fileType   : this.model.get('fileType'),
+            compression   : this.model.get('compression'),
+            containertrack   : this.model.get('containertrack'),
+            license   : this.model.get('license'),
             status     : this.model.getStatusText()
         }));
         OSeaM.frontend.translate(content);
@@ -38,6 +42,6 @@ OSeaM.views.Track = OSeaM.View.extend({
         this.barEl.css('width', progress + '%');
     },
     onDelete: function() {
-        alert('Not implemented, yet.');
+    	this.model.destroy();
     }
 });

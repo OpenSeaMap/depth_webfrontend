@@ -16,7 +16,10 @@ OSeaM.views.Tracks = OSeaM.View.extend({
         'change .oseam-upload-wrapper input' : 'onFileSelected'
     },
     initialize: function() {
-        this.collection.on('add', this.onAddItem, this);
+        this.listenTo(this.collection, 'add', this.onAddItem);
+//        this.listenTo(this.collection, 'change', this.render);
+        this.listenTo(this.collection, 'remove', this.render);
+//        this.listenTo(this.collection, 'reset', this.render);
     },
     render: function() {
         var template = OSeaM.loadTemplate('tracks');
