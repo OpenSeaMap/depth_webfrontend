@@ -59,5 +59,15 @@
     "1068":"Compression",
     "1069":"Container Track",
     "1070":"License",
-    "9103":"Username already exists."
+    "9103":"Username already exists.",
+	"1071":"Vessel Configuration Name",
+	"1072":"Verfification Depth Settings",
+	"1073":"Sensor Positions",
+	"1074":"Description",
+	"1100":"Please enter a name",
+	"1101":"Please do not use any special character (only 0-9 and A-Z)",
+	"1102":"The Configuration Name already exist, choose a new One",
+	"1103":"Please enter a decimal (e.g. 5.5)",
+	"1104":"Edit Vessel Configuration",
+	"9103":"Username already exists."
 }

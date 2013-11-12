@@ -15,6 +15,7 @@ OSeaM.models.Tracks = Backbone.Collection.extend({
     model: OSeaM.models.Track,
     url: OSeaM.apiUrl + 'track',
     uploadFile: function(file) {
+	//alert('upload');
         var track = new OSeaM.models.Track();
         this.add(track);
         track.uploadFile(file);

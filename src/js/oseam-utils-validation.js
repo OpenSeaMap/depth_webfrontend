@@ -18,5 +18,61 @@ OSeaM.utils.Validation = {
     email: function(value) {
         var reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return reg.test(value);
-    }
+    },
+	configname: function(value) {
+	// test for special characters
+		var reg = /^[a-z A-Z0-9]+$/;
+        return reg.test(value);
+	
+	},
+		distanceY: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+			gauge: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+			distanceX: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+			slidingspeed: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+				idDepthMeasured: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+				idDepthDisplayed: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+	confignames: function (value) {
+	//test if configname already exists
+	var test = 'start';
+	var confignames = localStorage.getItem('confignames').split(","); 
+	for (var i = 0; i < confignames.length; i++){
+				if (confignames[i] === value ){
+					test = 'true';
+				}
+		}
+			if (test === 'true'){
+		return false} 
+		else {return true}
+	}	
+	
 };

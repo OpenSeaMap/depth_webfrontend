@@ -17,6 +17,7 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         'click .oseam-add' : 'onAddVessel'
     },
     initialize: function() {
+	 OSeaM.frontend.on('change:language', this.render, this);
         this.collection.on('add', this.onAddItem, this);
     },
     render: function() {
@@ -31,10 +32,19 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         return this;
     },
     onAddVessel: function(evt) {
-//	    view = new OSeaM.views.VesselWizard({
-//	        el: this.$el
-//	    });
-//	    view.render();
+	//    view = new OSeaM.views.VesselWizard({
+	 //       el: this.$el
+	 //   });
+	  //  view.render();
+	  
+			var namesArrayStore = new Array();
+		var namesArray = $('#tbody').children();
+	
+		for (var i = 0; i < namesArray.length; i++){
+	namesArrayStore.push(namesArray.get(i).getElementsByTagName("td")[1].innerHTML);
+		}
+	//	alert(namesArrayStore.toSource());	
+		localStorage.setItem('confignames', namesArrayStore);	  
         this.initModalDialog();
         this.modalDialog.modal('show');
     },

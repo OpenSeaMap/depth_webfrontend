@@ -14,7 +14,19 @@
 OSeaM.models.Vessel = Backbone.Model.extend({
     defaults: {
         id   : null,
-        name   : '-'
+        name   : '',
+		description   : '',
+		idDepthMeasured : '',
+		idDepthDisplayed : '',
+		echoSounderInFront :'',
+		echoSounderRightOf :'',
+		distanceY :'',
+		distanceX :'',
+		slidingspeed :'',
+		sailingYacht : '',
+		motorYacht: '',
+		motorYachtDisplacer: ''
+		
     },
     url: function() {
     	return OSeaM.apiUrl + '/vesselconfig/' + this.get("id");
