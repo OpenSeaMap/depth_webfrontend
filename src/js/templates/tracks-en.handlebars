@@ -1,0 +1,64 @@
+<!--<div class="alert alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <h4>Warning!</h4>
+    This part is under construction.
+</div>-->
+<tbody2 id="tbody2">
+    </tbody2>
+        <p><hr></p>
+         <p>Please choose the <strong>type of water</strong>, which was cruised while recording the track: </p>
+		 <form id="track_meta" ><p><input class="trackradios" type="radio" name="track_meta" value="ocean" id="ocean"> Sea<br>
+		 <input type="radio" class="trackradios" name="track_meta" value="river"> River<br>
+		 <input type="radio" class="trackradios" name="track_meta" value="lake"> Lake</p></form>
+			   
+			   <div id="meta_lake_river">
+			   
+			   <label class="tableft50" for="gauge_name">Name of the gauge:</label>
+			   <input id="gauge_name" name="gauge_name" type="text" placeholder="Name of the gauge" size="100" maxlength="100"><br>
+			   
+			   <div class="control-group meta_lake_river">
+			   <label class="tableft50" for="gauge">Gauge height:</label>
+			   <div class="controls">
+			   <div class="input-append">
+			   <input class="input-mini" id="gauge" name="gauge" type="text" placeholder="0.00" >
+		       <span class="add-on">m</span>   <span class="help-inline" style="FONT-SIZE: 14px !important"></span> 
+			   </div>
+			   </div>
+			   </div>
+			   
+			     			   
+			   <label class="tableft50" for="height_ref">Height Reference System:</label>
+			   <input class="tableft50 id="height_ref" name="heightref" type="text" placeholder="e.g. NAVD 88" size="100" maxlength="100"><br>
+							
+				</div>
+				<br>
+		   			   
+			   <p><strong>Attention! Please upload seperate tracks if the gauge height has changed between the recordings.<strong></p>
+                <p><hr></p>
+                <p>Comments <br> <textarea class="textareasmall" name="comment"></textarea></p>
+				<p><hr></p>
+				
+<div class="oseam-upload-wrapper">
+    <div class="btn btn-info" data-trt="1019:Upload tracks"></div>
+    <input type="file" name="track[]" multiple></input>
+</div>
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th data-trt="1040:File Name"></th>
+            <th data-trt="1042:Status"></th>
+            <th data-trt="1067:File Type"></th>
+            <th data-trt="1068:Compression"></th>
+            <th data-trt="1069:Containertrack"></th>
+            <th data-trt="1070:License"></th>
+            <th data-trt="1043:Action"></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<div class="oseam-upload-wrapper">
+    <div class="btn btn-info" data-trt="1019:Upload tracks"></div>
+    <input type="file" name="track[]" multiple></input>
+</div>

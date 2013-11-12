@@ -1,0 +1,34 @@
+<div>
+        <form class="form-horizontal"><span style="position:relative; top:0px; left:670px; float: left;"><a href="http://wiki.openseamap.org/wiki/De:Metadata_help" target="_blank"><img src="/images/help.png" width="32" height="32"/></a></span>
+
+            <legend data-trt="1072:Verification Depth Settings"></legend>
+            <p>
+            Sensors and displays are calibrated with a safety margin. To correct the automatic measured depths this aberration must be measured.
+            Use a plumb - or any other adequate instrument - and measure the depth.
+            </p>
+            <p class="text-warning">
+            <strong>Attention</strong>
+            Ensure that the position of the ship is not changing while measuring. The measurement is only usable if the plumb is almost vertical (no current). Compare this measument with the value of the sounder.
+            </p>
+            <div class="control-group">
+                <label class="control-label" for="idDepthMeasured">Depth measured</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="number" id="idDepthMeasured" class="input-mini" name="depthMeasured" placeholder="0.0" value="{{idDepthMeasured}}"/>
+                        <span class="add-on">m</span>
+                    </div><span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="idDepthDisplayed">Depth displayed</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" id="idDepthDisplayed" class="input-mini" name="depthDisplayed" placeholder="0.0" value="{{idDepthDisplayed}}"/>
+                        <span class="add-on">m</span>
+                    </div><span class="help-inline"></span>
+                </div>
+            </div>
+
+            
+        </form>
+    </div>    

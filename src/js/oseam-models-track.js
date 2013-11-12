@@ -13,8 +13,8 @@
 
 OSeaM.models.Track = Backbone.Model.extend({
     // The API returns:
-    //   0 = not started yes (but id requested)
-    //   1 = upload done
+    // 0 = not started yes (but id requested)
+    // 1 = upload done
     STATUS_STARTING_UPLOAD : 97,
     STATUS_REQUESTING_ID   : 98,
     STATUS_UPLOADING       : 99,
@@ -32,7 +32,8 @@ OSeaM.models.Track = Backbone.Model.extend({
         containertrack   : '-',
         license   : 'PDDL',
         progress   : null,
-        status     : null
+        status     : null,
+		vesselconfigid : '-'
     },
     url: function() {
     	return OSeaM.apiUrl + '/track/' + this.get("id");
@@ -66,7 +67,8 @@ OSeaM.models.Track = Backbone.Model.extend({
     uploadFile: function(file) {
         this.set({
             fileName : file.name,
-            status   : this.STATUS_STARTING_UPLOAD
+            status : this.STATUS_STARTING_UPLOAD,
+			vesselconfigid : localStorage.getItem('configId')
         });
         this.requestNewId(file);
     },
@@ -88,7 +90,7 @@ OSeaM.models.Track = Backbone.Model.extend({
     },
     onNewId: function(file, data) {
         this.set({
-            id       : data.id,
+            id : data.id,
             progress : 1
         });
         this.onReaderLoad(null, file, data.id);
@@ -106,7 +108,6 @@ OSeaM.models.Track = Backbone.Model.extend({
         var fnProgress = function(evt) {
             this.onReaderProgress(evt);
         };
-//        xmlRequest.setRequestHeader('X-Track-Id', this.get('id'));
         xmlRequest.upload.addEventListener('progress', jQuery.proxy(fnProgress, this));
         var fnDone = function(evt) {
             this.onUploadDone(xmlRequest, evt);
@@ -123,7 +124,7 @@ OSeaM.models.Track = Backbone.Model.extend({
     onUploadDone:function(request, evt) {
         if (request.status == 200) {
             this.set({
-                status   : this.STATUS_UPLOADED,
+                status : this.STATUS_UPLOADED,
                 progress : null
             });
         }

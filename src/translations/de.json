@@ -59,5 +59,13 @@
     "1068":"Kompression",
     "1069":"Container Track",
     "1070":"Lizenz",
+	"1071":"Name der Konfiguration",
+	"1072":"Verifizierung der Tiefenangaben",
+	"1073":"Positionen der Sensoren",
+	"1074":"Anmerkungen",
+	"1100":"Bitte geben Sie einen Namen ein",
+	"1101":"Bitte keine Sonderzeichen verwenden(nur 0-9 und A-Z)",
+	"1102":"Der Name der Fahrzeugkonfiguration existiert bereits, bitte geben Sie einen anderen Namen ein",
+	"1103":"Bitte geben Sie eine Dezimalzahl ein mit einem Punkt als Trennzeichen (z.B. 5.5)",
     "9103":"Benutzername existiert bereits."
 }

@@ -12,15 +12,15 @@ OSeaM.views.VesselWizard = OSeaM.View.extend({
     var steps = [
             {
               step_number :       1,
-              view :              new OSeaM.views.vesselpage({ model : vessel })
+              view :              new OSeaM.views.meta1({ model : vessel })
             },
             {
               step_number :       2,
-              view :              new OSeaM.views.depthsensorpage({ model : vessel })
+              view :              new OSeaM.views.meta2({ model : vessel })
             },
             {
               step_number :       3,
-              view :              new OSeaM.views.gpspage({ model : vessel })
+              view :              new OSeaM.views.meta3({ model : vessel })
             }
           ];
           

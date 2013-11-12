@@ -64,7 +64,8 @@ OSeaM.views.Register = OSeaM.View.extend({
         var errors = [];
         if (OSeaM.utils.Validation.username(this.fieldUsername.val()) !== true) {
             this.markInvalid(this.fieldUsername, '1010:Invalid Email format.');
-            errors.push('1004:Email');
+            //what is this for?
+			errors.push('1004:Email');
         }
         if (this.fieldPassword1.val() !== this.fieldPassword2.val()) {
             this.markInvalid(this.fieldPassword2, '1011:Verification is different.');

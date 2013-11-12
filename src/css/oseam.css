@@ -131,15 +131,23 @@ box-shadow: 1px 2px 4px rgba(0,0,0, .2);
 .red {color: red}
 
 .textareabig{
-    width: 400px;
+    width: 700px;
     heigth: 50px;
 }
 
+.textareasmall{
+    width: 700px;
+    heigth: 25px;
+}
 .metadata-entrees-div{
      margin-left:15px;
      margin-top:15px;
     }
 .trackradios{}    
+
+.meta_lake_river{}
+
+.configId{}
 
 .tableft50 {
         width: 15em;
