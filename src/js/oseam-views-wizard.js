@@ -96,17 +96,18 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 	},
 
 	renderCurrentStep : function() {
-		var currentStep = this.options.steps[this.currentStep];
-		if (!this.isFirstStep())
-			var prevStep = this.options.steps[this.currentStep - 1];
-		var nextStep = this.options.steps[this.currentStep + 1];
-
-		this.title.html(currentStep.title);
-		// this.instructions.html(currentStep.instructions);
-		this.currentView = currentStep.view;
-		this.currentStepContainer.html(this.currentView.render().el);
-
-		this.renderProgressIndicator();
+	    var currentStep = this.options.steps[this.currentStep];
+    if (!this.isFirstStep()) var prevStep = this.options.steps[this.currentStep - 1];
+    var nextStep = this.options.steps[this.currentStep + 1];
+ 
+    this.title.html(currentStep.title);
+//    this.instructions.html(currentStep.instructions);
+    this.currentView = currentStep.view;
+    //this.currentStepContainer.html(this.currentView.render().el);
+    
+	this.currentView.setElement(this.currentStepContainer);
+	this.currentView.render();
+	this.renderProgressIndicator();	
 
 	},
 

@@ -100,6 +100,13 @@ OSeaM.models.Track = Backbone.Model.extend({
         var fd = new FormData();
         fd.append('track', file);
         fd.append('id' , id)
+		fd.append('vesselconfigid' , localStorage.getItem('configId'));
+		fd.append('watertype' , localStorage.getItem('waterType'));		
+		fd.append('gauge_name' , localStorage.getItem('gauge_name'));		
+		fd.append('gauge' , localStorage.getItem('gauge'));		
+		fd.append('height_ref' , localStorage.getItem('height_ref'));		
+		fd.append('comment' , localStorage.getItem('comment'));		
+		// todo save in model
 
         var xmlRequest = new XMLHttpRequest();
         xmlRequest.open('PUT', OSeaM.apiUrl + 'track', true);

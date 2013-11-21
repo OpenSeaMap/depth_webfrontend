@@ -14,10 +14,15 @@
 OSeaM.views.Tracks = OSeaM.View
 		.extend({
 			events : {
-				'change .oseam-upload-wrapper input' : 'onFileSelected',
-				'click .trackradios' : 'onWaterTypeSelected',
-				'change .meta_lake_river' : 'onValidateMeta',
-				'change .configId' : 'onChangeConfigId'
+				
+		'change .oseam-upload-wrapper input' : 'onFileSelected',
+		'click .trackradios': 'onWaterTypeSelected',
+		'change .gauge_name': 'onGaugeName',
+		'change .gauge': 'onGauge',
+		'change .meta_lake_river': 'onValidateMeta',
+		'change .configId': 'onChangeConfigId',
+		'change .reference_height': 'onChangeReference',
+		'change .description': 'onChangeDescription'
 			},
 			initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
@@ -27,6 +32,14 @@ OSeaM.views.Tracks = OSeaM.View
 				OSeaM.frontend.on("change:language", this.render, this);
 			},
 			render : function() {
+			
+		localStorage.setItem('configId','');
+		localStorage.setItem('waterType','');		
+		localStorage.setItem('gauge_name','');		
+		localStorage.setItem('gauge', -100);		
+		localStorage.setItem('height_ref','');		
+		localStorage.setItem('comment','');	
+		
 				var wait = '';
 				var selection = '';
 				var entrees = '';
@@ -78,9 +91,8 @@ OSeaM.views.Tracks = OSeaM.View
 
 									for ( var i = 0; i < response.length; i++) {
 										// alert(data[i].name);
-										selection += '<option>'
-												+ response[i].name
-												+ '</option>'
+										selection += '<option value="'+response[i].id +'">'+response[i].name+'</option>'
+										
 									}
 									selection += '</select></p></form>';
 									wait = 1;
@@ -136,11 +148,17 @@ OSeaM.views.Tracks = OSeaM.View
 			},
 
 			onFileSelected : function(evt) {
-				// alert('onFileSelected');
-				for ( var i = 0; i < evt.target.files.length; i++) {
-					this.collection.uploadFile(evt.target.files[i]);
-				}
-			},
+			
+				if (OSeaM.utils.Validation.gauge($("#gauge").val()) === true){
+					
+		if (!localStorage.getItem('configId')){
+		alert('Please choose a vessel configuration first');	
+		} else {
+		for (var i = 0; i < evt.target.files.length; i++) {
+            this.collection.uploadFile(evt.target.files[i]);
+		}
+		}
+	}	},
 			onAddItem : function(model) {
 				// alert('additem');
 				var view = new OSeaM.views.Track({
@@ -185,6 +203,39 @@ OSeaM.views.Tracks = OSeaM.View
 				}
 
 			},
+onGaugeName: function(){
+localStorage.setItem('gauge_name', $("#gauge_name").val());
+},
+
+onGauge: function(){
+//todo validate
+this.onValidateMeta();
+localStorage.setItem('gauge', $("#gauge").val());
+},
+
+onChangeReference: function(){
+localStorage.setItem('height_ref', $("#height_ref").val());
+},
+
+onChangeDescription: function(){
+localStorage.setItem('comment', $("#comment").val());
+},
+	onWaterTypeSelected: function(a) {
+        
+		var form = $('#track_meta');
+		var checkedValue = form.find('input[name=track_meta]:checked').val();
+		
+		localStorage.setItem('waterType', checkedValue);	
+			
+		if (!$("#trackBtn").is(":visible")){
+        $("#trackBtn").show(); 
+		}
+        
+       if (!$("#ocean").is(':checked')){
+            $("#meta_lake_river").show();
+       } else {$("#meta_lake_river").hide(); }
+      	  
+    }	,
 
 			onValidateMeta : function() {
 
@@ -221,5 +272,6 @@ OSeaM.views.Tracks = OSeaM.View
 
 				localStorage.setItem('configId', $("#selection").val());
 				//alert(localStorage.getItem('configId'));
+						
 			}
 		});
