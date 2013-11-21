@@ -18,9 +18,8 @@ OSeaM.views.meta4 = OSeaM.View.extend({
 		var template = OSeaM.loadTemplate('meta4-' + language);
         
         var content = $(template({
-
 		 idDepthMeasured:this.model.get('idDepthMeasured'),
-      	 idDepthDisplayed:this.model.get('idDepthDisplayed'),
+      	 idDepthDisplayed:this.model.get('idDepthDisplayed')
 				  }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);

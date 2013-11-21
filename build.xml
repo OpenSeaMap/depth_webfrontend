@@ -1,0 +1,69 @@
+<project name="handlebars" default="copy" basedir=".">
+    <description>
+        simple example build file
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+	
+  <target name="copy">
+    <copy todir="T:\\osm\js">
+    	<fileset dir="src\js">
+       </fileset>
+    </copy>  	
+    <copy todir="T:\\osm\translations">
+        <fileset dir="src\translations">
+       </fileset>
+    </copy>     
+    <copy todir="T:\\osm\css">
+        <fileset dir="src\css">
+       </fileset>
+    </copy>     
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <exec executable="node">
+        <arg value="C:\Users\jens\AppData\Roaming\npm\node_modules\handlebars\bin\handlebars"/>
+    	<arg value="-m"/>
+    	<arg value="C:\Users\jens\git\depthWeb\src\js\templates\about.handlebars"/>
+    	<arg value="-f"/>
+    	<arg value="C:\Users\jens\git\depthWeb\build\js\templates.js"/>
+  	</exec>
+  	
+    	<java jar="compiler.jar"
+    	                fork="true"
+    	                failonerror="true"
+    	                maxmemory="128m">
+
+    	            <arg line="--compilation_level SIMPLE_OPTIMIZATIONS" />
+    	            <!-- <arg value="debug" /> -->
+    	            <arg line="--logging_level FINEST" />
+    	            <arg line="--warning_level VERBOSE" />
+    	            <arg line="--summary_detail_level 3" />
+    	            <!-- <arg line="formatting PRETTY_PRINT" /> -->
+    	            <!-- <arg line="create_source_map build/smap.js" /> -->
+    	            <!-- <arg line="source_map_format V2" /> -->
+
+    	            <!-- package1 source files -->
+    	                <arg line="--js ${build}/js/templates.js" />
+</java>
+  	
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>

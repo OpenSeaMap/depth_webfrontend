@@ -26,7 +26,11 @@ OSeaM.models.Tracks = Backbone.Collection.extend({
             this.add({
                 id       : responseObject.id,
                 fileName : responseObject.fileName,
-                status   : responseObject.uploadstate
+                fileType : responseObject.fileType,
+                compression : responseObject.compression,
+                status   : responseObject.upload_state,
+                containertrack   : responseObject.containertrack,
+                license   : responseObject.license
             });
         }
     }

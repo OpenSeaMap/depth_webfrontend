@@ -14,10 +14,7 @@
 OSeaM.views.Vessel = OSeaM.View.extend({
     sensorPositions:null,
     events: {
-        'click [name=echoSounderInFront]' : 'onEchoSounderInFront',
-        'click [name=echoSounderRightOf]' : 'onEchoSounderRightOf',
-        'change [name=distanceY]'         : 'onChangeDistanceY',
-        'change [name=distanceX]'         : 'onChangeDistanceX',
+  
         'click #oseam-cancel'             : 'onCancel',
 		'click #close'             : 'onCancel',
         'click #oseam-save'               : 'onSave',
@@ -82,36 +79,7 @@ OSeaM.views.Vessel = OSeaM.View.extend({
        // this.addSensorPosition();
         return content;
     },
-	 addSensorPosition: function() {
-	 //alert('addSensor from view-vessel');
-        this.sensorPositions = new OSeaM.views.SensorPositions({
-            el: this.el.find('.oseam-canvas')
-			//el: this.$el.find('.oseam-canvas')
-        });
-        this.sensorPositions.render();
-    },
-    onEchoSounderInFront: function(evt) {
-        if ($(evt.target).is(':checked') === true) {
-            this.sensorPositions.setTopDevice('gps');
-        } else {
-            this.sensorPositions.setTopDevice('echo');
-        }
-    },
-    onEchoSounderRightOf: function(evt) {
-        if ($(evt.target).is(':checked') === true) {
-            this.sensorPositions.setLeftDevice('gps');
-        } else {
-            this.sensorPositions.setLeftDevice('echo');
-        }
-    },
-    onChangeDistanceY: function(evt) {
-        var value = parseFloat($(evt.target).val()) * 100;
-        this.sensorPositions.setVerticalDistance(value);
-    },
-    onChangeDistanceX: function(evt) {
-        var value = parseFloat($(evt.target).val()) * 100;
-        this.sensorPositions.setHorizontalDistance(value);
-    },
+	 
     onCancel: function(evt) {
         this.el.modal('hide');
     },
@@ -140,7 +108,7 @@ OSeaM.views.Vessel = OSeaM.View.extend({
 		yachtmodel : this.yachtmodel()
 		};
 		
-		alert(params.toSource());
+		//alert(params.toSource());
 		
 		
 		jQuery.ajax({

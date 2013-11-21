@@ -29,7 +29,7 @@ OSeaM.views.Register = OSeaM.View.extend({
             idPassword1 : OSeaM.id(),
             idPassword2 : OSeaM.id(),
             idCaptcha   : OSeaM.id(),
-            idLicense   : OSeaM.id(),
+//            idLicense   : OSeaM.id(),
             idSubmit    : OSeaM.id()
         };
         var content = $(template(this.renderParams));
@@ -39,10 +39,26 @@ OSeaM.views.Register = OSeaM.View.extend({
         this.fieldPassword1 = this.$el.find('#' + this.renderParams.idPassword1);
         this.fieldPassword2 = this.$el.find('#' + this.renderParams.idPassword2);
         this.fieldCaptcha   = this.$el.find('#' + this.renderParams.idCaptcha);
-        this.fieldLicense   = this.$el.find('#' + this.renderParams.idLicense);
+//        this.fieldLicense   = this.$el.find('#' + this.renderParams.idLicense);
         this.buttonSubmit   = this.$el.find('#' + this.renderParams.idSubmit);
+        var fn = function(data) {
+            this.replaceCaptcha(data);
+        };
+        jQuery.ajax({
+            type: 'POST',
+            url: OSeaM.apiUrl + 'users/captcha',
+            contentType: "application/json",
+            dataType: 'json',
+//            xhrFields: {
+//                withCredentials: true
+//            },
+            success: jQuery.proxy(fn, this)
+        });
         return this;
     },
+    replaceCaptcha: function(data) {
+    	this.$el.find('#captcha').removeClass('loading').append('<img id="captcha" src="data:image/png;base64,' + data.imageBase64 + '"/>')
+    },    
     validateForm: function() {
         this.removeAlerts();
         var errors = [];
@@ -67,10 +83,10 @@ OSeaM.views.Register = OSeaM.View.extend({
             this.markInvalid(this.fieldCaptcha, '1013:Invalid captcha.');
             errors.push('1007:Captcha');
         }
-        if (this.fieldLicense.is(':checked') !== true) {
-            this.markInvalid(this.fieldLicense, '');
-            errors.push('1014:License');
-        }
+//        if (this.fieldLicense.is(':checked') !== true) {
+//            this.markInvalid(this.fieldLicense, '');
+//            errors.push('1014:License');
+//        }
         if (this.isValid !== true) {
             var template = OSeaM.loadTemplate('alert');
             var content  = $(template({
@@ -107,7 +123,7 @@ OSeaM.views.Register = OSeaM.View.extend({
             password : this.fieldPassword1.val(),
             captcha  : this.fieldCaptcha.val()
         };
-        params.password = jQuery.encoding.digests.hexSha1Str(params.password);
+        params.password = jQuery.encoding.digests.hexSha1Str(params.password).toLowerCase();
         // TODO : license accept
         this.model.create(params);
         return false;

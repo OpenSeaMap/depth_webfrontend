@@ -16,27 +16,27 @@ OSeaM.models.Track = Backbone.Model.extend({
     // 0 = not started yes (but id requested)
     // 1 = upload done
     STATUS_STARTING_UPLOAD : 97,
-    STATUS_REQUESTING_ID : 98,
-    STATUS_UPLOADING : 99,
-    STATUS_UPLOADED : 1,
-    STATUS_FILECORRUPT : 2,
-    STATUS_PREPROCESSED : 3,
-    STATUS_CONTENT_UNKNOWN : 4,
-    STATUS_DUPLICATE : 5,
-    STATUS_PROCESSED : 6,
-    STATUS_NODATA : 7,
+    STATUS_REQUESTING_ID   : 98,
+    STATUS_UPLOADING       : 99,
+    STATUS_UPLOADED        : 1,
+    STATUS_FILECORRUPT     : 2,
+    STATUS_PREPROCESSED    : 3,
+    STATUS_CONTENT_UNKNOWN    : 4,
+    STATUS_DUPLICATE    : 5,
+    STATUS_PROCESSED    : 6,
+    STATUS_NODATA    : 7,
     defaults: {
-        fileName : '-',
-        fileType : '-',
-        compression : '-',
-        containertrack : '-',
-        license : 'PDDL',
-        progress : null,
-        status : null,
+        fileName   : '-',
+        fileType   : '-',
+        compression   : '-',
+        containertrack   : '-',
+        license   : 'PDDL',
+        progress   : null,
+        status     : null,
 		vesselconfigid : '-'
     },
     url: function() {
-            return OSeaM.apiUrl + '/track/' + this.get("id");
+    	return OSeaM.apiUrl + '/track/' + this.get("id");
     },
     getStatusText: function() {
         switch (this.get('status')) {
@@ -100,6 +100,13 @@ OSeaM.models.Track = Backbone.Model.extend({
         var fd = new FormData();
         fd.append('track', file);
         fd.append('id' , id)
+		fd.append('vesselconfigid' , localStorage.getItem('configId'));
+		fd.append('watertype' , localStorage.getItem('waterType'));		
+		fd.append('gauge_name' , localStorage.getItem('gauge_name'));		
+		fd.append('gauge' , localStorage.getItem('gauge'));		
+		fd.append('height_ref' , localStorage.getItem('height_ref'));		
+		fd.append('comment' , localStorage.getItem('comment'));		
+		// todo save in model
 
         var xmlRequest = new XMLHttpRequest();
         xmlRequest.open('PUT', OSeaM.apiUrl + 'track', true);
@@ -108,7 +115,6 @@ OSeaM.models.Track = Backbone.Model.extend({
         var fnProgress = function(evt) {
             this.onReaderProgress(evt);
         };
-// xmlRequest.setRequestHeader('X-Track-Id', this.get('id'));
         xmlRequest.upload.addEventListener('progress', jQuery.proxy(fnProgress, this));
         var fnDone = function(evt) {
             this.onUploadDone(xmlRequest, evt);
