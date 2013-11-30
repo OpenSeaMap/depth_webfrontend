@@ -4,18 +4,21 @@
         <h4>Improve the accuracy of your data by providing the exact sensor position</h4>
         <p><label class="tableft50">Distance from Stern</label></p>
         <div class="input-append">
-            <input type="text" class="input-mini" name="gpsdistanceY" placeholder="0.00"/>
+            <input type="text" class="input-mini" name="gps_distanceFromStern" placeholder="0.00" value="{{gps_distanceFromStern}}"/>
             <span class="add-on">m</span>
         </div>
         <p><label class="tableft50">Distance from Centerline</label></p>
         <div class="input-append">
-            <input type="text" class="input-mini" name="gpsdistanceX" placeholder="0.00"/>
+            <input type="text" class="input-mini" name="gps_distanceFromCenter" placeholder="0.00" value="{{gps_distanceFromCenter}}"/>
             <span class="add-on">m</span>
         </div>
         <p><label class="tableft50">Position above Waterline</label></p>
         <div class="input-append">
-            <input type="text" class="input-mini" name="gpsdistanceZ" placeholder="0.00"/>
+            <input type="text" class="input-mini" name="gps_distanceWaterline" placeholder="0.00" value="{{gps_distanceWaterline}}"/>
             <span class="add-on">m</span>
+        </div>
+        <div class="span4">
+            <div id="oseam-canvas" class="oseam-canvas"></div>
         </div>
     </div>
 </div>

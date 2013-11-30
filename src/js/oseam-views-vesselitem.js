@@ -12,8 +12,10 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Vesselitem = OSeaM.View.extend({
+    tagName: 'tr',
     events: {
-        'click .icon-trash' : 'onDelete'
+        'click .icon-trash' : 'onDelete',
+        'dblclick .vessel': 'edit'
     },
     initialize: function() {
         this.model.on('change:id',       this.render,           this);
@@ -21,14 +23,23 @@ OSeaM.views.Vesselitem = OSeaM.View.extend({
     render: function() {
         var template = OSeaM.loadTemplate('vesselitem');
         var content = $(template({
-            id         : this.model.get('id'),
-            name   : this.model.get('name')
+            id : this.model.get('id'),
+            name : this.model.get('name'),
+            description : this.model.get('description')
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         return this;
     },
+    edit: function(model) {
+	    view = new OSeaM.views.Vessel({
+	        el: this.$el,
+	        model: this.model	
+	    });
+	    view.render().modal('show');
+
+    },
     onDelete: function() {
-        alert('Not implemented, yet.');
+    	this.model.destroy();
     }
 });

@@ -22,20 +22,19 @@ OSeaM.views.Vessel = OSeaM.View.extend({
 		'click #close'             : 'onCancel',
         'click #oseam-save'               : 'onSave',
         "click #next_step_button" : "nextStep",
-        "click #prev_step_button" : "prevStep"
+        "click #prev_step_button" : "prevStep",
+        'change input': 'modify',
+        'change textarea': 'modify'
     },
     render: function() {
 		// initialize : {OSeaM.frontend.on('change:language', this.render, this);}
 	 
-    	new OSeaM.views.Wizard();
+//    	new OSeaM.views.Wizard();
 	//	var language = OSeaM.frontend.getLanguage();
 	//	var template = OSeaM.loadTemplate('vessel-' + language);
         var template = OSeaM.loadTemplate('vessel');
         this.renderParams =  {
-        /*    idTitle          : OSeaM.id(),
-            idVesselName     : OSeaM.id(),
-            idDepthMeasured  : OSeaM.id(),
-            idDepthDisplayed : OSeaM.id()*/
+        		name   : this.model.get('name')
         };
         var content = $(template(this.renderParams));
         OSeaM.frontend.translate(content);
@@ -45,36 +44,28 @@ OSeaM.views.Vessel = OSeaM.View.extend({
 		
         this.el = content;
         
-        var vessel = new OSeaM.models.Vessel();
+//        var vessel = new OSeaM.models.Vessel();
         var steps = [
                 {
                   step_number :       1,
-                  title :             "Title of Step 1",
-                  instructions :      "Instructions or description of what the user needs to do for this step",
-                  view :              new OSeaM.views.meta1({ model : vessel })
+                  view :              new OSeaM.views.meta1({ model : this.model })
                 },
                 {
                   step_number :       2,
-                  title :             "Title of Step 2",
-                  instructions :      "Instructions or description of what the user needs to do for this step",
-                  view :              new OSeaM.views.meta2({ model : vessel })
+                  view :              new OSeaM.views.vesselpage({ model : this.model }) 
                 },
                 {
                   step_number :       3,
-                  title :             "Title of Step 3",
-                  instructions :      "Instructions or description of what the user needs to do for this step",
-                  view :              new OSeaM.views.meta3({ model : vessel })
+                  view :              new OSeaM.views.depthsensorpage({ model : this.model }) 
                 },
-				                {
+                {
                   step_number :       4,
-                  title :             "Title of Step 3",
-                  instructions :      "Instructions or description of what the user needs to do for this step",
-                  view :              new OSeaM.views.meta4({ model : vessel })
+                  view :              new OSeaM.views.gpspage({ model : this.model })
                 }
               ];
               
         wizard = new OSeaM.views.Wizard({ 
-          model : vessel, 
+          model : this.model, 
           steps : steps 
         });
         $("#current_step").html(wizard.render().el);
@@ -83,7 +74,6 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         return content;
     },
 	 addSensorPosition: function() {
-	 //alert('addSensor from view-vessel');
         this.sensorPositions = new OSeaM.views.SensorPositions({
             el: this.el.find('.oseam-canvas')
 			//el: this.$el.find('.oseam-canvas')
@@ -115,55 +105,26 @@ OSeaM.views.Vessel = OSeaM.View.extend({
     onCancel: function(evt) {
         this.el.modal('hide');
     },
-    onSave: function(evt) {
-	    
-		//to save the actual step entrees
-		wizard.thisStep();
-		var yachtmodel = function(){
-		if (wizard.model.get('sailingYacht')){ return wizard.model.get('sailingYacht');}
-		if (wizard.model.get('motorYacht')){ return wizard.model.get('motorYacht');}
-		if (wizard.model.get('motorYachtDisplacer')){ return wizard.model.get('motorYachtDisplacer');}
-		};
-		
-		//alert(this.yachtmodel());
-		
-		var params = {
-		name   : wizard.model.get('name'),
-		description   : wizard.model.get('description'),
-		depthm : wizard.model.get('idDepthMeasured'),
-		depthd : wizard.model.get('idDepthDisplayed'),
-		esinfront : wizard.model.get('echoSounderInFront'),
-		esrightof : wizard.model.get('echoSounderRightOf'),
-		esdisy : wizard.model.get('distanceY'),
-		esdisx : wizard.model.get('distanceX'),
-		slidingsp :wizard.model.get('slidingspeed'),
-		yachtmodel : this.yachtmodel()
-		};
-		
-		alert(params.toSource());
-		
-		
-		jQuery.ajax({
-            type: 'POST',
-            url: "http://localhost:8080/org.osm.depth.upload/api2/vesselconfig",
-            dataType: 'json',
-            data: JSON.stringify(params),
-		    contentType: "application/json; charset=utf-8",
-            context: this,
-            xhrFields: {
-            withCredentials: true
-            },
-            success: function(){
-                alert('sucees');
-            },
-            error: function(){
-                alert('error');
-            }
-        });
-		
-
-        
-		this.el.modal('hide');
+	onSave : function(evt) {
+        /*
+         * If this is new project it won't have the ID attribute defined
+         */
+        if (null == this.model.id) {
+            /*
+             * We are creating our model through its collection (this way we'll automatically update its views and persist it to DB)
+             */
+        	this.model.save();
+        	this.collection.add(this.model);
+        } else {
+            /*
+             * Simple save will persist the model to the DB and update its view
+             */
+            this.model.save();
+        }
+        /*
+         * Hiding modal dialog window
+         */
+        this.remove();
     },
     nextStep: function() {
     	wizard.nextStep();
@@ -171,11 +132,41 @@ OSeaM.views.Vessel = OSeaM.View.extend({
     prevStep: function() {
     	wizard.prevStep();
       },
-	 
-	 yachtmodel : function(){
-		if (wizard.model.get('sailingYacht')){ return 'sailingyacht'}
-		if (wizard.model.get('motorYacht')){ return 'motorYacht';}
-		if (wizard.model.get('motorYachtDisplacer')){ return 'motorYachtDisplacer';}
-		}
+    /*
+     * We listen to every change on forms input elements and as they have the same name as the model attribute we can easily update our model
+     */
+    modify: function(e) {
+        var attribute = {};
+    	alert(e.currentTarget.name + ":" +e.currentTarget.value);
+
+        /*
+         * We'll fetch name and value from element that triggered "change" event
+         */
+        if(e.currentTarget.name.indexOf("gps_") == 0) {
+        	var name = e.currentTarget.name.replace("gps_","");
+        	var sbasOffset = this.model.get('sbasoffset');
+        	if(sbasOffset == null) {
+        		sbasOffset = new OSeaM.models.Offset();
+        	}
+            attribute[name] = e.currentTarget.value;
+        	sbasOffset.set(attribute)
+            this.model.set('sbasoffset', depthOffset);
+        }
+        else if(e.currentTarget.name.indexOf("depth_") == 0) {
+        	var name = e.currentTarget.name.replace("depth_","");
+        	var depthOffset = this.model.get('depthoffset');
+        	if(depthOffset == null) {
+        		depthOffset = new OSeaM.models.Offset();
+        	}
+            attribute[name] = e.currentTarget.value;
+            depthOffset.set(attribute)
+            this.model.set('depthoffset', depthOffset);
+        } else {
+        	attribute[e.currentTarget.name] = e.currentTarget.value;
+        	this.model.set(attribute);
+        }
+        
+    }
+
 	 
 });

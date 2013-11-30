@@ -11,15 +11,27 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
+
+// this views shows the list of vessels given by the model. 
+// provides a dialog for editing vessels
 OSeaM.views.Vessels = OSeaM.View.extend({
     modalDialog:null,
     events: {
-        'click .oseam-add' : 'onAddVessel'
+        'click .oseam-add' : 'addNewVessel'
     },
+    // initialized with the collections of vessels via constructor
     initialize: function() {
 	 OSeaM.frontend.on('change:language', this.render, this);
-        this.collection.on('add', this.onAddItem, this);
+	 // a vessel is added to the collection
+     this.collection.on('add', this.onAddItem, this);
+	 // a vessel is added to the collection
+     this.collection.on('remove', this.onRemoveItem, this);
+
+     // stores the item views for this view
+     this._vesselviews = []; 
+
     },
+    // translates the page and attaches listener for added vessels
     render: function() {
         var language = OSeaM.frontend.getLanguage();
         var template = OSeaM.loadTemplate('vessels-' + language);
@@ -27,41 +39,41 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         this.listEl = this.$el.find('tbody');
+        
         this.collection.forEach(this.onAddItem, this);
         this.collection.fetch();
         return this;
     },
-    onAddVessel: function(evt) {
-	//    view = new OSeaM.views.VesselWizard({
-	 //       el: this.$el
-	 //   });
-	  //  view.render();
-	  
-			var namesArrayStore = new Array();
-		var namesArray = $('#tbody').children();
-	
-		for (var i = 0; i < namesArray.length; i++){
-	namesArrayStore.push(namesArray.get(i).getElementsByTagName("td")[1].innerHTML);
-		}
-	//	alert(namesArrayStore.toSource());	
-		localStorage.setItem('confignames', namesArrayStore);	  
-        this.initModalDialog();
-        this.modalDialog.modal('show');
-    },
-    initModalDialog: function() {
+    // listner for button push on adding new vessels. shows the dialog modal
+    addNewVessel: function(evt) {
         if (this.modalDialog) {
             return;
         }
-        view = new OSeaM.views.Vessel({
-            el: this.$el
-        });
-        this.modalDialog = view.render();
+	    view = new OSeaM.views.Vessel({
+	        el: this.$el,
+	        model : new OSeaM.models.Vessel(),
+	    	collection : this.collection
+	    });
+	    this.modalDialog = view.render();
+	    this.modalDialog.modal('show');
     },
+    // adds this item to the list views, if the model collection adds a vessel
     onAddItem: function(model) {
-        var view = new OSeaM.views.Vesselitem({
+    	// a new vessel item is added and the appropriate view is added and rendered
+        var vesselview = new OSeaM.views.Vesselitem({
             model: model
         });
-        this.listEl.append(view.render().el);
+        // Adding project item view to the list
+        this._vesselviews.push(vesselview);
+
+        this.listEl.append(vesselview.render().el);
+        return this;
+    },
+    // remove the view from being rendered
+    onRemoveItem: function(model) {
+    	// a vessel item is removed and the appropriate view is added and rendered
+        var view = _(this._vesselviews).select(function(cv) { return cv.model === model; })[0];
+        $(view.el).remove();
         return this;
     }
 });

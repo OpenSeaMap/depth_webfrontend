@@ -26,17 +26,19 @@ OSeaM.models.Track = Backbone.Model.extend({
     STATUS_PROCESSED    : 6,
     STATUS_NODATA    : 7,
     defaults: {
-        fileName   : '-',
-        fileType   : '-',
-        compression   : '-',
-        containertrack   : '-',
+    	id : null,
+        fileName   : null,
+        fileType   : null,
+        compression   : null,
+        containertrack   : null,
         license   : 'PDDL',
         progress   : null,
         status     : null,
-		vesselconfigid : '-'
+        vesselconfigid : null
     },
     url: function() {
-    	return OSeaM.apiUrl + '/track/' + this.get("id");
+//    	return OSeaM.apiUrl + 'track/' + this.get("id");
+    	return OSeaM.apiUrl + 'track';
     },
     getStatusText: function() {
         switch (this.get('status')) {
@@ -63,37 +65,6 @@ OSeaM.models.Track = Backbone.Model.extend({
             default:
                 return '-';
         }
-    },
-    uploadFile: function(file) {
-        this.set({
-            fileName : file.name,
-            status : this.STATUS_STARTING_UPLOAD,
-			vesselconfigid : localStorage.getItem('configId')
-        });
-        this.requestNewId(file);
-    },
-    requestNewId: function(file) {
-        this.set('status', this.STATUS_REQUESTING_ID);
-        var fn = function(data) {
-            this.onNewId(file, data);
-        };
-        jQuery.ajax({
-            type: 'POST',
-            url: OSeaM.apiUrl + 'track',
-            contentType: "application/json",
-            dataType: 'json',
-            xhrFields: {
-                withCredentials: true
-            },
-            success: jQuery.proxy(fn, this)
-        });
-    },
-    onNewId: function(file, data) {
-        this.set({
-            id : data.id,
-            progress : 1
-        });
-        this.onReaderLoad(null, file, data.id);
     },
     onReaderLoad: function(evt, file, id) {
         this.set('status', this.STATUS_UPLOADING);

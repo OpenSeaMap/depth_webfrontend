@@ -15,7 +15,13 @@ OSeaM.views.gpspage = OSeaM.View.extend({
     modalDialog:null,
     render: function() {
         var template = OSeaM.loadTemplate('gpsoffset');
-        var content = $(template());
+        var sbasoffset = this.model.get('sbasoffset'); 
+        var content = $(template({
+        	gps_distanceFromStern : sbasoffset.get('distanceFromStern'),
+        	gps_distanceFromCenter : sbasoffset.get('distanceFromCenter'),
+        	gps_distanceWaterline : sbasoffset.get('distanceFromStern')
+		}));
+
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         return this;

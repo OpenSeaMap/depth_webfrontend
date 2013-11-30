@@ -15,7 +15,12 @@ OSeaM.views.depthsensorpage = OSeaM.View.extend({
     modalDialog:null,
     render: function() {
         var template = OSeaM.loadTemplate('depthsensoroffset');
-        var content = $(template());
+        var depthoffset = this.model.get('depthoffset');
+        var content = $(template({
+        	depth_distanceFromStern : depthoffset.get('distanceFromStern'),
+        	depth_distanceFromCenter : depthoffset.get('distanceFromCenter'),
+        	depth_distanceWaterline : depthoffset.get('distanceFromStern')
+		}));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         return this;

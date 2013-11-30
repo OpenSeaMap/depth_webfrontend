@@ -4,41 +4,14 @@
     This part is under construction.
 </div>-->
 
-<tbody2 id="tbody2">
-    </tbody2>
-        <p><hr></p>
-         <p>Bitte wählen sie den <strong>Gewässertyp</strong> aus, welcher bei der Aufnahme des Tracks befahren wurde: </p>
-		 <form id="track_meta" ><p><input class="trackradios" type="radio" name="track_meta" value="ocean" id="ocean"> Meer<br>
-		 <input type="radio" class="trackradios" name="track_meta" value="river"> Fluss<br>
-		 <input type="radio" class="trackradios" name="track_meta" value="lake"> See</p></form>
-			   
-			   <div id="meta_lake_river">
-			   
-			   <label class="tableft50" for="gauge_name">Pegelname:</label>
-			   <input id="gauge_name" name="gauge_name" type="text" placeholder="Name des Pegels" size="100" maxlength="100"><br>
-			   
-			   <div class="control-group meta_lake_river">
-			   <label class="tableft50" for="gauge">Pegelstand:</label>
-			   <div class="controls">
-			   <div class="input-append">
-			   <input class="input-mini" id="gauge" name="gauge" type="text" placeholder="0.00" >
-		       <span class="add-on">m</span>   <span class="help-inline" style="FONT-SIZE: 14px !important"></span> 
-			   </div>
-			   </div>
-			   </div>
-			   
-			     			   
-			   <label class="tableft50" for="height_ref">Höhen Referenzsystem:</label>
-			   <input class="tableft50 id="height_ref" name="heightref" type="text" placeholder="z.B. DHDN" size="100" maxlength="100"><br>
-							
-				</div>
-				<br>
-		   			   
-			   <p><strong>Achtung! Bitte laden Sie die Tracks einzeln ein, falls sich die Pegelhöhe zwischen den Aufnahmen geändert hat.<strong></p>
-                <p><hr></p>
-                <p>Bemerkungen <br> <textarea class="textareasmall" name="comment"></textarea></p>
-				<p><hr></p>
-				
+<select id="vesselselection" name="vesselselection">
+    <option value="" disabled selected>Select your Vessel Config</option>
+</select>
+<br/>
+<select id="licenseselection" name="licenseselection">
+    <option value="" disabled selected>Select the Track License</option>
+</select>
+
 <div class="oseam-upload-wrapper">
     <div class="btn btn-info" data-trt="1019:Upload tracks"></div>
     <input type="file" name="track[]" multiple></input>
@@ -52,6 +25,7 @@
             <th data-trt="1067:File Type"></th>
             <th data-trt="1068:Compression"></th>
             <th data-trt="1069:Containertrack"></th>
+            <th data-trt="1077:Vessel"></th>
             <th data-trt="1070:License"></th>
             <th data-trt="1043:Action"></th>
         </tr>

@@ -16,12 +16,18 @@ OSeaM.models.Vessel = Backbone.Model.extend({
         id   : null,
         name   : '',
 		description   : '',
-		idDepthMeasured : '',
-		idDepthDisplayed : '',
-		echoSounderInFront :'',
-		echoSounderRightOf :'',
-		distanceY :'',
-		distanceX :'',
+		mmsi : '',
+		manufacturer : '',
+		model : '',
+		loa : '',
+		berth : '',
+		draft : '',
+		height : '',
+		displacement : '',
+		maximumspeed : '',
+		sbasoffset : new OSeaM.models.Offset(),
+		yachtmodel : '',
+		depthoffset : new OSeaM.models.Offset(),
 		slidingspeed :'',
 		sailingYacht : '',
 		motorYacht: '',
@@ -29,6 +35,6 @@ OSeaM.models.Vessel = Backbone.Model.extend({
 		
     },
     url: function() {
-    	return OSeaM.apiUrl + '/vesselconfig/' + this.get("id");
+    	return OSeaM.apiUrl + 'vesselconfig/' + this.get("id");
     }
 });

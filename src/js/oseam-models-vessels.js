@@ -19,7 +19,9 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
         	var responseObject = response[i];
             this.add({
                 id       : responseObject.id,
-                name : responseObject.name
+                name : responseObject.name,
+                description : responseObject.description,
+                manufacturer : responseObject.manufacturer
             });
         }
     }

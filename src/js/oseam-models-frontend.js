@@ -38,6 +38,14 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         return this.get('vessels');
     },
+    getLicenses: function() {
+        if (this.has('licenses') === false) {
+            this.set({
+                licenses: new OSeaM.models.Licenses()
+            });
+        }
+        return this.get('licenses');
+    },
     startView: function(name, settings) {
         if (this.actualView) {
             this.actualView.close();

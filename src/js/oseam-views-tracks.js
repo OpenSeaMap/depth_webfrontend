@@ -11,20 +11,26 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
+
+// this view lists the tracks
 OSeaM.views.Tracks = OSeaM.View
 		.extend({
 			events : {
 				'change .oseam-upload-wrapper input' : 'onFileSelected',
-				'click .trackradios' : 'onWaterTypeSelected',
-				'change .meta_lake_river' : 'onValidateMeta',
-				'change .configId' : 'onChangeConfigId'
+				'change .licenseId' : 'onChangeLicenseConfigId',
+				'change .vesselId' : 'onChangeVesselConfigId'
 			},
 			initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
 				// this.listenTo(this.collection, 'change', this.render);
-				this.listenTo(this.collection, 'remove', this.render);
+				this.listenTo(this.collection, 'remove', this.onRemoveItem);
 				// this.listenTo(this.collection, 'reset', this.render);
 				OSeaM.frontend.on("change:language", this.render, this);
+
+   		        // stores the item views for this view
+				this._views = [];
+				this.candidateTrack = new OSeaM.models.Track();
+
 			},
 			render : function() {
 				var wait = '';
@@ -37,155 +43,66 @@ OSeaM.views.Tracks = OSeaM.View
 				OSeaM.frontend.translate(content);
 				this.$el.html(content);
 				this.listEl = this.$el.find('tbody');
+//				this.vesselEl = this.$el.find('#selection');
+
 				this.collection.forEach(this.onAddItem, this);
 				this.collection.fetch();
-				$("#trackBtn").hide();
-				$("#meta_lake_river").hide();
 
-				this.listElMeta = this.$el.find('tbody2');
-				// does not work properly
-				this.listElMeta
-						.append(this
-								.addMetadataList(function(response) {
-
-									var language = OSeaM.frontend.getLanguage();
-
-									switch (language) {
-									case 'en':
-										selection = '<p><strong>Please choose the associated Vessel Configuration for the Upload of the Tracks</strong></p><form class="configId"><p><select id="selection" name="selection"><option value="" disabled selected>Select your Vessel Config</option>';
-										break;
-									case 'de':
-										selection = '<p><strong>Bite wählen Sie die entsprechende Fahrzeugkonfiguration aus für das Hochladen der Tracks</strong></p><form class="configId"><p><select id="selection" name="selection"><option value="" disabled selected>Fahrzeugkonfiguration</option>';
-										break;
-									}
-
-									// selection = '<p><strong>Please choose the
-									// associated Vessel Configuration for the
-									// Upload of the Tracks</strong></p><form
-									// class="configId"><p><select
-									// id="selection" name="selection"><option
-									// value="" disabled selected>Select your
-									// Vessel Config</option>';
-
-									entrees = response.length;
-									if (response.length === 1) {
-										singleConf = response[0].name
-										// save in local storage
-										localStorage.setItem('configId',
-												response[0].id);
-
-									}
-
-									for ( var i = 0; i < response.length; i++) {
-										// alert(data[i].name);
-										selection += '<option>'
-												+ response[i].name
-												+ '</option>'
-									}
-									selection += '</select></p></form>';
-									wait = 1;
-									return selection;
-								}));
-
-				waitForElement();
-
-				function waitForElement() {
-
-					if (wait === 1) {
-
-						// alert('anzahl '+entrees);
-						if (entrees === 0) {
-							var language = OSeaM.frontend.getLanguage();
-
-							switch (language) {
-							case 'en':
-								selection = '<h3><font color="#990000">Please create a Vessel Configuration first: <a href="#vessels">here</a></font><h3>';
-								break;
-							case 'de':
-								selection = '<h3><font color="#990000">Bitte erstellen Sie zunächst eine Fahrzeugkonfiguration: <a href="#vessels">hier klicken</a></font><h3>';
-								break;
-							}
-
-						}
-
-						if (entrees === 1) {
-							var language = OSeaM.frontend.getLanguage();
-
-							switch (language) {
-							case 'en':
-								selection = '<p><strong>Vessel Configuration: '
-										+ singleConf + '<strong><p>';
-								break;
-							case 'de':
-								selection = '<p><strong>Fahrzeugkonfiguration: '
-										+ singleConf + '<strong><p>';
-								break;
-							}
-
-						}
-
-						// return renderer.this;
-						$('#tbody2').append(selection);
-					} else {
-						setTimeout(function() {
-							waitForElement();
-						}, 250);
-					}
-				}
-
+				var vessels = OSeaM.frontend.getVessels()
+				this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : vessels});
+				vessels.fetch();
+				
+				var licenses = OSeaM.frontend.getLicenses()
+				this.licenseviews = new OSeaM.views.Selection({el : $("#licenseselection"), collection : licenses});
+				licenses.fetch();
 			},
 
 			onFileSelected : function(evt) {
 				// alert('onFileSelected');
 				for ( var i = 0; i < evt.target.files.length; i++) {
-					this.collection.uploadFile(evt.target.files[i]);
+					// get vesselconfig from somewhere
+					this.candidateTrack.set("vesselconfigid", 94);
+					this.candidateTrack.set("license", 23);
+					this.candidateTrack.set({
+			            fileName : evt.target.files[i].name,
+			            status : this.STATUS_STARTING_UPLOAD
+			        });
+					this.collection.add(this.candidateTrack); 
+
+					// issue a post request
+					var jqXHR = this.candidateTrack.save({}, {
+						// TODO: do something with the error
+						error: function(candidateTrack, xhr, options) {
+							this.collection.remove(candidateTrack);
+					        console.log(xhr);            
+					    },
+					    // on success start the progress of upload
+					    success: function(candidateTrack, response, options) {
+					    	candidateTrack.onReaderLoad(null, evt.target.files[i], candidateTrack.id);
+					    }
+					});
 				}
+				// free next new track
+				this.candidateTrack = new OSeaM.models.Track();
 			},
 			onAddItem : function(model) {
 				// alert('additem');
 				var view = new OSeaM.views.Track({
 					model : model
 				});
+		        // Adding project item view to the list
+		        this._views.push(view);
+				
 				this.listEl.append(view.render().el);
 				return this;
 			},
-			addMetadataList : function(callback) {
-
-				jQuery
-						.ajax({
-							type : 'GET',
-							url : OSeaM.apiUrl + 'vesselconfig',
-							dataType : 'json',
-							// data: JSON.stringify(params),
-							contentType : "application/json; charset=utf-8",
-							context : this,
-							xhrFields : {
-								withCredentials : true
-							},
-							success : function(response) {
-								callback(response);
-							},
-
-							error : function() {
-								alert('error');
-							}
-
-						});
-
-			},
-			onWaterTypeSelected : function(a) {
-				if (!$("#trackBtn").is(":visible")) {
-					$("#trackBtn").show();
-				}
-
-				if (!$("#ocean").is(':checked')) {
-					$("#meta_lake_river").show();
-				} else {
-					$("#meta_lake_river").hide();
-				}
-
-			},
-
+		    // remove the view from being rendered
+		    onRemoveItem: function(model) {
+		    	// a vessel item is removed and the appropriate view is added and rendered
+		        var view = _(this._views).select(function(cv) { return cv.model === model; })[0];
+		        $(view.el).remove();
+		        return this;
+		    },
 			onValidateMeta : function() {
 
 				this.removeAlerts();
@@ -217,9 +134,12 @@ OSeaM.views.Tracks = OSeaM.View
 				this.isValid = true;
 			},
 
-			onChangeConfigId : function() {
-
-				localStorage.setItem('configId', $("#selection").val());
+			onChangeVesselConfigId : function() {
+				this.candidateTrack.set('vesselconfigid', $("#selection").val());
+				//alert(localStorage.getItem('configId'));
+			},
+			onChangeLicenseConfigId : function() {
+				this.candidateTrack.set('license', $("#selection").val());
 				//alert(localStorage.getItem('configId'));
 			}
 		});

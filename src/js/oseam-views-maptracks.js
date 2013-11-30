@@ -64,7 +64,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPoints = new OpenLayers.Layer.WMS('Track Points',
-            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+            'http://192.168.1.1/cgi-bin/mapserv?', {
                 layers: 'trackpoints_cor1_test_dbs,trackpoints_cor1_test,test_zoom_10_cor_1_points,test_zoom_9_cor_1_points,test_zoom_8_cor_1_points,test_zoom_7_cor_1_points,test_zoom_6_cor_1_points,test_zoom_5_cor_1_points,test_zoom_4_cor_1_points,test_zoom_3_cor_1_points,test_zoom_2_cor_1_points',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,

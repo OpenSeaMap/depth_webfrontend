@@ -30,7 +30,10 @@ OSeaM.models.Tracks = Backbone.Collection.extend({
                 compression : responseObject.compression,
                 status   : responseObject.upload_state,
                 containertrack   : responseObject.containertrack,
-                license   : responseObject.license
+                license   : responseObject.license,
+                vesselconfigid : responseObject.vesselconfigid,
+                uploadDate : responseObject.uploadDate
+//                license   : responseObject.license
             });
         }
     }
