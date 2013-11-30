@@ -88,6 +88,14 @@ OSeaM.routers.Router = Backbone.Router.extend({
     			});
 //    	}
     },
+    gauges: function() {
+    	this.renderTopAndNavBar('gauges');
+//    	if (this.checkAuthenticated() === true) {
+    	OSeaM.frontend.startView('Gauges', {
+    			collection : OSeaM.frontend.getGauges()
+    			});
+//    	}
+    },
     maptracks: function() {
         this.renderTopAndNavBar('maptracks');
         OSeaM.frontend.startView('MapTracks');

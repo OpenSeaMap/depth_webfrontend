@@ -47,15 +47,16 @@ OSeaM.views.Vessels = OSeaM.View.extend({
     // listner for button push on adding new vessels. shows the dialog modal
     addNewVessel: function(evt) {
         if (this.modalDialog) {
-            return;
+    	    this.modalDialog.modal('show');
+        } else {
+        	view = new OSeaM.views.Vessel({
+        		el: this.$el,
+        		model : new OSeaM.models.Vessel(),
+        		collection : this.collection
+        	});
+        	this.modalDialog = view.render();
+        	this.modalDialog.modal('show');
         }
-	    view = new OSeaM.views.Vessel({
-	        el: this.$el,
-	        model : new OSeaM.models.Vessel(),
-	    	collection : this.collection
-	    });
-	    this.modalDialog = view.render();
-	    this.modalDialog.modal('show');
     },
     // adds this item to the list views, if the model collection adds a vessel
     onAddItem: function(model) {

@@ -141,18 +141,13 @@ OSeaM.views.Register = OSeaM.View.extend({
     onCreateFailure: function(jqXHR) {
         var template = OSeaM.loadTemplate('alert');
         var msg = '';
+        alert(jqXHR.status);
         if (jqXHR.status === 409) {
-            var response = jQuery.parseJSON(jqXHR.responseText);
-            msg = (9000 + response.code).toString() + ':';
-            if (response.code === 103) {
-                this.markInvalid(this.fieldUsername, '9103:Username already exists.');
-                this.fieldUsername.focus();
-            }
-            if (response.code === 801) {
-                this.markInvalid(this.fieldCaptcha, '1013:Invalid captcha.');
-                this.renewCaptcha();
-                this.fieldCaptcha.val('').focus();
-            }
+            this.markInvalid(this.fieldUsername, '9103:Username already exists.');
+            this.fieldUsername.focus();
+        } else if(response.code === 400) {
+        	this.markInvalid(this.fieldCaptcha, '1013:Invalid captcha.');
+        	this.fieldCaptcha.val('').focus();
         } else {
             msg = '1031:Unknown error. Please try again.'
         }

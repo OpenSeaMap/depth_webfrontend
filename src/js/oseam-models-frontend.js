@@ -46,6 +46,14 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         return this.get('licenses');
     },
+    getGauges: function() {
+        if (this.has('gauges') === false) {
+            this.set({
+                gauges: new OSeaM.models.Gauges()
+            });
+        }
+        return this.get('gauges');
+    },
     startView: function(name, settings) {
         if (this.actualView) {
             this.actualView.close();

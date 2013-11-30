@@ -14,6 +14,8 @@ def configure(ctx):
         'init.js'
     ]
     ctx.env.JSSTAGE2 = [
+        'gauge/oseam-views-gauge.js',
+        'gauge/oseam-views-gauges.js',
         'oseam-models-gauge.js',
         'oseam-models-license.js',
         'oseam-models-licenses.js',

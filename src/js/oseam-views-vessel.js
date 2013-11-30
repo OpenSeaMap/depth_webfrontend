@@ -137,7 +137,7 @@ OSeaM.views.Vessel = OSeaM.View.extend({
      */
     modify: function(e) {
         var attribute = {};
-    	alert(e.currentTarget.name + ":" +e.currentTarget.value);
+//    	alert(e.currentTarget.name + ":" +e.currentTarget.value);
 
         /*
          * We'll fetch name and value from element that triggered "change" event
