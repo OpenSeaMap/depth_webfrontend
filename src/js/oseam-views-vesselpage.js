@@ -16,7 +16,13 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
     render: function() {
         var template = OSeaM.loadTemplate('vesselgeneric');
         this.renderParams =  {
-        		name   : this.model.get('name')
+        		loa   : this.model.get('loa'),
+        		breadth   : this.model.get('breadth'),
+        		draft   : this.model.get('draft'),
+        		displacement   : this.model.get('displacement'),
+        		height   : this.model.get('height'),
+        		manufacturer   : this.model.get('manufacturer'),
+        		model   : this.model.get('model')
         };
         var content = $(template(this.renderParams));
         OSeaM.frontend.translate(content);

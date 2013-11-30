@@ -31,6 +31,13 @@ OSeaM.utils.Validation = {
         return reg.test(value);
 	
 	},
+	
+			vesselLength: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
 			gauge: function(value) {
 	// test for decimal
 		var reg = /^\d*\.?\d*$/;
@@ -38,6 +45,12 @@ OSeaM.utils.Validation = {
 	
 	},
 			distanceX: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+	vesselWidth: function(value) {
 	// test for decimal
 		var reg = /^\d*\.?\d*$/;
         return reg.test(value);

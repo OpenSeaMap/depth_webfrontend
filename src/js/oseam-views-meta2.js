@@ -16,86 +16,278 @@ OSeaM.views.meta2 = OSeaM.View
 			sensorPositions : null,
 			modalDialog : null,
 			events : {
-				'click [name=echoSounderInFront]' : 'onEchoSounderInFront',
-				'click [name=echoSounderRightOf]' : 'onEchoSounderRightOf',
-				'change [name=distanceY]' : 'onChangeDistanceY',
-				'change [name=distanceX]' : 'onChangeDistanceX'
+				// 'click [name=echoSounderInFront]' : 'onEchoSounderInFront',
+				// 'click [name=echoSounderRightOf]' : 'onEchoSounderRightOf',
+				'change [name=vesselLength]' : 'onChangeVesselLength',
+				'change [name=vesselWidth]' : 'onChangeVesselWidth',
+				'change [name=positionGPSCenterline]' : 'onChangePositionGPSCenterlineKey',
+				'change [name=positionSounderCenterline]' : 'onChangePositionSounderCenterlineKey',
+				'change [name=positionGPSStern]' : 'onChangePositionGPSSternKey',
+				'change [name=positionSounderStern]' : 'onChangePositionSounderSternKey'
 			},
 			render : function() {
 
 				var language = OSeaM.frontend.getLanguage();
 				var template = OSeaM.loadTemplate('meta2-' + language);
 				var content = $(template({
-					echoSounderInFront : this.model.get('echoSounderInFront'),
-					echoSounderRightOf : this.model.get('echoSounderRightOf'),
-					distanceY : this.model.get('distanceY'),
-					distanceX : this.model.get("distanceX")
+
+					loa : this.model.get('loa'),
+					breadth : this.model.get('breadth'),
+					gps_distanceFromCenter : this.model.sbasoffset.get('distanceFromCenter'),
+					gps_distanceFromStern : this.model.sbasoffset.get('distanceFromStern'),
+					depth_distanceFromCenter : this.model.depthoffset.get('distanceFromCenter'),
+					depth_distanceFromStern : this.model.depthoffset.get('distanceFromStern')
 				}));
+
 				OSeaM.frontend.translate(content);
 				this.$el.html(content);
 
-				//alert(this.$el.html(content).toSource());
-				this.addSensorPosition();
-
+				if (!this.model.get('loa')
+						|| !this.model.get('breadth')) {
+					// undefined
+				} else {
+					this.computeSize();
+				}
+				if (!this.model.sbasoffset.get('distanceFromCenter')
+						|| !this.model.sbasoffset.get('distanceFromStern')) {
+					// undefined
+				} else {
+					$('#draggableGps').css("left",
+							this.model.get('distanceFromCenter'));
+					$('#draggableGps').css("top",
+							this.model.get('distanceFromStern'))
+				}
+				if (!this.model.get('positionSounderCenterlineC')
+						|| !this.model.get('positionSounderSternC')) {
+					// undefined
+				} else {
+					$('#draggableSounder').css("left",
+							this.model.depthoffset.get('distanceFromCenter'));
+					$('#draggableSounder').css("top",
+							this.model.depthoffset.get('distanceFromStern'))
+				}
 				return this;
 
 			},
-			addSensorPosition : function() {
-				//alert(this.$el.find('.oseam-canvas').toSource());	
-				//alert($('.oseam-canvas').toSource());	
-				this.sensorPositions = new OSeaM.views.SensorPositions({
-					// ori
-					el : this.$el.find('.oseam-canvas')
-				//	el : $('#oseam-canvas')
 
-				//el : '.oseam-canvas'
-				//	el: $('#oseam-canvas')
+			onChangeVesselLength : function(evt) {
 
-				});
-				//	alert($('#oseam-cavas').toSource());
-				//alert(this.$el.find('.oseam-canvas').toSource());
-				this.sensorPositions.render();
-			},
-			onEchoSounderInFront : function(evt) {
-				if ($(evt.target).is(':checked') === true) {
-					this.sensorPositions.setTopDevice('gps');
-				} else {
-					this.sensorPositions.setTopDevice('echo');
+				if ($("#vesselWidth").val()) {
+					this.computeSize();
 				}
-			},
-			onEchoSounderRightOf : function(evt) {
-				if ($(evt.target).is(':checked') === true) {
-					this.sensorPositions.setLeftDevice('gps');
-				} else {
-					this.sensorPositions.setLeftDevice('echo');
-				}
-			},
-			onChangeDistanceY : function(evt) {
-				var value = parseFloat($(evt.target).val()) * 100;
-				this.sensorPositions.setVerticalDistance(value);
-			},
-			onChangeDistanceX : function(evt) {
 
-				var value = parseFloat($(evt.target).val()) * 100;
-				this.sensorPositions.setHorizontalDistance(value);
+			},
+			vesselLength : function() {
+				// var value = parseFloat($('#vesselLength').val()) * 100;
+				// this.sensorPositions.setVerticalDistance(value);
+			},
+			vesselWidth : function() {
+				// var value = parseFloat($('#vesselWidth').val()) * 100;
+				// this.sensorPositions.setHorizontalDistance(value);
+				// $('#vesselWidth').val();
+				$('#vesselsize').attr("width", "50%");
+			},
+
+			onChangeVesselWidth : function(evt) {
+
+				// $("#vesselsize").width( 100 );
+				// this.validate();
+				// alert('change');
+
+				if ($("#vesselLength").val()) {
+					this.computeSize();
+				}
+
+				// $('#vesselsize').prop("width","100px");
+				// var value = parseFloat($(evt.target).val()) * 100;
+				// this.sensorPositions.setHorizontalDistance(value);
+			},
+			computeSize : function() {
+
+				var x = parseFloat(($("#vesselWidth").val()));
+				var y = parseFloat(($("#vesselLength").val()));
+				// alert($("#vesselLength").val());
+				if (y > x) {
+					x = (200 / y) * x;
+					$("#vesselsize").width(x);
+					y = 200;
+				}
+
+				if (x > y) {
+					y = (200 / x) * y;
+					$("#vesselsize").height(y);
+					x = 200;
+				}
+
+				if (x === y) {
+					$("#vesselsize").width(200);
+					$("#vesselsize").height(200);
+					x = 200;
+					y = 200;
+				}
+
+				// $('#draggableGps').remove();
+				// $('#draggableSounder').remove();
+				$('#vesselsize')
+						.append(
+								'<div id="draggableGps" style="width: 20px; height: 20px; border-radius:10px; background:#000></div>');
+				$('#vesselsize')
+						.append(
+								'<div id="draggableSounder" style="width: 20px; height: 20px; border-radius:10px; background:#FF0000></div>');
+
+				// gps
+				$("#draggableGps").draggable(
+						{
+
+							// Show dropped position.
+							stop : function(event, ui) {
+								var Stoppos = $(this).position();
+								var width = $("#vesselsize").width();
+								var height = $("#vesselsize").height();
+								var widthM = parseFloat(($("#vesselWidth")
+										.val()));
+								var heightM = parseFloat(($("#vesselLength")
+										.val()));
+								var centerline = width / 2;
+								var factorX = widthM / (x - 20);
+								var factorY = heightM / (y - 20);
+
+								// save html div coords
+								// this.model.set({positionGPSCenterlineC:
+								// Stoppos.left});
+								// this.model.set({positionGPSSternC:
+								// Stoppos.top});
+
+								// centerline zero
+								if ((centerline - 10) === Stoppos.left) {
+									$("#positionGPSCenterline").text(0);
+								}
+								// backboard links - left
+								if (Stoppos.left < (centerline - 10)) {
+									var transBX = Stoppos.left
+											- (centerline - 10);
+									transBX = transBX * factorX;
+									$("#positionGPSCenterline").val(
+											transBX.toFixed(2));
+								}
+								// steuerboard rechts - right
+								if (Stoppos.left > (centerline - 10)) {
+									var transSX = Stoppos.left
+											- (centerline - 10);
+									transSX = transSX * factorX;
+									$("#positionGPSCenterline").val(
+											transSX.toFixed(2));
+								}
+
+								// from stern
+								var stern = Stoppos.top;
+								// alert('stern '+ stern+ ' factoy '+ factorY);
+								stern = stern * (factorY);
+								stern = (stern - heightM) * -1;
+								if (stern < 0) {
+									stern = 0;
+								}
+								$("#positionGPSStern").val(stern.toFixed(2));
+							},
+
+							containment : "#vesselsize",
+							scroll : false
+						});
+				// sounder
+				$("#draggableSounder").draggable(
+						{
+							stop : function(event, ui) {
+								var Stoppos = $(this).position();
+								var width = $("#vesselsize").width();
+								var height = $("#vesselsize").height();
+								var widthM = parseFloat(($("#vesselWidth")
+										.val()));
+								var heightM = parseFloat(($("#vesselLength")
+										.val()));
+								var centerline = width / 2;
+								var factorX = widthM / (x - 20);
+								var factorY = heightM / (y - 20);
+
+								// save html div coords
+								// this.model.set({positionSounderCenterlineC:
+								// Stoppos.left});
+								// this.model.set({positionSounderSternC:
+								// Stoppos.top});
+
+								// centerline zero
+								if ((centerline - 10) === Stoppos.left) {
+									$("#positionSounderCenterline").text(0);
+								}
+								// backboard links - left
+								if (Stoppos.left < (centerline - 10)) {
+									var transBX = Stoppos.left
+											- (centerline - 10);
+									transBX = transBX * factorX;
+									$("#positionSounderCenterline").text(
+											transBX.toFixed(2));
+								}
+								// steuerboard rechts - right
+								if (Stoppos.left > (centerline - 10)) {
+									var transSX = Stoppos.left
+											- (centerline - 10);
+									transSX = transSX * factorX;
+									$("#positionSounderCenterline").text(
+											transSX.toFixed(2));
+								}
+
+								// from stern
+								var stern = Stoppos.top;
+								// alert('stern '+ stern+ ' factoy '+ factorY);
+								stern = stern * (factorY);
+								stern = (stern - heightM) * -1;
+								if (stern < 0) {
+									stern = 0;
+								}
+								$("#positionSounderStern").text(
+										stern.toFixed(2));
+
+								// $("#positionSounderCenterline").text(Stoppos.left);
+								// $("#positionSounderStern").text(Stoppos.top);
+
+							},
+							containment : "#vesselsize",
+							scroll : false
+						});
+
+				// $('#draggableGps').attr("display") = "block";
+				// $("#draggableGps").css("visibility","visible");
+				// $("#draggableSounder").css("visibility","visible");
+				// alert($("#draggableGps").css("display"));
+				// document.getElementById("Navi1").style.visibility =
+				// "visible";
+				// $("#draggableGps").show();
+
+			},
+			onChangePositionGPSCenterlineKey : function(evt) {
+				this.model.sbasoffset.set('distanceFromCenter', $(evt.target).val());
+			},
+			onChangePositionSounderCenterlineKey : function(evt) {
+				this.model.depthoffset.set('distanceFromCenter', $(evt.target).val());
+			},
+			onChangePositionGPSSternKey : function(evt) {
+				this.model.sbasoffset.set('distanceFromStern', $(evt.target).val());
+			},
+			onChangePositionSounderSternKey : function(evt) {
+				this.model.depthoffset.set('distanceFromCenter', $(evt.target).val());
 			},
 			validate : function() {
 				this.removeAlerts();
 				var errors = [];
 
-				if (OSeaM.utils.Validation.distanceY(this.model
-						.get('distanceY')) !== true) {
-					this.markInvalid($('#distanceY'),
+				if (OSeaM.utils.Validation.vesselLength(this.model
+						.get('loa')) !== true) {
+					this.markInvalid($('#vesselLength'),
 							'1103:Please enter a decimal (e.g. 5.5)');
-					//what is this for?
-					//errors.push('1004:Email');
 				}
-				if (OSeaM.utils.Validation.distanceX(this.model
-						.get('distanceX')) !== true) {
-					this.markInvalid($('#distanceX'),
+				if (OSeaM.utils.Validation.vesselWidth(this.model
+						.get('breadth')) !== true) {
+					this.markInvalid($('#vesselWidth'),
 							'1103:Please enter a decimal (e.g. 5.5)');
-					//what is this for?
-					//errors.push('1004:Email');
 				}
 
 				return this.isValid;
@@ -103,7 +295,7 @@ OSeaM.views.meta2 = OSeaM.View
 			},
 			markInvalid : function(field, text) {
 				field.parents('.control-group').addClass('error');
-				//field.next('.help-inline').attr('data-trt', text);
+				// field.next('.help-inline').attr('data-trt', text);
 				this.$el.find('.help-inline').attr('data-trt', text);
 				OSeaM.frontend.translate(this.$el);
 				this.isValid = false;

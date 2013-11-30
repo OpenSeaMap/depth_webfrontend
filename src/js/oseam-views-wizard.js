@@ -155,8 +155,31 @@ OSeaM.views.Wizard = OSeaM.View.extend({
         /*
          * We'll fetch name and value from element that triggered "change" event
          */
-        attribute[e.currentTarget.name] = e.currentTarget.value;
-        this.model.set(attribute);
+//    	alert(e.currentTarget.name);
+        if(e.currentTarget.name.indexOf("gps_") == 0) {
+        	var name = e.currentTarget.name.replace("gps_","");
+        	var sbasOffset = this.model.get('sbasoffset');
+        	if(sbasOffset == null) {
+        		sbasOffset = new OSeaM.models.Offset();
+        	}
+            attribute[name] = e.currentTarget.value;
+        	sbasOffset.set(attribute)
+            this.model.set('sbasoffset', sbasOffset);
+        }
+        else if(e.currentTarget.name.indexOf("depth_") == 0) {
+        	var name = e.currentTarget.name.replace("depth_","");
+        	alert(name);
+        	var depthOffset = this.model.get('depthoffset');
+        	if(depthOffset == null) {
+        		depthOffset = new OSeaM.models.Offset();
+        	}
+            attribute[name] = e.currentTarget.value;
+            depthOffset.set(attribute)
+            this.model.set('depthoffset', depthOffset);
+        } else {
+        	attribute[e.currentTarget.name] = e.currentTarget.value;
+        	this.model.set(attribute);
+        }
     }
 
 });

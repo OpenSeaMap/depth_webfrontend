@@ -37,8 +37,8 @@ OSeaM.models.Track = Backbone.Model.extend({
         vesselconfigid : null
     },
     url: function() {
-//    	return OSeaM.apiUrl + 'track/' + this.get("id");
-    	return OSeaM.apiUrl + 'track';
+    	return OSeaM.apiUrl + 'track/' + this.get("id");
+//    	return OSeaM.apiUrl + 'track';
     },
     getStatusText: function() {
         switch (this.get('upload_state')) {

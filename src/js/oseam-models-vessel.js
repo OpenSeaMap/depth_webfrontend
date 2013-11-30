@@ -20,19 +20,13 @@ OSeaM.models.Vessel = Backbone.Model.extend({
 		manufacturer : '',
 		model : '',
 		loa : '',
-		berth : '',
+		breadth : '',
 		draft : '',
 		height : '',
 		displacement : '',
 		maximumspeed : '',
 		sbasoffset : new OSeaM.models.Offset(),
-		yachtmodel : '',
-		depthoffset : new OSeaM.models.Offset(),
-		slidingspeed :'',
-		sailingYacht : '',
-		motorYacht: '',
-		motorYachtDisplacer: ''
-		
+		depthoffset : new OSeaM.models.Offset()
     },
     url: function() {
     	return OSeaM.apiUrl + 'vesselconfig/' + this.get("id");

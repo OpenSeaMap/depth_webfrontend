@@ -25,7 +25,8 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 	 // a vessel is added to the collection
      this.collection.on('add', this.onAddItem, this);
 	 // a vessel is added to the collection
-     this.collection.on('remove', this.onRemoveItem, this);
+//     this.collection.on('remove', this.onRemoveItem, this);
+     this.collection.bind('remove', this.onRemoveItem);
 
      // stores the item views for this view
      this._vesselviews = []; 
@@ -49,9 +50,12 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         if (this.modalDialog) {
     	    this.modalDialog.modal('show');
         } else {
+        	var vessel = new OSeaM.models.Vessel();
+        	vessel.sbasoffset = new OSeaM.models.Offset();
+        	vessel.depthoffset = new OSeaM.models.Offset();
         	view = new OSeaM.views.Vessel({
         		el: this.$el,
-        		model : new OSeaM.models.Vessel(),
+        		model : vessel,
         		collection : this.collection
         	});
         	this.modalDialog = view.render();
@@ -72,6 +76,7 @@ OSeaM.views.Vessels = OSeaM.View.extend({
     },
     // remove the view from being rendered
     onRemoveItem: function(model) {
+    	alert("remove");
     	// a vessel item is removed and the appropriate view is added and rendered
         var view = _(this._vesselviews).select(function(cv) { return cv.model === model; })[0];
         $(view.el).remove();
