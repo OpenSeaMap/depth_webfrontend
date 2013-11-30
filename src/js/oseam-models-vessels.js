@@ -17,11 +17,33 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
     parse: function(response) {
         for (var i = 0; i < response.length; i++) {
         	var responseObject = response[i];
+        	
+        	var newsbasoffset = new OSeaM.models.Offset();  
+        	var x = responseObject.sbasoffset;
+        	newsbasoffset.set('distanceFromStern', x['distanceFromStern']);
+        	newsbasoffset.set('distanceFromCenter', x['distanceFromCenter']);
+        	newsbasoffset.set('distanceWaterline', x['distanceWaterline']);
+
+        	var newdepthoffset = new OSeaM.models.Offset();  
+        	var y = responseObject.depthoffset;
+        	newdepthoffset.set('distanceFromStern', y['distanceFromStern']);
+        	newdepthoffset.set('distanceFromCenter', y['distanceFromCenter']);
+        	newdepthoffset.set('distanceWaterline', y['distanceWaterline']);
+        	
             this.add({
                 id       : responseObject.id,
                 name : responseObject.name,
                 description : responseObject.description,
-                manufacturer : responseObject.manufacturer
+                manufacturer : responseObject.manufacturer,
+                model : responseObject.model,
+                loa : responseObject.loa,
+                breadth : responseObject.breadth,
+                draft : responseObject.draft,
+                height : responseObject.height,
+                displacement : responseObject.displacement,
+                maximumspeed : responseObject.maximumspeed,
+                sbasoffset : newsbasoffset,
+                depthoffset : newdepthoffset
             });
         }
     }

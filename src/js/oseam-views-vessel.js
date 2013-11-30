@@ -155,7 +155,6 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         }
         else if(e.currentTarget.name.indexOf("depth_") == 0) {
         	var name = e.currentTarget.name.replace("depth_","");
-        	alert(name);
         	var depthOffset = this.model.get('depthoffset');
         	if(depthOffset == null) {
         		depthOffset = new OSeaM.models.Offset();
