@@ -141,7 +141,6 @@ OSeaM.views.Register = OSeaM.View.extend({
     onCreateFailure: function(jqXHR) {
         var template = OSeaM.loadTemplate('alert');
         var msg = '';
-        alert(jqXHR.status);
         if (jqXHR.status === 409) {
             this.markInvalid(this.fieldUsername, '9103:Username already exists.');
             this.fieldUsername.focus();
