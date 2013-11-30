@@ -33,7 +33,7 @@ OSeaM.models.Track = Backbone.Model.extend({
         containertrack   : null,
         license   : 'PDDL',
         progress   : null,
-        status     : null,
+        upload_state     : null,
         vesselconfigid : null
     },
     url: function() {
@@ -41,7 +41,7 @@ OSeaM.models.Track = Backbone.Model.extend({
     	return OSeaM.apiUrl + 'track';
     },
     getStatusText: function() {
-        switch (this.get('status')) {
+        switch (this.get('upload_state')) {
             case this.STATUS_STARTING_UPLOAD:
                 return '1038:Starting upload ...';
             case this.STATUS_REQUESTING_ID:
@@ -67,7 +67,7 @@ OSeaM.models.Track = Backbone.Model.extend({
         }
     },
     onReaderLoad: function(evt, file, id) {
-        this.set('status', this.STATUS_UPLOADING);
+        this.set('upload_state', this.STATUS_UPLOADING);
         var fd = new FormData();
         fd.append('track', file);
         fd.append('id' , id)

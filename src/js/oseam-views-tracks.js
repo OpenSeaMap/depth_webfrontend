@@ -61,8 +61,6 @@ OSeaM.views.Tracks = OSeaM.View
 				// alert('onFileSelected');
 				for ( var i = 0; i < evt.target.files.length; i++) {
 					// get vesselconfig from somewhere
-					this.candidateTrack.set("vesselconfigid", 94);
-					this.candidateTrack.set("license", 23);
 					this.candidateTrack.set({
 			            fileName : evt.target.files[i].name,
 			            status : this.STATUS_STARTING_UPLOAD
