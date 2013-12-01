@@ -44,7 +44,7 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 
 		this.progressIndicator.empty();
 		// alert(this.progressIndicator.toSource());
-		_.each(this.steps, _.bind(function(step) {
+		_.each(this.options.steps, _.bind(function(step) {
 //			var text = "(" + step.step_number + ") " + step.title + ">>> ";
 			switch (this.currentStep) {
 			case 0:
@@ -104,11 +104,11 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 
 	renderCurrentStep : function() {
 		// get current step
-		var currentStep = this.steps[this.currentStep];
+		var currentStep = this.options.steps[this.currentStep];
 		
 		if (!this.isFirstStep())
-			var prevStep = this.steps[this.currentStep - 1];
-		var nextStep = this.steps[this.currentStep + 1];
+			var prevStep = this.options.steps[this.currentStep - 1];
+		var nextStep = this.options.steps[this.currentStep + 1];
 //		alert(this.currentStep);
 		
 		this.title.html(currentStep.title);
@@ -142,7 +142,7 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 	},
 
 	isLastStep : function() {
-		return (this.currentStep == this.steps.length - 1);
+		return (this.currentStep == this.options.steps.length - 1);
 	},
 	onCancel : function(evt) {
 		this.remove();
