@@ -41,13 +41,13 @@ OSeaM.views.meta1 = OSeaM.View.extend({
 					//errors.push('1004:Email');
 				}
 
-				if (OSeaM.utils.Validation.confignames(this.model.get('name')) !== true) {
-					this
-							.markInvalid($('#name'),
-									'1102:The Configuration Name already exist, choose a new One');
-					//what is this for?
-					//errors.push('1004:Email');
-				}
+//				if (OSeaM.utils.Validation.confignames(this.model.get('name')) !== true) {
+//					this
+//							.markInvalid($('#name'),
+//									'1102:The Configuration Name already exist, choose a new One');
+//					//what is this for?
+//					//errors.push('1004:Email');
+//				}
 
 				/*
 				if (this.fieldPassword1.val() !== this.fieldPassword2.val()) {
