@@ -14,10 +14,6 @@
 OSeaM.views.Vessel = OSeaM.View.extend({
     sensorPositions:null,
     events: {
-        'click [name=echoSounderInFront]' : 'onEchoSounderInFront',
-        'click [name=echoSounderRightOf]' : 'onEchoSounderRightOf',
-        'change [name=distanceY]'         : 'onChangeDistanceY',
-        'change [name=distanceX]'         : 'onChangeDistanceX',
         'click #oseam-cancel'             : 'onCancel',
 		'click #close'             : 'onCancel',
         'click #oseam-save'               : 'onSave',
@@ -26,9 +22,9 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         'change input': 'modify',
         'change textarea': 'modify'
     },
+    initialize : function() {
+    },
     render: function() {
-		// initialize : {OSeaM.frontend.on('change:language', this.render, this);}
-	 
 //    	new OSeaM.views.Wizard();
 	//	var language = OSeaM.frontend.getLanguage();
 	//	var template = OSeaM.loadTemplate('vessel-' + language);
@@ -39,12 +35,8 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         var content = $(template(this.renderParams));
         OSeaM.frontend.translate(content);
         this.$el.append(content);
-		
-		 //this.addSensorPosition();
-		
         this.el = content;
         
-//        var vessel = new OSeaM.models.Vessel();
         var steps = [
                 {
                   step_number :       1,
@@ -64,46 +56,19 @@ OSeaM.views.Vessel = OSeaM.View.extend({
                 }
               ];
               
-        wizard = new OSeaM.views.Wizard({ 
+        this.wizard = new OSeaM.views.Wizard({ 
           model : this.model, 
           steps : steps 
         });
-        $("#current_step").html(wizard.render().el);
+        $("#current_step").html(this.wizard.render().el);
         
-       // this.addSensorPosition();
         return content;
     },
-	 addSensorPosition: function() {
-        this.sensorPositions = new OSeaM.views.SensorPositions({
-            el: this.el.find('.oseam-canvas')
-			//el: this.$el.find('.oseam-canvas')
-        });
-        this.sensorPositions.render();
-    },
-    onEchoSounderInFront: function(evt) {
-        if ($(evt.target).is(':checked') === true) {
-            this.sensorPositions.setTopDevice('gps');
-        } else {
-            this.sensorPositions.setTopDevice('echo');
-        }
-    },
-    onEchoSounderRightOf: function(evt) {
-        if ($(evt.target).is(':checked') === true) {
-            this.sensorPositions.setLeftDevice('gps');
-        } else {
-            this.sensorPositions.setLeftDevice('echo');
-        }
-    },
-    onChangeDistanceY: function(evt) {
-        var value = parseFloat($(evt.target).val()) * 100;
-        this.sensorPositions.setVerticalDistance(value);
-    },
-    onChangeDistanceX: function(evt) {
-        var value = parseFloat($(evt.target).val()) * 100;
-        this.sensorPositions.setHorizontalDistance(value);
-    },
     onCancel: function(evt) {
-        this.el.modal('hide');
+    	// removes the inserted dialog div and stops listening for events
+//        this.wizard.remove();
+        this.el.remove();
+        this.undelegateEvents();
     },
 	onSave : function(evt) {
         /*
@@ -123,14 +88,18 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         }
         /*
          * Hiding modal dialog window
+         * removes the inserted dialog div and stops listening for events
          */
-        this.remove();
+    	// 
+//        this.wizard.remove();
+        this.el.remove();
+        this.undelegateEvents();
     },
     nextStep: function() {
-    	wizard.nextStep();
+    	this.wizard.nextStep();
       },
     prevStep: function() {
-    	wizard.prevStep();
+    	this.wizard.prevStep();
       },
     /*
      * We listen to every change on forms input elements and as they have the same name as the model attribute we can easily update our model

@@ -19,7 +19,7 @@ OSeaM.views.gpspage = OSeaM.View.extend({
         var content = $(template({
         	gps_distanceFromStern : sbasoffset.get('distanceFromStern'),
         	gps_distanceFromCenter : sbasoffset.get('distanceFromCenter'),
-        	gps_distanceWaterline : sbasoffset.get('distanceFromStern')
+        	gps_distanceWaterline : sbasoffset.get('distanceWaterline')
 		}));
 
         OSeaM.frontend.translate(content);

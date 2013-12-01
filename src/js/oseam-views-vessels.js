@@ -47,9 +47,9 @@ OSeaM.views.Vessels = OSeaM.View.extend({
     },
     // listner for button push on adding new vessels. shows the dialog modal
     addNewVessel: function(evt) {
-        if (this.modalDialog) {
-    	    this.modalDialog.modal('show');
-        } else {
+//        if (this.modalDialog) {
+//    	    this.modalDialog.modal('show');
+//        } else {
         	var vessel = new OSeaM.models.Vessel();
         	vessel.sbasoffset = new OSeaM.models.Offset();
         	vessel.depthoffset = new OSeaM.models.Offset();
@@ -58,9 +58,9 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         		model : vessel,
         		collection : this.collection
         	});
-        	this.modalDialog = view.render();
-        	this.modalDialog.modal('show');
-        }
+        	view.render().modal('show');
+//        	this.modalDialog;
+//        }
     },
     // adds this item to the list views, if the model collection adds a vessel
     onAddItem: function(model) {

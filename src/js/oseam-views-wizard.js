@@ -40,7 +40,6 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 		this.renderCurrentStep();
 		return this;
 	},
-
 	renderProgressIndicator : function() {
 
 		this.progressIndicator.empty();
@@ -110,7 +109,8 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 		if (!this.isFirstStep())
 			var prevStep = this.options.steps[this.currentStep - 1];
 		var nextStep = this.options.steps[this.currentStep + 1];
-
+//		alert(this.currentStep);
+		
 		this.title.html(currentStep.title);
 		// this.instructions.html(currentStep.instructions);
 		this.currentView = currentStep.view;

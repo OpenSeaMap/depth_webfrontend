@@ -32,7 +32,7 @@ OSeaM.views.Vesselitem = OSeaM.View.extend({
         return this;
     },
     edit: function(model) {
-	    view = new OSeaM.views.Vessel({
+    	view = new OSeaM.views.Vessel({
 	        el: this.$el,
 	        model: this.model	
 	    });
