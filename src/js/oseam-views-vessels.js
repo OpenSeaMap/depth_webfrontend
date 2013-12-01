@@ -25,8 +25,8 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 	 // a vessel is added to the collection
      this.collection.on('add', this.onAddItem, this);
 	 // a vessel is added to the collection
-//     this.collection.on('remove', this.onRemoveItem, this);
-     this.collection.bind('remove', this.onRemoveItem);
+     this.collection.on('remove', this.onRemoveItem, this);
+//     this.collection.bind('remove', this.onRemoveItem);
 
      // stores the item views for this view
      this._vesselviews = []; 
