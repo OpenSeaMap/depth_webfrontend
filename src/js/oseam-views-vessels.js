@@ -76,7 +76,6 @@ OSeaM.views.Vessels = OSeaM.View.extend({
     },
     // remove the view from being rendered
     onRemoveItem: function(model) {
-    	alert("remove");
     	// a vessel item is removed and the appropriate view is added and rendered
         var view = _(this._vesselviews).select(function(cv) { return cv.model === model; })[0];
         $(view.el).remove();
