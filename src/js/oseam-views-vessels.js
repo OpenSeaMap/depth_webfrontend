@@ -25,7 +25,7 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 	 // a vessel is added to the collection
      this.collection.on('add', this.onAddItem, this);
 	 // a vessel is added to the collection
-     this.collection.on('remove', this.onRemoveItem, this);
+//     this.collection.on('remove', this.onRemoveItem, this);
 //     this.collection.bind('remove', this.onRemoveItem);
 
      // stores the item views for this view
@@ -73,12 +73,12 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 
         this.listEl.append(vesselview.render().el);
         return this;
-    },
-    // remove the view from being rendered
-    onRemoveItem: function(model) {
-    	// a vessel item is removed and the appropriate view is added and rendered
-        var view = _(this._vesselviews).select(function(cv) { return cv.model === model; })[0];
-        $(view.el).remove();
-        return this;
+//    },
+//    // remove the view from being rendered
+//    onRemoveItem: function(model) {
+//    	// a vessel item is removed and the appropriate view is added and rendered
+//        var view = _(this._vesselviews).select(function(cv) { return cv.model === model; })[0];
+//        $(view.el).remove();
+//        return this;
     }
 });

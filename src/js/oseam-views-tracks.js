@@ -23,7 +23,7 @@ OSeaM.views.Tracks = OSeaM.View
 			initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
 				// this.listenTo(this.collection, 'change', this.render);
-				this.listenTo(this.collection, 'remove', this.onRemoveItem);
+//				this.listenTo(this.collection, 'remove', this.onRemoveItem);
 				// this.listenTo(this.collection, 'reset', this.render);
 				OSeaM.frontend.on("change:language", this.render, this);
 
@@ -94,13 +94,13 @@ OSeaM.views.Tracks = OSeaM.View
 				this.listEl.append(view.render().el);
 				return this;
 			},
-		    // remove the view from being rendered
-		    onRemoveItem: function(model) {
-		    	// a vessel item is removed and the appropriate view is added and rendered
-		        var view = _(this._views).select(function(cv) { return cv.model === model; })[0];
-		        $(view.el).remove();
-		        return this;
-		    },
+//		    // remove the view from being rendered
+//		    onRemoveItem: function(model) {
+//		    	// a vessel item is removed and the appropriate view is added and rendered
+//		        var view = _(this._views).select(function(cv) { return cv.model === model; })[0];
+//		        $(view.el).remove();
+//		        return this;
+//		    },
 			onValidateMeta : function() {
 
 				this.removeAlerts();
