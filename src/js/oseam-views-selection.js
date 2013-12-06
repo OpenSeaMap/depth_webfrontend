@@ -11,24 +11,17 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.models.Vessel = Backbone.Model.extend({
-    defaults: {
-        id   : null,
-        name   : '',
-		description   : '',
-		mmsi : '',
-		manufacturer : '',
-		model : '',
-		loa : '',
-		breadth : '',
-		draft : '',
-		height : '',
-		displacement : '',
-		maximumspeed : '',
-		sbasoffset : new OSeaM.models.Offset(),
-		depthoffset : new OSeaM.models.Offset()
-    },
-    url: function() {
-    	return OSeaM.apiUrl + 'vesselconfig/' + this.get("id");
-    }
+OSeaM.views.Selection = OSeaM.View.extend({
+	initialize : function() {
+		_.bindAll(this, 'addOne', 'addAll');
+		this.listenTo(this.collection, 'add', this.addOne);
+	},
+	addOne : function(model) {
+		$(this.el).append(new OSeaM.views.SelectionItem({
+			model : model
+		}).render().el);
+	},
+	addAll : function() {
+		this.collection.each(this.addOne);
+	}
 });

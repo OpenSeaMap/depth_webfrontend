@@ -1,7 +1,7 @@
 // -------------------------------------------------------------------------------------------------
 // OpenSeaMap Water Depth - Web frontend for depth data handling.
 //
-// Written in 2012 by Dominik Fässler dfa@bezono.org
+// Written in 2013 by Dominik Fässler dfa@bezono.org
 //
 // To the extent possible under law, the author(s) have dedicated all copyright
 // and related and neighboring rights to this software to the public domain
@@ -11,25 +11,25 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.vesselpage = OSeaM.View.extend({
-    modalDialog:null,
+OSeaM.views.Gauge = OSeaM.View.extend({
+    tagName: 'tr',
+    events: {
+        'click .icon-trash' : 'onDelete'
+    },
+    initialize: function() {
+        this.model.on('change:id',       this.render,           this);
+    },
     render: function() {
-        var template = OSeaM.loadTemplate('vesselgeneric');
-        this.renderParams =  {
-        		loa   : this.model.get('loa'),
-        		breadth   : this.model.get('breadth'),
-        		draft   : this.model.get('draft'),
-        		displacement   : this.model.get('displacement'),
-        		height   : this.model.get('height'),
-        		manufacturer   : this.model.get('manufacturer'),
-        		model   : this.model.get('model')
-        };
-        var content = $(template(this.renderParams));
+        var template = OSeaM.loadTemplate('gauge');
+        var content = $(template({
+            id : this.model.get('id'),
+            name : this.model.get('name')
+        }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         return this;
     },
-    validate: function() {
-    	return true;
+    onDelete: function() {
+    	this.model.destroy();
     }
 });

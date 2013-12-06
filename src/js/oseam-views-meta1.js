@@ -11,47 +11,43 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.meta1 = OSeaM.View
-		.extend({
+OSeaM.views.meta1 = OSeaM.View.extend({
 			modalDialog : null,
 			render : function() {
-
 				var language = OSeaM.frontend.getLanguage();
 				var template = OSeaM.loadTemplate('meta1-' + language);
-
+	
 				var content = $(template({
-					configname : this.model.get('name'),
+					name : this.model.get('name'),
 					description : this.model.get('description')
 				}));
-				OSeaM.frontend.translate(content);
 				this.$el.html(content);
 				return this;
 			},
-
 			validate : function() {
 				this.removeAlerts();
 				var errors = [];
 				if (!this.model.get('name')) {
-					this.markInvalid($('#configname'),
+					this.markInvalid($('#name'),
 							'1100:Please enter a name');
 					//what is this for?
 					//errors.push('1004:Email');
 				}
 				if (OSeaM.utils.Validation.configname(this.model.get('name')) !== true) {
 					this
-							.markInvalid($('#configname'),
+							.markInvalid($('#name'),
 									'1101:Please do not use any special character (only 0-9 and A-Z)');
 					//what is this for?
 					//errors.push('1004:Email');
 				}
 
-				if (OSeaM.utils.Validation.confignames(this.model.get('name')) !== true) {
-					this
-							.markInvalid($('#configname'),
-									'1102:The Configuration Name already exist, choose a new One');
-					//what is this for?
-					//errors.push('1004:Email');
-				}
+//				if (OSeaM.utils.Validation.confignames(this.model.get('name')) !== true) {
+//					this
+//							.markInvalid($('#name'),
+//									'1102:The Configuration Name already exist, choose a new One');
+//					//what is this for?
+//					//errors.push('1004:Email');
+//				}
 
 				/*
 				if (this.fieldPassword1.val() !== this.fieldPassword2.val()) {
@@ -83,7 +79,8 @@ OSeaM.views.meta1 = OSeaM.View
 				    OSeaM.frontend.translate(content);
 				    this.$el.find('legend').after(content);
 				}*/
-				return this.isValid;
+//				return this.isValid;
+				return true;
 			},
 			markInvalid : function(field, text) {
 				field.parents('.control-group').addClass('error');

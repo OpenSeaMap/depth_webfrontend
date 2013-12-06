@@ -11,25 +11,15 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.vesselpage = OSeaM.View.extend({
-    modalDialog:null,
-    render: function() {
-        var template = OSeaM.loadTemplate('vesselgeneric');
-        this.renderParams =  {
-        		loa   : this.model.get('loa'),
-        		breadth   : this.model.get('breadth'),
-        		draft   : this.model.get('draft'),
-        		displacement   : this.model.get('displacement'),
-        		height   : this.model.get('height'),
-        		manufacturer   : this.model.get('manufacturer'),
-        		model   : this.model.get('model')
-        };
-        var content = $(template(this.renderParams));
-        OSeaM.frontend.translate(content);
-        this.$el.html(content);
+OSeaM.views.SelectionItem = OSeaM.View.extend({
+	tagName : "option",
+	initialize: function(){
+	      _.bindAll(this, 'render');
+	    },
+    render: function(){
+    	$(this.el).attr('value',
+          this.model.get('id')).html(this.model.get('name'));
         return this;
-    },
-    validate: function() {
-    	return true;
-    }
+      }
+
 });

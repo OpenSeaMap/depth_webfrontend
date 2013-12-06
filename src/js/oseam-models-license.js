@@ -11,24 +11,16 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.models.Vessel = Backbone.Model.extend({
+OSeaM.models.License = Backbone.Model.extend({
     defaults: {
-        id   : null,
-        name   : '',
-		description   : '',
-		mmsi : '',
-		manufacturer : '',
-		model : '',
-		loa : '',
-		breadth : '',
-		draft : '',
-		height : '',
-		displacement : '',
-		maximumspeed : '',
-		sbasoffset : new OSeaM.models.Offset(),
-		depthoffset : new OSeaM.models.Offset()
+        id   : null
+//        shortName   : '',
+//        name   : '',
+//		text   : '',
+//		publicLicense: ''
+		
     },
     url: function() {
-    	return OSeaM.apiUrl + 'vesselconfig/' + this.get("id");
+    	return OSeaM.apiUrl + 'license' ;
     }
 });

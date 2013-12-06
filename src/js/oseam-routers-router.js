@@ -74,7 +74,9 @@ OSeaM.routers.Router = Backbone.Router.extend({
         this.renderTopAndNavBar('tracks');
 //        if (this.checkAuthenticated() === true) {
             OSeaM.frontend.startView('Tracks', {
-                collection : OSeaM.frontend.getTracks()
+                collection : OSeaM.frontend.getTracks(),
+                vessels: OSeaM.frontend.getVessels(),
+                licenses: OSeaM.frontend.getLicenses()
             });
 //        }
     },
@@ -83,6 +85,14 @@ OSeaM.routers.Router = Backbone.Router.extend({
 //    	if (this.checkAuthenticated() === true) {
     	OSeaM.frontend.startView('Vessels', {
     			collection : OSeaM.frontend.getVessels()
+    			});
+//    	}
+    },
+    gauges: function() {
+    	this.renderTopAndNavBar('gauges');
+//    	if (this.checkAuthenticated() === true) {
+    	OSeaM.frontend.startView('Gauges', {
+    			collection : OSeaM.frontend.getGauges()
     			});
 //    	}
     },

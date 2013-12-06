@@ -12,7 +12,7 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Track = OSeaM.View.extend({
-    tagName: 'tr',
+    tagName: 'tr', // indicates a tr should wrap a single item
     events: {
         'click .icon-trash' : 'onDelete'
     },
@@ -31,6 +31,8 @@ OSeaM.views.Track = OSeaM.View.extend({
             compression   : this.model.get('compression'),
             containertrack   : this.model.get('containertrack'),
             license   : this.model.get('license'),
+            vesselconfigid : this.model.get('vesselconfigid'),
+            uploadDate : this.model.get('uploadDate'),
             status     : this.model.getStatusText()
         }));
         OSeaM.frontend.translate(content);

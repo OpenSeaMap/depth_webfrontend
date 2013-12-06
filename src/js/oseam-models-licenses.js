@@ -11,29 +11,17 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.models.Tracks = Backbone.Collection.extend({
-    model: OSeaM.models.Track,
-    url: OSeaM.apiUrl + 'track',
-    uploadFile: function(file) {
-	//alert('upload');
-        var track = new OSeaM.models.Track();
-        this.add(track);
-        track.uploadFile(file);
-    },
+OSeaM.models.Licenses = Backbone.Collection.extend({
+    model: OSeaM.models.License,
+    url: OSeaM.apiUrl + 'license',
     parse: function(response) {
         for (var i = 0; i < response.length; i++) {
         	var responseObject = response[i];
             this.add({
                 id       : responseObject.id,
-                fileName : responseObject.fileName,
-                fileType : responseObject.fileType,
-                compression : responseObject.compression,
-                upload_state   : responseObject.upload_state,
-                containertrack   : responseObject.containertrack,
-                license   : responseObject.license,
-                vesselconfigid : responseObject.vesselconfigid,
-                uploadDate : responseObject.uploadDate,
-                license   : responseObject.license
+                name : responseObject.name,
+                shortName : responseObject.shortName,
+                text : responseObject.text
             });
         }
     }
