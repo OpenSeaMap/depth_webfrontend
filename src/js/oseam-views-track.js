@@ -23,6 +23,7 @@ OSeaM.views.Track = OSeaM.View.extend({
     },
     render: function() {
         var template = OSeaM.loadTemplate('track');
+        var date = new Date(this.model.get('uploadDate'));
         var content = $(template({
             id         : this.model.get('id'),
             fileName   : this.model.get('fileName'),
@@ -32,7 +33,9 @@ OSeaM.views.Track = OSeaM.View.extend({
             containertrack   : this.model.get('containertrack'),
             license   : this.model.get('license'),
             vesselconfigid : this.model.get('vesselconfigid'),
-            uploadDate : this.model.get('uploadDate'),
+            uploadDate : date.getUTCFullYear() +"-"+
+            ("0" + (date.getMonth()+1)).slice(-2) +"-"+
+            ("0" + date.getDay()).slice(-2),
             status     : this.model.getStatusText()
         }));
         OSeaM.frontend.translate(content);

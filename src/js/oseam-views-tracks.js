@@ -133,11 +133,9 @@ OSeaM.views.Tracks = OSeaM.View
 			},
 
 			onChangeVesselConfigId : function() {
-				this.candidateTrack.set('vesselconfigid', $("#selection").val());
-				//alert(localStorage.getItem('configId'));
+				this.candidateTrack.set('vesselconfigid', $("#vesselselection").val());
 			},
 			onChangeLicenseConfigId : function() {
-				this.candidateTrack.set('license', $("#selection").val());
-				//alert(localStorage.getItem('configId'));
+				this.candidateTrack.set('license', $("#licenseselection").val());
 			}
 		});
