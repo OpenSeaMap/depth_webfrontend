@@ -25,7 +25,7 @@ OSeaM.views.Vessel = OSeaM.View.extend({
     initialize : function() {
     },
     render: function() {
-//    	new OSeaM.views.Wizard();
+    	new OSeaM.views.Wizard();
 	//	var language = OSeaM.frontend.getLanguage();
 	//	var template = OSeaM.loadTemplate('vessel-' + language);
         var template = OSeaM.loadTemplate('vessel');
