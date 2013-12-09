@@ -56,11 +56,11 @@ OSeaM.views.Vessel = OSeaM.View.extend({
                 }
               ];
               
-        this.wizard = new OSeaM.views.Wizard({ 
+        wizard = new OSeaM.views.Wizard({ 
           model : this.model, 
           steps : steps 
-        });
-        $("#current_step").html(this.wizard.render().el);
+        }); 
+        $("#current_step").html(wizard.render().el);
         
         return content;
     },
@@ -96,10 +96,10 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         this.undelegateEvents();
     },
     nextStep: function() {
-    	this.wizard.nextStep();
+    	wizard.nextStep();
       },
     prevStep: function() {
-    	this.wizard.prevStep();
+    	wizard.prevStep();
       },
     /*
      * We listen to every change on forms input elements and as they have the same name as the model attribute we can easily update our model
