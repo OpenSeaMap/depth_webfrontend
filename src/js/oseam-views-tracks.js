@@ -56,9 +56,11 @@ OSeaM.views.Tracks = OSeaM.View
 		        this.collection.forEach(this.onAddItem, this);
 				if(this.vessels.length > 0) {
 					this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : this.vessels});
+					$("#vesselselection option[value=" + localStorage.lastvessel + "]").attr("selected", "selected");
 				}
 				if(this.licenses) {
 					this.licenseviews = new OSeaM.views.Selection({el : $("#licenseselection"), collection : this.licenses});
+					$("#licenseselection option[value=" + localStorage.lastlicense + "]").attr("selected", "selected");
 				}
 			},
 
@@ -141,8 +143,10 @@ OSeaM.views.Tracks = OSeaM.View
 
 			onChangeVesselConfigId : function() {
 				this.candidateTrack.set('vesselconfigid', $("#vesselselection").val());
+				localStorage.lastvessel = $("#vesselselection").val();
 			},
 			onChangeLicenseConfigId : function() {
 				this.candidateTrack.set('license', $("#licenseselection").val());
+				localStorage.lastlicense = $("#licenseselection").val();
 			}
 		});
