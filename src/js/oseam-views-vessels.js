@@ -23,13 +23,16 @@ OSeaM.views.Vessels = OSeaM.View.extend({
     initialize: function() {
 	 OSeaM.frontend.on('change:language', this.render, this);
 	 // a vessel is added to the collection
+	 this.listenTo(this.collection, 'reset', this.render);
+
      this.collection.on('add', this.onAddItem, this);
 	 // a vessel is added to the collection
-//     this.collection.on('remove', this.onRemoveItem, this);
+     this.collection.on('remove', this.onRemoveItem, this);
 //     this.collection.bind('remove', this.onRemoveItem);
 
      // stores the item views for this view
      this._vesselviews = []; 
+     this.collection.fetch();
 
     },
     // translates the page and attaches listener for added vessels
@@ -37,30 +40,25 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         var language = OSeaM.frontend.getLanguage();
         var template = OSeaM.loadTemplate('vessels-' + language);
         var content = $(template());
+        this._vesselviews = []; 
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         this.listEl = this.$el.find('tbody');
         
         this.collection.forEach(this.onAddItem, this);
-        this.collection.fetch();
         return this;
     },
     // listner for button push on adding new vessels. shows the dialog modal
     addNewVessel: function(evt) {
-//        if (this.modalDialog) {
-//    	    this.modalDialog.modal('show');
-//        } else {
-        	var vessel = new OSeaM.models.Vessel();
-        	vessel.sbasoffset = new OSeaM.models.Offset();
-        	vessel.depthoffset = new OSeaM.models.Offset();
-        	view = new OSeaM.views.Vessel({
-        		el: this.$el,
-        		model : vessel,
-        		collection : this.collection
-        	});
-        	view.render().modal('show');
-//        	this.modalDialog;
-//        }
+    	var vessel = new OSeaM.models.Vessel();
+    	vessel.sbasoffset = new OSeaM.models.Offset();
+    	vessel.depthoffset = new OSeaM.models.Offset();
+    	view = new OSeaM.views.Vessel({
+    		el: this.$el,
+    		model : vessel,
+    		collection : this.collection
+    	});
+    	view.render().modal('show');
     },
     // adds this item to the list views, if the model collection adds a vessel
     onAddItem: function(model) {
@@ -73,12 +71,13 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 
         this.listEl.append(vesselview.render().el);
         return this;
-//    },
+    },
 //    // remove the view from being rendered
-//    onRemoveItem: function(model) {
-//    	// a vessel item is removed and the appropriate view is added and rendered
-//        var view = _(this._vesselviews).select(function(cv) { return cv.model === model; })[0];
-//        $(view.el).remove();
-//        return this;
+    onRemoveItem: function(model) {
+    	// a vessel item is removed and the appropriate view is added and rendered
+        var view = _(this._vesselviews).select(function(cv) { 
+        	return cv.model === model; })[0];
+        $(view.el).remove();
+        return this;
     }
 });
