@@ -45,6 +45,7 @@ OSeaM.models.Track = Backbone.Model.extend({
 ////    	return OSeaM.apiUrl + 'track';
 //    },
     getStatusText: function() {
+    	console.log('status' + this.get('upload_state'))
         switch (this.get('upload_state')) {
             case this.STATUS_STARTING_UPLOAD:
                 return '1038:Starting upload ...';
@@ -91,17 +92,20 @@ OSeaM.models.Track = Backbone.Model.extend({
         xmlRequest.send(fd);
     },
     onReaderProgress:function(evt) {
+    	console.log("progress" + this.get('progress'));
         if (evt.lengthComputable) {
             var percentComplete = Math.round(evt.loaded / evt.total * 100);
             this.set('progress', percentComplete);
         }
     },
     onUploadDone:function(request, evt) {
+    	console.log("uploadDone" + this.get('upload_state'));
         if (request.status == 200) {
             this.set({
-                status : this.STATUS_UPLOADED,
+            	upload_state : this.STATUS_UPLOADED,
                 progress : null
             });
         }
+    	console.log("uploadDone" + this.get('upload_state'));
     }
 });

@@ -21,28 +21,23 @@ OSeaM.views.Tracks = OSeaM.View
 				'change .vesselId' : 'onChangeVesselConfigId'
 			},
 			initialize : function() {
-//				this.listenTo(this.collection, 'add', this.onAddItem);
-//				this.collection.on('all', function() {
-//					self.render();
-//				});
+				this.listenTo(this.collection, 'add', this.onAddItem);
 				 this.listenTo(this.collection, 'reset', this.render);
-				this.listenTo(this.collection, 'remove', this.onRemoveItem);
-				// this.listenTo(this.collection, 'reset', this.render);
 				OSeaM.frontend.on("change:language", this.render, this);
    		        // stores the item views for this view
 				this._views = [];
 				this.candidateTrack = new OSeaM.models.Track();
 
-		       // for Backbone < 1.0
-//		       this.collection.on("reset", this.render, this);
-//		       this.collection.on("add", this.onAddItem, this);
-//   			   this.collection.forEach(this.onAddItem, this);
 		       var that = this;
 		       this.collection.fetch();
-		       this.vessels = OSeaM.frontend.getVessels();
+				this.listenTo(this.collection, 'remove', this.onRemoveItem);
+
+				this.vessels = new OSeaM.models.Vessels();
+		       this.listenTo(this.vessels, 'reset', this.render);
 		       this.vessels.fetch();
 		       
-			   this.licenses = OSeaM.frontend.getLicenses()
+			   this.licenses = new OSeaM.models.Licenses();
+			   this.listenTo(this.licenses, 'reset', this.render);
 			   this.licenses.fetch();
 			},
 			render : function() {
@@ -56,12 +51,15 @@ OSeaM.views.Tracks = OSeaM.View
 				OSeaM.frontend.translate(content);
 				this.$el.html(content);
 				this.listEl = this.$el.find('tbody');
-				
-		        this.collection.forEach(this.onAddItem, this);
+				this._views = [];
 
-				console.log(this.collection.toJSON() );
-				this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : this.vessels});
-				this.licenseviews = new OSeaM.views.Selection({el : $("#licenseselection"), collection : this.licenses});
+		        this.collection.forEach(this.onAddItem, this);
+				if(this.vessels.length > 0) {
+					this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : this.vessels});
+				}
+				if(this.licenses) {
+					this.licenseviews = new OSeaM.views.Selection({el : $("#licenseselection"), collection : this.licenses});
+				}
 			},
 
 			onFileSelected : function(evt) {
@@ -72,26 +70,24 @@ OSeaM.views.Tracks = OSeaM.View
 					newTrack.set({
 			            fileName : evt.target.files[i].name,
 			            status : this.STATUS_STARTING_UPLOAD,
-			            license : this.candidateTrack.license,
-			            vesselconfigid : this.candidateTrack.vesselconfigid
+			            license : this.candidateTrack.get('license'),
+			            vesselconfigid : this.candidateTrack.get('vesselconfigid')
 			        });
 					this.collection.add(newTrack); 
 
 					// issue a post request
 					var jqXHR = newTrack.save({}, {
 						// TODO: do something with the error
-						error: function(candidateTrack, xhr, options) {
-							this.collection.remove(candidateTrack);
+						error: function(newTrack, xhr, options) {
+							this.collection.remove(newTrack);
 					        console.log(xhr);            
 					    },
 					    // on success start the progress of upload
-					    success: function(candidateTrack, response, options) {
-					    	candidateTrack.onReaderLoad(null, evt.target.files[i], candidateTrack.id);
+					    success: function(newTrack, response, options) {
+					    	newTrack.onReaderLoad(null, evt.target.files[i], newTrack.id);
 					    }
 					});
 				}
-				// free next new track
-				this.candidateTrack = new OSeaM.models.Track();
 			},
 			onAddItem : function(model) {
 				// alert('additem');
@@ -107,7 +103,8 @@ OSeaM.views.Tracks = OSeaM.View
 //		    // remove the view from being rendered
 		    onRemoveItem: function(model) {
 		    	// a vessel item is removed and the appropriate view is added and rendered
-		        var view = _(this._views).select(function(cv) { return cv.model === model; })[0];
+		        var view = _(this._views).select(function(cv) { 
+		        	return cv.model === model; })[0];
 		        $(view.el).remove();
 		        return this;
 		    },

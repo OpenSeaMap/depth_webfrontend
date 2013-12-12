@@ -15,6 +15,7 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
     model: OSeaM.models.Vessel,
     url: OSeaM.apiUrl + 'vesselconfig',
     parse: function(response) {
+    	var vessels = new Array();
         for (var i = 0; i < response.length; i++) {
         	var responseObject = response[i];
         	
@@ -30,7 +31,7 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
         	newdepthoffset.set('distanceFromCenter', y['distanceFromCenter']);
         	newdepthoffset.set('distanceWaterline', y['distanceWaterline']);
         	
-            this.add({
+        	var vessel = new OSeaM.models.Vessel({
                 id       : responseObject.id,
                 name : responseObject.name,
                 description : responseObject.description,
@@ -45,6 +46,8 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
                 sbasoffset : newsbasoffset,
                 depthoffset : newdepthoffset
             });
+        	vessels[i] = vessel;
         }
+    	return vessels;
     }
 });

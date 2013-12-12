@@ -15,14 +15,17 @@ OSeaM.models.Licenses = Backbone.Collection.extend({
     model: OSeaM.models.License,
     url: OSeaM.apiUrl + 'license',
     parse: function(response) {
+    	var licenses = new Array();
         for (var i = 0; i < response.length; i++) {
         	var responseObject = response[i];
-            this.add({
+        	var license = new OSeaM.models.License({
                 id       : responseObject.id,
                 name : responseObject.name,
                 shortName : responseObject.shortName,
                 text : responseObject.text
             });
+        	licenses[i] = license;
         }
+        return licenses;
     }
 });

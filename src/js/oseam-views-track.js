@@ -18,12 +18,13 @@ OSeaM.views.Track = OSeaM.View.extend({
     },
     initialize: function() {
         this.listenTo(this.model, 'change:id',       this.render);
-        this.listenTo(this.model, 'change:status',   this.render);
+        this.listenTo(this.model, 'change:upload_state',   this.render);
         this.listenTo(this.model, 'change:progress', this.onProgressChange);
     },
     render: function() {
         var template = OSeaM.loadTemplate('track');
         var date = new Date(this.model.get('uploadDate'));
+        console.log("render" + this.model.get('id'));
         var content = $(template({
             id         : this.model.get('id'),
             fileName   : this.model.get('fileName'),
@@ -47,6 +48,8 @@ OSeaM.views.Track = OSeaM.View.extend({
         this.barEl.css('width', progress + '%');
     },
     onDelete: function() {
-    	this.model.destroy();
+    	if(confirm('Do you really want to delete that track ?')) {
+    		this.model.destroy();
+    	}
     }
 });
