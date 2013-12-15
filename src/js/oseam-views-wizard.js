@@ -2,22 +2,11 @@
 // this is a wizard configured with wizard pages and a model
 // it has a container that is used to render content
 OSeaM.views.Wizard = OSeaM.View.extend({
-
-	events : {
-		// is in views-vessel ! delete?
-		'click #next_step_button' : 'nextStep',
-		'click #prev_step_button' : 'prevStep',
-        'click #oseam-cancel'             : 'onCancel',
-		'click #close'             : 'onCancel',
-        'change input': 'modify'
-	},
-
 	initialize : function() {
 		OSeaM.frontend.on('change:language', this.render, this);
 		_.bindAll(this, 'render');
 		this.currentStep = 0;
 	},
-
 	render : function() {
 		var template = OSeaM.loadTemplate('wizard');
         // show the name of vesselconfig in headline
@@ -102,6 +91,8 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 		}, this));
 	},
 
+
+	
 	renderCurrentStep : function() {
 		// get current step
 		var currentStep = this.options.steps[this.currentStep];
@@ -120,7 +111,16 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 
 	},
 	nextStep : function() {
+	
+	
+	
+	//alert('next step aus wizzard');
+	var currentStep = this.options.steps[this.currentStep];
+	this.currentView = currentStep.view;
+	//alert('next wizzrad');
+	
 		if (this.currentView.validate()) {
+	
 			if (!this.isLastStep()) {
 				this.currentView.validate();
 				this.currentStep += 1;
@@ -146,16 +146,16 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 	},
 	onCancel : function(evt) {
 		this.remove();
-	},
+	}
     /*
      * We listen to every change on forms input elements and as they have the same name as the model attribute we can easily update our model
      */
-    modify: function(e) {
+/*    modify: function(e) {
+	
+		 alert('modify');
+	
         var attribute = {};
-        /*
-         * We'll fetch name and value from element that triggered "change" event
-         */
-//    	alert(e.currentTarget.name);
+
         if(e.currentTarget.name.indexOf("gps_") == 0) {
         	var name = e.currentTarget.name.replace("gps_","");
         	var sbasOffset = this.model.get('sbasoffset');
@@ -179,6 +179,6 @@ OSeaM.views.Wizard = OSeaM.View.extend({
         	attribute[e.currentTarget.name] = e.currentTarget.value;
         	this.model.set(attribute);
         }
-    }
+    }*/
 
 });

@@ -71,47 +71,48 @@ OSeaM.views.Vessel = OSeaM.View.extend({
         this.undelegateEvents();
     },
 	onSave : function(evt) {
-        /*
-         * If this is new project it won't have the ID attribute defined
-         */
-        if (null == this.model.id) {
-            /*
-             * We are creating our model through its collection (this way we'll automatically update its views and persist it to DB)
-             */
-        	this.model.save();
-        	this.collection.add(this.model);
-        } else {
-            /*
-             * Simple save will persist the model to the DB and update its view
-             */
-            this.model.save();
-        }
-        /*
-         * Hiding modal dialog window
-         * removes the inserted dialog div and stops listening for events
-         */
-    	// 
-//        this.wizard.remove();
-        this.el.remove();
-        this.undelegateEvents();
+		// true this is valid , go on and save the vessel conf
+		if (wizard.currentView.validate()) {
+	        /*
+	         * If this is new project it won't have the ID attribute defined
+	         */
+	        if (null == this.model.id) {
+	            /*
+	             * We are creating our model through its collection (this way we'll automatically update its views and persist it to DB)
+	             */
+	        	this.model.save();
+	        	this.collection.add(this.model);
+	        } else {
+	            /*
+	             * Simple save will persist the model to the DB and update its view
+	             */
+	            this.model.save();
+	        }
+	        /*
+	         * Hiding modal dialog window
+	         * removes the inserted dialog div and stops listening for events
+	         */
+	    	// 
+	//        this.wizard.remove();
+	        this.el.remove();
+	        this.undelegateEvents();
+		} else {
+			// false not valid 
+		}
     },
     nextStep: function() {
-    	wizard.nextStep();
-      },
+		// need a function to save the model when nextStep is clicked	
+	 	wizard.nextStep();
+    },
     prevStep: function() {
     	wizard.prevStep();
-      },
-    /*
-     * We listen to every change on forms input elements and as they have the same name as the model attribute we can easily update our model
-     */
-    modify: function(e) {
+	},
+	/*
+	 * We listen to every change on forms input elements and as they have the same name as the model attribute we can easily update our model
+	 */
+	modify: function(e) {
         var attribute = {};
-//    	alert(e.currentTarget.name + ":" +e.currentTarget.value);
 
-        /*
-         * We'll fetch name and value from element that triggered "change" event
-         */
-//    	alert(e.currentTarget.name);
         if(e.currentTarget.name.indexOf("gps_") == 0) {
         	var name = e.currentTarget.name.replace("gps_","");
         	var sbasOffset = this.model.get('sbasoffset');
@@ -132,11 +133,9 @@ OSeaM.views.Vessel = OSeaM.View.extend({
             depthOffset.set(attribute)
             this.model.set('depthoffset', depthOffset);
         } else {
-        	attribute[e.currentTarget.name] = e.currentTarget.value;
+			attribute[e.currentTarget.name] = e.currentTarget.value;
         	this.model.set(attribute);
         }
         
-    }
-
-	 
+    }	 
 });

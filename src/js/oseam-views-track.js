@@ -16,24 +16,46 @@ OSeaM.views.Track = OSeaM.View.extend({
     events: {
         'click .icon-trash' : 'onDelete'
     },
-    initialize: function() {
+    initialize: function(options) {
         this.listenTo(this.model, 'change:id',       this.render);
         this.listenTo(this.model, 'change:upload_state',   this.render);
         this.listenTo(this.model, 'change:progress', this.onProgressChange);
+        this.licenses = options.licenses;
+        this.vessels = options.vessels;
     },
     render: function() {
         var template = OSeaM.loadTemplate('track');
         var date = new Date(this.model.get('uploadDate'));
-        console.log("render" + this.model.get('id'));
+        var fileTypeOrig = "undefined";
+        var serverFileType = this.model.get('fileType');
+        if(!!serverFileType) {
+        	fileTypeOrig = serverFileType.replace("/", "_");
+        }
+        var licenseName = "-";
+        if(!!this.licenses) {
+        	var licenseId = this.model.get('license')
+        	var license = this.licenses.get(licenseId);
+        	if((license)) {
+        		licenseName = license.get('shortName'); 
+        	} 
+        }
+        var vesselName = "?";
+        if(!!this.vessels) {
+        	var vesselId = this.model.get('vesselconfigid')
+        	var vessel = this.vessels.get(vesselId);
+        	if((vessel)) {
+        		vesselName = vessel.get('name'); 
+        	} 
+        }
         var content = $(template({
             id         : this.model.get('id'),
             fileName   : this.model.get('fileName'),
             progress   : this.model.get('progress'),
-            fileType   : this.model.get('fileType'),
+            fileType   : fileTypeOrig,
             compression   : this.model.get('compression'),
             containertrack   : this.model.get('containertrack'),
-            license   : this.model.get('license'),
-            vesselconfigid : this.model.get('vesselconfigid'),
+            license   : licenseName, //license.get('name'),
+            vesselconfigid : vesselName,
             uploadDate : date.getUTCFullYear() +"-"+
             ("0" + (date.getMonth()+1)).slice(-2) +"-"+
             ("0" + date.getDay()).slice(-2),

@@ -29,16 +29,16 @@ OSeaM.views.Tracks = OSeaM.View
 				this.candidateTrack = new OSeaM.models.Track();
 
 		       var that = this;
-		       this.collection.fetch();
+		       this.collection.fetch({wait:true});
 				this.listenTo(this.collection, 'remove', this.onRemoveItem);
 
 				this.vessels = new OSeaM.models.Vessels();
 		       this.listenTo(this.vessels, 'reset', this.render);
-		       this.vessels.fetch();
+		       this.vessels.fetch({wait:true});
 		       
 			   this.licenses = new OSeaM.models.Licenses();
 			   this.listenTo(this.licenses, 'reset', this.render);
-			   this.licenses.fetch();
+			   this.licenses.fetch({wait:true});
 			},
 			render : function() {
 				var wait = '';
@@ -57,15 +57,22 @@ OSeaM.views.Tracks = OSeaM.View
 				if(this.vessels.length > 0) {
 					this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : this.vessels});
 					$("#vesselselection option[value=" + localStorage.lastvessel + "]").attr("selected", "selected");
+					this.candidateTrack.set('vesselconfigid', localStorage.lastvessel);
+
 				}
 				if(this.licenses) {
 					this.licenseviews = new OSeaM.views.Selection({el : $("#licenseselection"), collection : this.licenses});
 					$("#licenseselection option[value=" + localStorage.lastlicense + "]").attr("selected", "selected");
+					this.candidateTrack.set('license', localStorage.lastlicense);
 				}
 			},
 
 			onFileSelected : function(evt) {
-				// alert('onFileSelected');
+				if(typeof this.candidateTrack.get('vesselconfigid') === "undefined" || typeof  this.candidateTrack.get('license') === "undefined") {
+					alert('You have to select a vessel configuration and a license in order to upload tracks');
+					return;
+				}
+//				 alert('onFileSelected');
 				for ( var i = 0; i < evt.target.files.length; i++) {
 					var newTrack = new OSeaM.models.Track()
 					// get vesselconfig from somewhere
@@ -94,7 +101,9 @@ OSeaM.views.Tracks = OSeaM.View
 			onAddItem : function(model) {
 				// alert('additem');
 				var view = new OSeaM.views.Track({
-					model : model
+					model : model,
+					vessels : this.vessels,
+					licenses : this.licenses
 				});
 		        // Adding project item view to the list
 		        this._views.push(view);

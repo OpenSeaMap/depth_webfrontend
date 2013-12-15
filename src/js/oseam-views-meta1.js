@@ -25,9 +25,21 @@ OSeaM.views.meta1 = OSeaM.View.extend({
 				return this;
 			},
 			validate : function() {
+			
+			
 				this.removeAlerts();
 				var errors = [];
+				
+				console.log('meta1 '+this.model.get('name'));
+				// get the names in the model 
+				//alert(this.collection.toSource());
+				//alert(this.model.toSource());
+				//alert(vessel.getCollection());
+				
+				
+				// a name is required 
 				if (!this.model.get('name')) {
+								
 					this.markInvalid($('#name'),
 							'1100:Please enter a name');
 					//what is this for?
@@ -79,8 +91,10 @@ OSeaM.views.meta1 = OSeaM.View.extend({
 				    OSeaM.frontend.translate(content);
 				    this.$el.find('legend').after(content);
 				}*/
-//				return this.isValid;
-				return true;
+				
+				console.log('this.isvalid= '+this.isValid);
+				return this.isValid;
+				//return true;
 			},
 			markInvalid : function(field, text) {
 				field.parents('.control-group').addClass('error');

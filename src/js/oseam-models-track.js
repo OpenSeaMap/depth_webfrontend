@@ -34,7 +34,8 @@ OSeaM.models.Track = Backbone.Model.extend({
         license   : 'PDDL',
         progress   : null,
         upload_state     : null,
-        vesselconfigid : null
+        vesselconfigid : null,
+        uploadDate : new Date()
     },
     urlRoot: function() {
 //    	return OSeaM.apiUrl + 'track/' + this.get("id");
@@ -45,7 +46,6 @@ OSeaM.models.Track = Backbone.Model.extend({
 ////    	return OSeaM.apiUrl + 'track';
 //    },
     getStatusText: function() {
-    	console.log('status' + this.get('upload_state'))
         switch (this.get('upload_state')) {
             case this.STATUS_STARTING_UPLOAD:
                 return '1038:Starting upload ...';

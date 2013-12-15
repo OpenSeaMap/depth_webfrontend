@@ -29,7 +29,48 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
         this.$el.html(content);
         return this;
     },
-    validate: function() {
-    	return true;
+    
+	    validate: function() {
+
+	  this.removeAlerts();
+        var errors = [];
+        		
+		if (OSeaM.utils.Validation.loa(this.model.get('loa')) !== true){
+			this.markInvalid($('#loa'), '1103:Please enter a decimal (e.g. 5.5)');
+            }
+			
+		if (OSeaM.utils.Validation.breadth(this.model.get('breadth')) !== true){
+			this.markInvalid($('#breadth'), '1103:Please enter a decimal (e.g. 5.5)');
+                    }
+		if (OSeaM.utils.Validation.draft(this.model.get('draft')) !== true){
+			this.markInvalid($('#draft'), '1103:Please enter a decimal (e.g. 5.5)');
+            }
+				if (OSeaM.utils.Validation.displacement(this.model.get('displacement')) !== true){
+			this.markInvalid($('#displacement'), '1103:Please enter a decimal (e.g. 5.5)');
+            }
+		if (OSeaM.utils.Validation.height(this.model.get('height')) !== true){
+			this.markInvalid($('#height'), '1103:Please enter a decimal (e.g. 5.5)');
+            }			
+					
+				
+        return this.isValid;
+    	
+    },
+	    markInvalid: function(field, text) {
+        field.parents('.control-group').addClass('error');
+				
+		  field.nextAll('.help-inline').attr('data-trt', text);
+		  
+		// alles wird markliert
+		//this.$el.find('.help-inline').attr('data-trt', text);  
+        OSeaM.frontend.translate(this.$el);
+        this.isValid = false;
+    },
+    removeAlerts: function() {
+        this.$el.find('.alert').remove();
+        this.$el.find('.control-group').removeClass('error');
+        this.$el.find('.help-inline').removeAttr('data-trt');
+        this.$el.find('.help-inline').html('');
+        this.isValid = true;
     }
 });

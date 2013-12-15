@@ -1,4 +1,4 @@
-// -------------------------------------------------------------------------------------------------
+ // -------------------------------------------------------------------------------------------------
 // OpenSeaMap Water Depth - Web frontend for depth data handling.
 //
 // Written in 2012 by Dominik Fässler dfa@bezono.org
@@ -32,7 +32,14 @@ OSeaM.utils.Validation = {
 	
 	},
 	
-			vesselLength: function(value) {
+			loa: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+	
+				depth_distanceFromStern: function(value) {
 	// test for decimal
 		var reg = /^\d*\.?\d*$/;
         return reg.test(value);
@@ -50,12 +57,33 @@ OSeaM.utils.Validation = {
         return reg.test(value);
 	
 	},
-	vesselWidth: function(value) {
+	breadth: function(value) {
 	// test for decimal
 		var reg = /^\d*\.?\d*$/;
         return reg.test(value);
 	
 	},
+		draft: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+	
+	displacement: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+	
+	height: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+	
 			slidingspeed: function(value) {
 	// test for decimal
 		var reg = /^\d*\.?\d*$/;
