@@ -21,6 +21,6 @@ OSeaM.models.License = Backbone.Model.extend({
 		
     },
     url: function() {
-    	return OSeaM.apiUrl + 'license' ;
+    	return OSeaM.apiUrl + 'license/' + this.get("id") ;
     }
 });

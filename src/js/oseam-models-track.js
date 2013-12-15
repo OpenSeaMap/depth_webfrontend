@@ -34,12 +34,17 @@ OSeaM.models.Track = Backbone.Model.extend({
         license   : 'PDDL',
         progress   : null,
         upload_state     : null,
-        vesselconfigid : null
+        vesselconfigid : null,
+        uploadDate : new Date()
     },
-    url: function() {
-    	return OSeaM.apiUrl + 'track/' + this.get("id");
-//    	return OSeaM.apiUrl + 'track';
+    urlRoot: function() {
+//    	return OSeaM.apiUrl + 'track/' + this.get("id");
+    	return OSeaM.apiUrl + 'track';
     },
+//    url: function() {
+//    	return OSeaM.apiUrl + 'track/' + this.get("id");
+////    	return OSeaM.apiUrl + 'track';
+//    },
     getStatusText: function() {
         switch (this.get('upload_state')) {
             case this.STATUS_STARTING_UPLOAD:
@@ -87,17 +92,20 @@ OSeaM.models.Track = Backbone.Model.extend({
         xmlRequest.send(fd);
     },
     onReaderProgress:function(evt) {
+    	console.log("progress" + this.get('progress'));
         if (evt.lengthComputable) {
             var percentComplete = Math.round(evt.loaded / evt.total * 100);
             this.set('progress', percentComplete);
         }
     },
     onUploadDone:function(request, evt) {
+    	console.log("uploadDone" + this.get('upload_state'));
         if (request.status == 200) {
             this.set({
-                status : this.STATUS_UPLOADED,
+            	upload_state : this.STATUS_UPLOADED,
                 progress : null
             });
         }
+    	console.log("uploadDone" + this.get('upload_state'));
     }
 });

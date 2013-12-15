@@ -14,7 +14,9 @@
 OSeaM.views.Selection = OSeaM.View.extend({
 	initialize : function() {
 		_.bindAll(this, 'addOne', 'addAll');
+		this.addAll();
 		this.listenTo(this.collection, 'add', this.addOne);
+		
 	},
 	addOne : function(model) {
 		$(this.el).append(new OSeaM.views.SelectionItem({
