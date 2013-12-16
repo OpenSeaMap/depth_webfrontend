@@ -83,7 +83,9 @@ OSeaM.views.Tracks = OSeaM.View
 			            vesselconfigid : this.candidateTrack.get('vesselconfigid')
 			        });
 					this.collection.add(newTrack); 
-
+					var fn = function(evt) {
+						newTrack.onReaderLoad(evt, evt.target.files[i], newTrack.id);
+					}
 					// issue a post request
 					var jqXHR = newTrack.save({}, {
 						// TODO: do something with the error
@@ -92,9 +94,7 @@ OSeaM.views.Tracks = OSeaM.View
 					        console.log(xhr);            
 					    },
 					    // on success start the progress of upload
-					    success: function(newTrack, response, options) {
-					    	newTrack.onReaderLoad(null, evt.target.files[i], newTrack.id);
-					    }
+					    success: jQuery.proxy(fn,this)
 					});
 				}
 			},
