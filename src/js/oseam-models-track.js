@@ -92,20 +92,60 @@ OSeaM.models.Track = Backbone.Model.extend({
         xmlRequest.send(fd);
     },
     onReaderProgress:function(evt) {
-    	console.log("progress" + this.get('progress'));
         if (evt.lengthComputable) {
             var percentComplete = Math.round(evt.loaded / evt.total * 100);
             this.set('progress', percentComplete);
         }
     },
+    uploadFile: function(file) {
+        this.set({
+            fileName : file.name,
+            status   : this.STATUS_STARTING_UPLOAD
+        });
+        this.requestNewId(file);
+    },
+    requestNewId: function(file) {
+        this.set('status', this.STATUS_REQUESTING_ID);
+        var fn = function(data) {
+            this.onNewId(file, data);
+        };
+//		// issue a post request
+		var jqXHR = this.save({}, {
+			// TODO: do something with the error
+			error: function(newTrack, xhr, options) {
+				this.collection.remove(newTrack);
+		        console.log(xhr);            
+		    },
+		    // on success start the progress of upload
+            success: jQuery.proxy(fn, this)
+		});
+
+//        jQuery.ajax({
+//            type: 'POST',
+//            url: OSeaM.apiUrl + 'track',
+//            contentType: "application/json",
+//            dataType: 'json',
+//            xhrFields: {
+//                withCredentials: true
+//            },
+//            success: jQuery.proxy(fn, this)
+//        });
+    },
+    onNewId: function(file, data) {
+        this.set({
+            id       : data.id,
+            progress : 1
+        });
+        this.onReaderLoad(null, file, data.id);
+    },
     onUploadDone:function(request, evt) {
-    	console.log("uploadDone" + this.get('upload_state'));
+//    	console.log("uploadDone" + this.get('upload_state'));
         if (request.status == 200) {
             this.set({
             	upload_state : this.STATUS_UPLOADED,
                 progress : null
             });
         }
-    	console.log("uploadDone" + this.get('upload_state'));
+//    	console.log("uploadDone" + this.get('upload_state'));
     }
 });

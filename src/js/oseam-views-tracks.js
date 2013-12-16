@@ -66,7 +66,6 @@ OSeaM.views.Tracks = OSeaM.View
 					this.candidateTrack.set('license', localStorage.lastlicense);
 				}
 			},
-
 			onFileSelected : function(evt) {
 				if(typeof this.candidateTrack.get('vesselconfigid') === "undefined" || typeof  this.candidateTrack.get('license') === "undefined") {
 					alert('You have to select a vessel configuration and a license in order to upload tracks');
@@ -83,8 +82,8 @@ OSeaM.views.Tracks = OSeaM.View
 			            vesselconfigid : this.candidateTrack.get('vesselconfigid')
 			        });
 					this.collection.add(newTrack); 
-					var fn = function(evt) {
-						newTrack.onReaderLoad(evt, evt.target.files[i], newTrack.id);
+					var fn = function(track, evt) {
+						newTrack.onReaderLoad(evt, track, newTrack.id);
 					}
 					// issue a post request
 					var jqXHR = newTrack.save({}, {
@@ -94,7 +93,7 @@ OSeaM.views.Tracks = OSeaM.View
 					        console.log(xhr);            
 					    },
 					    // on success start the progress of upload
-					    success: jQuery.proxy(fn,this)
+					    success: jQuery.proxy(fn,this, evt.target.files[i])
 					});
 				}
 			},
