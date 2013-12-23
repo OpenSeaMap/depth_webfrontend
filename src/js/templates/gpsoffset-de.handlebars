@@ -1,0 +1,44 @@
+<div>
+    <div class="span8">
+        <h3>GPS/GLONASS</h3>
+        <h4>Verbessern Sie die Datenqualität durch detailierte Angaben der GPS/GLONASS Position</h4>
+        
+			 <div class="control-group">
+		<p><label class="tableft50">Distanz zum Heck</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="gps_distanceFromStern" name="gps_distanceFromStern" placeholder="0.00" value="{{gps_distanceFromStern}}" title="Distanz zum Heck. Negative Werte sind möglich, wenn das GPS sich hinter dem Heck befindet."/>
+            <span class="add-on">m</span>
+							<span class="help-inline helpOsm"></span>
+        </div>
+		    </div>
+		
+			 <div class="control-group">
+        <p><label class="tableft50">Entfernung von der Schiffsachse</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="gps_distanceFromCenter" name="gps_distanceFromCenter" placeholder="0.00" value="{{gps_distanceFromCenter}}" title="Entfernung von der Schiffsachse. Negative Eingaben = Backbord, positive Eingaben = Steuerbord."/>
+            <span class="add-on">m</span>
+							<span class="help-inline helpOsm"></span>
+        </div>
+		    </div>
+		
+			 <div class="control-group">
+        <p><label class="tableft50">Entfernung vom Wasserspiegel</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="gps_distanceWaterline" name="gps_distanceWaterline" placeholder="0.00" value="{{gps_distanceWaterline}}" title="Position des Sensors über dem Wasserspiegel"/>
+            <span class="add-on">m</span>
+							<span class="help-inline helpOsm"></span>
+        </div>
+    </div>
+	    </div>
+	
+	
+           <div class="span4">
+                <div id="vesselsize_gps" style="position:relative; float: left; top:100px left:450px; width:150px; height:250px; border:5px solid red; padding:0px; background-size:100% 100%; background-image: url(images/vessel.png);">
+                    <div id="draggableGps" style="position:absolute; top:{{top}}; left:{{left}}; width: 20px; height: 20px; border-radius:10px; background:#000"></div>
+                </div>
+            </div>
+        
+<!--        <div class="span4">
+            <div id="oseam-canvas" class="oseam-canvas"></div>
+        </div>-->
+</div>
