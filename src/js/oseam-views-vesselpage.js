@@ -14,7 +14,9 @@
 OSeaM.views.vesselpage = OSeaM.View.extend({
     modalDialog:null,
     render: function() {
-        var template = OSeaM.loadTemplate('vesselgeneric');
+	var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('vesselgeneric-' + language);
+        
         this.renderParams =  {
         		loa   : this.model.get('loa'),
         		breadth   : this.model.get('breadth'),
@@ -34,6 +36,18 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
 
 	  this.removeAlerts();
         var errors = [];
+		
+						// length required for the next step 
+				if (!this.model.get('loa')) {
+								
+					this.markInvalid($('#loa'),	'1105:Please enter the vessel length');
+				}
+				
+				// beam required for the next step 
+				if (!this.model.get('breadth')) {
+								
+					this.markInvalid($('#breadth'),	'1106:Please enter the beam');
+				}
         		
 		if (OSeaM.utils.Validation.loa(this.model.get('loa')) !== true){
 			this.markInvalid($('#loa'), '1103:Please enter a decimal (e.g. 5.5)');
@@ -58,8 +72,7 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
     },
 	    markInvalid: function(field, text) {
         field.parents('.control-group').addClass('error');
-				
-		  field.nextAll('.help-inline').attr('data-trt', text);
+	 field.nextAll('.help-inline').attr('data-trt', text);
 		  
 		// alles wird markliert
 		//this.$el.find('.help-inline').attr('data-trt', text);  

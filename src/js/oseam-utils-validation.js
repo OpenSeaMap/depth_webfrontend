@@ -45,6 +45,44 @@ OSeaM.utils.Validation = {
         return reg.test(value);
 	
 	},
+	depth_distanceFromCenter: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+ depth_distanceWaterline: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+	depth_offsetKeel: function(value) {
+
+		// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+					gps_distanceFromStern: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+	gps_distanceFromCenter: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+ gps_distanceWaterline: function(value) {
+	// test for decimal
+		var reg = /^\d*\.?\d*$/;
+        return reg.test(value);
+	
+	},
+
 			gauge: function(value) {
 	// test for decimal
 		var reg = /^\d*\.?\d*$/;
