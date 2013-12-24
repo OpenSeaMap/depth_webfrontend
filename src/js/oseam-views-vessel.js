@@ -23,6 +23,7 @@ OSeaM.views.Vessel = OSeaM.View.extend({
 		'change textarea' : 'modify'
 	},
 	initialize : function() {
+		OSeaM.frontend.on("change:language", this.render, this);
 	},
 	render : function() {
 		new OSeaM.views.Wizard();
