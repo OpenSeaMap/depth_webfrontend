@@ -29,8 +29,9 @@
 				<span class="help-inline helpOsm"></span>
         </div>
     </div>
-	<div>
-	<p><label for="gps_manufacturer" class="tableft50">Producer of GPS</label>
+	<div  class="control-group">
+	<p><label for="gps_manufacturer" class="tableft50">Producer of GPS</label></p>
+	 <div class="input-append">
 	<select id="gps_manufacturer">
 	<option id="other">other producer</option>
 	<option>AdvanSea</option>
@@ -61,11 +62,13 @@
 	<option>Sperry</option>
 	<option>Trimble</option>
 	<option>VDO</option>
-	</select> 
-	<input id="gps_manufacturer" name="gps_manufacturer_name" type="text" size="100" maxlength="100"></p>
-	<p><label for="gps_type" class="tableft50">GPS type</label>
+	</select>
+	</div>
+	<p><label for="gps_type" class="tableft50">GPS Producer Name</label></p>
+	<input id="gps_manufacturer" name="gps_manufacturer_name" type="text" size="100" maxlength="100">
+	<p><label for="gps_type" class="tableft50">GPS Type</label></p>
 	<input id="gps_type" name="gps_type" placeholder="e.g. Garmin eTrex 30" type="text" size="100" maxlength="100">
-	</p>
+	
 	</div>
 	    </div>
 
