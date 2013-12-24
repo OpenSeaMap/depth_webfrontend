@@ -67,8 +67,13 @@
     "1076":"Lizenzen",
     "1077":"Fahrzeug",
     "1078":"Datum",
+	"1100":"Bitte geben Sie einen Namen ein",
 	"1101":"Bitte keine Sonderzeichen verwenden(nur 0-9 und A-Z)",
 	"1102":"Der Name der Fahrzeugkonfiguration existiert bereits, bitte geben Sie einen anderen Namen ein",
-	"1103":"Bitte geben Sie eine Dezimalzahl ein mit einem Punkt als Trennzeichen (z.B. 5.5)",
+	"1103":"Bitte geben Sie eine Dezimalzahl ein",
+	"1104":"Fahrzeugkonfiguration editieren",
+	"1105":"Bitte die Schiffslänge eingeben",
+	"1106":"Bitte die Schiffsbreite eingeben",
+	"1107":"Dezimalzahl",
     "9103":"Benutzername existiert bereits."
 }

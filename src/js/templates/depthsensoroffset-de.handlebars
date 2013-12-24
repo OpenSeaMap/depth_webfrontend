@@ -1,0 +1,64 @@
+<div>
+      	
+    <div class="span8">
+        <h3>Tiefensensor</h3>
+        <h4>Verbessern Sie die Datenqualität durch detailierte Angaben der Sensorposition</h4>
+
+        <div class="control-group">
+		<p><label for="depth_distanceFromStern" class="tableft50">Distanz zum Heck</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="depth_distanceFromStern" name="depth_distanceFromStern" placeholder="0.00" value="{{depth_distanceFromStern}}" title="Distanz zum Heck. Negative Werte sind möglich, wenn der Sensor sich hinter dem Heck befindet."/>
+            <span class="add-on">m</span>
+			<span class="help-inline helpOsm"></span>
+        </div>
+		</div>
+
+		<div class="control-group">
+        <p><label for="depth_distanceFromCenter" class="tableft50">Entfernung von der Schiffsachse</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="depth_distanceFromCenter" name="depth_distanceFromCenter" placeholder="0.00" value="{{depth_distanceFromCenter}}" title="Entfernung von der Schiffsachse. Negative Eingaben = Backbord, positive Eingaben = Steuerbord."/>
+            <span class="add-on">m</span>
+		<span class="help-inline helpOsm"></span>
+        </div>			
+        </div>
+
+        <div class="control-group">
+		<p><label for="depth_distanceWaterline" class="tableft50">Entfernung vom Wasserspiegel</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="depth_distanceWaterline" name="depth_distanceWaterline" placeholder="0.00" value="{{depth_distanceWaterline}}" title="Position des Sensors unter dem Wasserspiegel" />
+            <span class="add-on">m</span>
+			<span class="help-inline helpOsm"></span>
+        </div>			
+        </div>
+
+       <p><label class="tableft50">Typp der Tiefenmessung</label></p>
+        <div class="input-append">
+            <select name="depthmeasurement" size="1">
+              <option>Automatisch</option>
+              <option>Tiefen unter der Messvorrichtung</option>
+              <option>Tiefe unter dem Kiel</option>
+              <option>Tiefe unter dem Wasserspiegel</option>
+            </select>
+        </div>
+
+		<div class="control-group">
+        <p><label for="depth_offsetKeel" class="tableft50">Sensor Abstand zum Kiel</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="depth_offsetKeel" name="depth_offsetKeel" placeholder="0.00" value="{{depth_offsetKeel}}" title="Abstand des Sensors vom Kiel"/>
+            <span class="add-on">m</span>
+			<span class="help-inline helpOsm"></span> 
+        </div>			
+        </div>
+    </div>
+
+	<div class="span4">
+            <div id="vesselsize_depth" style="position:relative; float: left; top:100px left:450px; width:150px; height:250px; border:5px solid red; padding:0px; background-size:100% 100%; background-image: url(images/vessel.png);">
+                <div id="draggableSounder" style="position:absolute; top:{{top}}; left:{{left}}; width: 20px; height: 20px; border-radius:10px; background:#FF0000"></div> 
+            </div>
+        </div>
+        
+<!--        <div class="span4">
+            <div id="oseam-canvas" class="oseam-canvas"></div>
+        </div>-->	
+
+</div>
