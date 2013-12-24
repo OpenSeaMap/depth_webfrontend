@@ -79,6 +79,7 @@ OSeaM.views.Tracks = OSeaM.View
 			            fileName : evt.target.files[i].name,
 			            status : this.STATUS_STARTING_UPLOAD,
 			            license : this.candidateTrack.get('license'),
+			            progress : 1,
 			            vesselconfigid : this.candidateTrack.get('vesselconfigid')
 			        });
 					this.collection.add(newTrack); 
