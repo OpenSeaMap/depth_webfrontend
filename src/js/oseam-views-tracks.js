@@ -43,10 +43,12 @@ OSeaM.views.Tracks = OSeaM.View
 			   this.licenses = new OSeaM.models.Licenses();
 			   this.listenTo(this.licenses, 'reset', this.render);
 			   this.licenses.fetch({wait:true});
+			   var self = this;
 			},
 			addViews : function() {
+			 var self = this;
 			    this.collection.each(function(model) {
-			    	this._views.push(new OSeaM.views.Track({
+			    	self._views.push(new OSeaM.views.Track({
 						model : model,
 						vessels : this.vessels,
 						licenses : this.licenses
