@@ -17,8 +17,11 @@
 OSeaM.views.Vessels = OSeaM.View.extend({
     modalDialog:null,
     events: {
-        'click .oseam-add' : 'addNewVessel'
+        'click .oseam-add' : 'addNewVessel',
+			"click th": "headerClick"
     },
+    sortUpIcon: 'ui-icon-triangle-1-n',
+    sortDnIcon: 'ui-icon-triangle-1-s',
     // initialized with the collections of vessels via constructor
     initialize: function() {
 	 OSeaM.frontend.on('change:language', this.render, this);
@@ -80,5 +83,32 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         	return cv.model === model; })[0];
         $(view.el).remove();
         return this;
-    }
+    },
+	   // Now the part that actually changes the sort order
+	   headerClick: function( e ) {
+	      var $el = $(e.currentTarget),
+	          ns = $el.attr('column'),
+	          cs = this.collection.sortAttribute;
+	       
+	      // Toggle sort if the current column is sorted
+	      if (ns == cs) {
+	         this.collection.sortDirection *= -1;
+	      } else {
+	         this.collection.sortDirection = 1;
+	      }
+	       
+	      // Adjust the indicators. Reset everything to hide the
+			// indicator
+	      $el.closest('thead').find('span').attr('class', 'ui-icon icon-none');
+	       
+	      // Now show the correct icon on the correct column
+	      if (this.collection.sortDirection == 1) {
+	         $el.find('span').removeClass('icon-none').addClass(this.sortUpIcon);
+	      } else {
+	         $el.find('span').removeClass('icon-none').addClass(this.sortDnIcon);
+	      }
+	       
+	      // Now sort the collection
+	      this.collection.sortVessels(ns);
+	   }
 });

@@ -21,7 +21,9 @@ OSeaM.views.Tracks = OSeaM.View
 				'change .vesselId' : 'onChangeVesselConfigId',
 				"click th": "headerClick"
 			},
-			initialize : function() {
+		   sortUpIcon: 'ui-icon-triangle-1-n',
+		   sortDnIcon: 'ui-icon-triangle-1-s',
+		   initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
 				 this.listenTo(this.collection, 'reset', this.render);
 				OSeaM.frontend.on("change:language", this.render, this);
@@ -125,7 +127,7 @@ OSeaM.views.Tracks = OSeaM.View
 			      }
 			       
 			      // Now sort the collection
-			      this.collection.sortVessels(ns);
+			      this.collection.sortTracks(ns);
 			   },
 			onAddItem : function(model) {
 				// alert('additem');
