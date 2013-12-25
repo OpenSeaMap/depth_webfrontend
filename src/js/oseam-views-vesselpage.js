@@ -17,6 +17,8 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
 	var language = OSeaM.frontend.getLanguage();
 		var template = OSeaM.loadTemplate('vesselgeneric-' + language);
         
+		$("#vesseltype option[value=" + this.model.get('vesselType') + "]").attr("selected", "selected");
+
         this.renderParams =  {
         		loa   : this.model.get('loa'),
         		breadth   : this.model.get('breadth'),
