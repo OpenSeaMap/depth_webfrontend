@@ -25,7 +25,7 @@ OSeaM.views.Tracks = OSeaM.View
 		   sortDnIcon: 'icon-arrow-down',
 		   initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
-				 this.listenTo(this.collection, 'reset', this.render);
+				 this.listenTo(this.collection, 'reset', this.addViews);
 				OSeaM.frontend.on("change:language", this.render, this);
    		        // stores the item views for this view
 				this._views = [];
@@ -44,20 +44,38 @@ OSeaM.views.Tracks = OSeaM.View
 			   this.listenTo(this.licenses, 'reset', this.render);
 			   this.licenses.fetch({wait:true});
 			},
+			addViews : function() {
+			    this.collection.each(function(model) {
+			        self._views.push(new OSeaM.views.Track({
+						model : model,
+						vessels : this.vessels,
+						licenses : this.licenses
+					}));
+			      });
+			},
 			render : function() {
+				 var self = this;
 				var wait = '';
 				var selection = '';
 				var entrees = '';
 				var singleConf = '';
+				this.$el.empty();
 				var language = OSeaM.frontend.getLanguage();
 				var template = OSeaM.loadTemplate('tracks-' + language);
 				var content = $(template());
 				OSeaM.frontend.translate(content);
 				this.$el.html(content);
 				this.listEl = this.$el.find('tbody');
-				this._views = [];
+//				this._views = [];
 
-		        this.collection.forEach(this.onAddItem, this);
+				var container = document.createDocumentFragment();
+				
+				_.each(this._views, function(subview) {
+				    container.appendChild(subview.render().el)
+				  });
+				 self.$el.append(subview.render().el);
+				 
+//		        this.collection.forEach(this.onAddItem, this);
 				if(this.vessels.length > 0) {
 					this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : this.vessels});
 					$("#vesselselection option[value=" + localStorage.lastvessel + "]").attr("selected", "selected");
