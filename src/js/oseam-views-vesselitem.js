@@ -16,6 +16,7 @@ OSeaM.views.Vesselitem = OSeaM.View.extend({
     events: {
         'click .icon-trash' : 'onDelete',
         'dblclick .vessel': 'edit'
+        'click .icon-pencil' : 'edit',
     },
     initialize: function() {
         this.model.on('change:id',       this.render,           this);
