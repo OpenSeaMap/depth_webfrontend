@@ -54,6 +54,7 @@ OSeaM.views.Tracks = OSeaM.View
 						licenses : this.licenses
 					}));
 			      });
+			    render();
 			},
 			render : function() {
 				 var self = this;
@@ -75,7 +76,7 @@ OSeaM.views.Tracks = OSeaM.View
 				_.each(this._views, function(subview) {
 				    container.appendChild(subview.render().el)
 				  });
-				 this.$el.append(container);
+				 this.listEl.append(container);
 				 
 //		        this.collection.forEach(this.onAddItem, this);
 				if(this.vessels.length > 0) {
