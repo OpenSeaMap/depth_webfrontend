@@ -128,6 +128,8 @@ OSeaM.views.Tracks = OSeaM.View
 			       
 			      // Now sort the collection
 			      this.collection.sortTracks(ns);
+			      _.invoke(this._views, 'remove');
+			      this.collection.forEach(this.onAddItem, this);
 			   },
 			onAddItem : function(model) {
 				// alert('additem');

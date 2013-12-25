@@ -98,14 +98,14 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 	       
 	      // Adjust the indicators. Reset everything to hide the
 			// indicator
-	      $el.closest('thead').find('span').attr('class', 'icon-glass');
+	      $el.closest('thead').find('span').attr('class', 'icon-none');
 	       
 	      
 	      // Now show the correct icon on the correct column
 	      if (this.collection.sortDirection == 1) {
-	         $el.find('span').removeClass('icon-glass').addClass(this.sortUpIcon);
+	         $el.find('span').removeClass('icon-none').addClass(this.sortUpIcon);
 	      } else {
-	         $el.find('span').removeClass('icon-glass').addClass(this.sortDnIcon);
+	         $el.find('span').removeClass('icon-none').addClass(this.sortDnIcon);
 	      }
 	       
 	      // Now sort the collection
