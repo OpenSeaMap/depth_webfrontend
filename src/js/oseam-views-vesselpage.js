@@ -17,7 +17,6 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
 	var language = OSeaM.frontend.getLanguage();
 		var template = OSeaM.loadTemplate('vesselgeneric-' + language);
         
-		$("#vesseltype option[value=" + this.model.get('vesselType') + "]").attr("selected", "selected");
 
         this.renderParams =  {
         		loa   : this.model.get('loa'),
@@ -31,6 +30,7 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
         var content = $(template(this.renderParams));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
+		this.$el.find("#vesseltype option[value=" + this.model.get('vesselType') + "]").attr("selected", "selected");
         return this;
     },
     
