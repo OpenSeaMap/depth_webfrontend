@@ -20,8 +20,8 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         'click .oseam-add' : 'addNewVessel',
 			"click th": "headerClick"
     },
-    sortUpIcon: 'ui-icon-triangle-1-n',
-    sortDnIcon: 'ui-icon-triangle-1-s',
+    sortUpIcon: 'icon-arrow-up',
+    sortDnIcon: 'icon-arrow-down',
     // initialized with the collections of vessels via constructor
     initialize: function() {
 	 OSeaM.frontend.on('change:language', this.render, this);
@@ -32,7 +32,6 @@ OSeaM.views.Vessels = OSeaM.View.extend({
      this.collection.on('add', this.onAddItem, this);
 	 // a vessel is added to the collection
      this.collection.on('remove', this.onRemoveItem, this);
-//     this.collection.bind('remove', this.onRemoveItem);
 
      // stores the item views for this view
      this._vesselviews = []; 
@@ -99,13 +98,13 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 	       
 	      // Adjust the indicators. Reset everything to hide the
 			// indicator
-	      $el.closest('thead').find('span').attr('class', 'ui-icon icon-none');
+	      $el.closest('thead').find('span').attr('class', 'icon-glass');
 	       
 	      // Now show the correct icon on the correct column
 	      if (this.collection.sortDirection == 1) {
-	         $el.find('span').removeClass('icon-none').addClass(this.sortUpIcon);
+	         $el.find('span').removeClass('icon-glass').addClass(this.sortUpIcon);
 	      } else {
-	         $el.find('span').removeClass('icon-none').addClass(this.sortDnIcon);
+	         $el.find('span').removeClass('icon-glass').addClass(this.sortDnIcon);
 	      }
 	       
 	      // Now sort the collection
