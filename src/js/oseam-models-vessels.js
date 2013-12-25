@@ -24,7 +24,8 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
         	newsbasoffset.set('distanceFromStern', x['distanceFromStern']);
         	newsbasoffset.set('distanceFromCenter', x['distanceFromCenter']);
         	newsbasoffset.set('distanceWaterline', x['distanceWaterline']);
-		//	newdepthoffset.set('offsetKeel', x['offsetKeel']);
+        	newsbasoffset.set('manufacturer', x['manufacturer']);
+        	newsbasoffset.set('model', x['model']);
 			
         	var newdepthoffset = new OSeaM.models.Offset();  
         	var y = responseObject.depthoffset;
@@ -32,7 +33,8 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
         	newdepthoffset.set('distanceFromCenter', y['distanceFromCenter']);
         	newdepthoffset.set('distanceWaterline', y['distanceWaterline']);
 			newdepthoffset.set('offsetKeel', y['offsetKeel']);
-			
+			newdepthoffset.set('manufacturer', x['manufacturer']);
+			newdepthoffset.set('model', x['model']);
         	
         	var vessel = new OSeaM.models.Vessel({
                 id       : responseObject.id,
