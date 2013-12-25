@@ -30,7 +30,7 @@
         </div>
     </div>
 	<div  class="control-group">
-	<p><label for="gps_manufacturer" class="tableft50">Producer of GPS</label></p>
+	<p><label for="gps_manufacturer" class="tableft50">Producer</label></p>
 	 <div class="input-append">
 	<datalist id="gps_manufacturer" name="gps_manufacturer">
 	<option>AdvanSea</option>
@@ -63,9 +63,9 @@
 	<option>VDO</option>
 	</datalist>
 	</div>
-	<input name="gps_manufacturer" list="gps_manufacturer" value={{manufacturer}}/>
-	<p><label for="gps_model" class="tableft50">GPS Type</label></p>
-	<input id="gps_model" name="gps_type" placeholder="e.g. Garmin eTrex 30" value={{model}} type="text" size="100" maxlength="100">
+	<input name="gps_manufacturer" list="gps_manufacturer" type="text" value="{{gps_manufacturer}}"/>
+	<p><label for="gps_model" class="tableft50">Model</label></p>
+	<input id="gps_model" name="gps_type" placeholder="e.g. Garmin eTrex 30" value="{{gps_model}}" type="text" size="100" maxlength="100">
 	</div>
     </div>
 

@@ -24,13 +24,13 @@
 			 <div class="control-group">
         <p><label class="tableft50">Entfernung vom Wasserspiegel</label></p>
         <div class="input-append">
-            <input type="text" class="input-mini" id="gps_distanceWaterline" name="gps_distanceWaterline" placeholder="0.00" value="{{gps_distanceWaterline}}" title="Position des Sensors Ã¼ber dem Wasserspiegel"/>
+            <input type="text" class="input-mini" id="gps_distanceWaterline" name="gps_distanceWaterline" placeholder="0.00" value="{{gps_distanceWaterline}}" title="Position des Sensors über dem Wasserspiegel"/>
             <span class="add-on">m</span>
 							<span class="help-inline helpOsm"></span>
         </div>
     </div>
 	<div class="control-group">
-	<p><label for="gps_manufacturer_select" class="tableft50">GPS Hersteller</label></p>
+	<p><label for="gps_manufacturer" class="tableft50">Hersteller</label></p>
 	<div class="input-append">
 	<datalist id="gps_manufacturer" name="gps_manufacturer">
 	<option>AdvanSea</option>
@@ -62,9 +62,9 @@
 	<option>Trimble</option>
 	<option>VDO</option>
 	</datalist> 
-	<input name="gps_manufacturer" list="gps_manufacturer" value={{gps_manufacturer}}/>
+	<input name="gps_manufacturer" list="gps_manufacturer" value="{{gps_manufacturer}}" type="text"/>
 	</div>
-	<p><label for="gps_model" class="tableft50">GPS Modell</label></p>
+	<p><label for="gps_model" class="tableft50">Modell</label></p>
 	<input id="gps_model" name="gps_model" placeholder="z.B. eTrex 30" value={{gps_model}} type="text" size="100" maxlength="100">
 	</div>	
     </div>
