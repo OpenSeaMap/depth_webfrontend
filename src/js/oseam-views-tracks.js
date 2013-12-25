@@ -21,8 +21,8 @@ OSeaM.views.Tracks = OSeaM.View
 				'change .vesselId' : 'onChangeVesselConfigId',
 				"click th": "headerClick"
 			},
-		   sortUpIcon: 'ui-icon-triangle-1-n',
-		   sortDnIcon: 'ui-icon-triangle-1-s',
+		   sortUpIcon: 'icon-arrow-up',
+		   sortDnIcon: 'icon-arrow-down',
 		   initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
 				 this.listenTo(this.collection, 'reset', this.render);
@@ -117,7 +117,7 @@ OSeaM.views.Tracks = OSeaM.View
 			       
 			      // Adjust the indicators. Reset everything to hide the
 					// indicator
-			      $el.closest('thead').find('span').attr('class', 'ui-icon icon-none');
+			      $el.closest('thead').find('span').attr('class', 'icon-none');
 			       
 			      // Now show the correct icon on the correct column
 			      if (this.collection.sortDirection == 1) {
