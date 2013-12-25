@@ -121,9 +121,9 @@ OSeaM.views.Tracks = OSeaM.View
 			       
 			      // Now show the correct icon on the correct column
 			      if (this.collection.sortDirection == 1) {
-			         $el.find('span').removeClass('icon-none').addClass(this.sortUpIcon);
+			    	  $el.find('span').removeClass('icon-none').addClass(this.sortDnIcon);
 			      } else {
-			         $el.find('span').removeClass('icon-none').addClass(this.sortDnIcon);
+			    	  $el.find('span').removeClass('icon-none').addClass(this.sortUpIcon);
 			      }
 			       
 			      // Now sort the collection
