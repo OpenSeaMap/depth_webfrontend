@@ -51,6 +51,8 @@ OSeaM.views.gpspage = OSeaM.View.extend({
         	gps_distanceFromCenter : sbasoffset.get('distanceFromCenter'),
         	gps_distanceWaterline : sbasoffset.get('distanceWaterline'),
 			gps_OffsetKeel : sbasoffset.get('distanceKeel'),
+			gps_manufacturer : sbasoffset.get('manufacturer'),
+			gps_model : sbasoffset.get('model'),
         	top : topY,		
         	left : leftX
 		}));

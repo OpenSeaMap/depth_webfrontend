@@ -52,18 +52,17 @@
 	<div  class="control-group">
 	<p><label for="depth_manufacturer" class="tableft50">Producer of Depth Sensor</label></p>
 	 <div class="input-append">
-	<select id="depth_manufacturer">
-	<option id="other">Other Producer</option>
-	<option>Airmar</option>
-	<option>Humminbird</option>
-	<option>Lowrance</option>
-	<option>Raymarine</option>
-	</select>
+	<datalist id="depth_manufacturer" name="depth_manufacturer">
+		<option>Airmar</option>
+		<option>Garmin</option>
+		<option>Humminbird</option>
+		<option>Lowrance</option>
+		<option>Raymarine</option>
+	</datalist>
 	</div>
-	<p><label for="depth_manufacturer" class="tableft50">Device Producer Name</label></p>
-	<input id="depth_manufacturer" name="depth_manufacturer_name" type="text" size="100" maxlength="100">
+	<input name="depth_manufacturer" list="depth_manufacturer" value={{depth_manufacturer}}/>
 	<p><label for="depth_model" class="tableft50">Device Model</label></p>
-	<input id="depth_model" name="gps_type" placeholder="e.g. P39" type="text" size="100" maxlength="100">
+	<input id="depth_model" name="depth_model" placeholder="e.g. P39" value={{depth_model}} type="text" size="100" maxlength="100">
 	</p>
 	</div>
         
