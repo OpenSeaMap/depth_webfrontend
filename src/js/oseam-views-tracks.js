@@ -148,6 +148,7 @@ OSeaM.views.Tracks = OSeaM.View
 			      }
 			       
 			      // Now sort the collection
+			      this._views = [];
 			      this.listEl.empty();
 			      this.collection.sortTracks(ns);
 			      this.addViews();
