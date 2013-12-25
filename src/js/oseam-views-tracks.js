@@ -18,7 +18,8 @@ OSeaM.views.Tracks = OSeaM.View
 			events : {
 				'change .oseam-upload-wrapper input' : 'onFileSelected',
 				'change .licenseId' : 'onChangeLicenseConfigId',
-				'change .vesselId' : 'onChangeVesselConfigId'
+				'change .vesselId' : 'onChangeVesselConfigId',
+ä				"click th": "headerClick"
 			},
 			initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
@@ -30,7 +31,8 @@ OSeaM.views.Tracks = OSeaM.View
 
 		       var that = this;
 		       this.collection.fetch({wait:true});
-				this.listenTo(this.collection, 'remove', this.onRemoveItem);
+			   this.listenTo(this.collection, 'remove', this.onRemoveItem);
+			   this.listenTo(this.collection, "sort", this.render);
 
 				this.vessels = new OSeaM.models.Vessels();
 		       this.listenTo(this.vessels, 'reset', this.render);
@@ -71,7 +73,7 @@ OSeaM.views.Tracks = OSeaM.View
 					alert('You have to select a vessel configuration and a license in order to upload tracks');
 					return;
 				}
-//				 alert('onFileSelected');
+// alert('onFileSelected');
 				for ( var i = 0; i < evt.target.files.length; i++) {
 					var newTrack = new OSeaM.models.Track()
 					// get vesselconfig from somewhere
@@ -98,6 +100,33 @@ OSeaM.views.Tracks = OSeaM.View
 					});
 				}
 			},
+			   // Now the part that actually changes the sort order
+			   headerClick: function( e ) {
+			      var $el = $(e.currentTarget),
+			          ns = $el.attr('column'),
+			          cs = this.collection.sortAttribute;
+			       
+			      // Toggle sort if the current column is sorted
+			      if (ns == cs) {
+			         this.collection.sortDirection *= -1;
+			      } else {
+			         this.collection.sortDirection = 1;
+			      }
+			       
+			      // Adjust the indicators. Reset everything to hide the
+					// indicator
+			      $el.closest('thead').find('span').attr('class', 'ui-icon icon-none');
+			       
+			      // Now show the correct icon on the correct column
+			      if (this.collection.sortDirection == 1) {
+			         $el.find('span').removeClass('icon-none').addClass(this.sortUpIcon);
+			      } else {
+			         $el.find('span').removeClass('icon-none').addClass(this.sortDnIcon);
+			      }
+			       
+			      // Now sort the collection
+			      this.collection.sortTracks(ns);
+			   },
 			onAddItem : function(model) {
 				// alert('additem');
 				var view = new OSeaM.views.Track({
@@ -111,9 +140,10 @@ OSeaM.views.Tracks = OSeaM.View
 				this.listEl.append(view.render().el);
 				return this;
 			},
-//		    // remove the view from being rendered
+// // remove the view from being rendered
 		    onRemoveItem: function(model) {
-		    	// a vessel item is removed and the appropriate view is added and rendered
+		    	// a vessel item is removed and the appropriate view is added
+				// and rendered
 		        var view = _(this._views).select(function(cv) { 
 		        	return cv.model === model; })[0];
 		        $(view.el).remove();
