@@ -5,30 +5,35 @@
 </div>-->
 <!--<p><img src="images/tracks.jpg" alt="Tracks"></p>-->
 
+<form class="vesselId">
+<p>Vessel Configuration</p>
 <select id="vesselselection" name="vesselselection">
     <option value="" disabled selected>Select your Vessel Config</option>
 </select>
+</form>
 <br/>
+<form class="licenseId">
+<p>Track Lizenz</p>
 <select id="licenseselection" name="licenseselection">
     <option value="" disabled selected>Select the Track License</option>
 </select>
-
+</form>
 <div class="oseam-upload-wrapper">
     <div class="btn btn-info" data-trt="1019:Upload tracks"></div>
     <input type="file" name="track[]" multiple></input>
 </div>
-<table class="table table-condensed">
+<table class="table table-condensed table-striped table-hover">
     <thead>
         <tr>
-            <th>ID</th>
-            <th data-trt="1040:File Name"></th>
-            <th data-trt="1042:Status"></th>
-            <th data-trt="1067:File Type"></th>
-            <th data-trt="1068:Compression"></th>
-            <th data-trt="1069:Containertrack"></th>
-            <th data-trt="1077:Vessel"></th>
-            <th data-trt="1070:License"></th>
-            <th data-trt="1078:Date"></th>
+            <th column="id">ID</th>
+            <th column="fileName">Dateiname<span class="icon-none"></span></th>
+            <th column="upload_state">Status<span class="icon-none"></span></th>
+            <th column="fileType">Dateityp<span class="icon-none"></span></th>
+            <th column="compression">Kompression<span class="icon-none"></span></th>
+            <th column="containertrack">Container Track<span class="icon-none"></span></th>
+            <th column="vesselconfigid">Fahrzeug<span class="icon-none"></span></th>
+            <th column="licenseid">Lizenz<span class="icon-none"></span></th>
+            <th column="uploadDate">Upload Datum<span class="icon-none"></span></th>
             <th data-trt="1043:Action"></th>
         </tr>
     </thead>

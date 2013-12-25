@@ -52,6 +52,8 @@ OSeaM.views.depthsensorpage = OSeaM.View.extend({
         	depth_distanceFromCenter : depthoffset.get('distanceFromCenter'),
         	depth_distanceWaterline : depthoffset.get('distanceWaterline'),
 			depth_offsetKeel : depthoffset.get('offsetKeel'),
+			depth_manufacturer : depthoffset.get('manufacturer'),
+			depth_model : depthoffset.get('model'),
         	top : topY,		
         	left : leftX
 		}));

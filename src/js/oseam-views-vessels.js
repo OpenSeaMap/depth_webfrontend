@@ -17,18 +17,21 @@
 OSeaM.views.Vessels = OSeaM.View.extend({
     modalDialog:null,
     events: {
-        'click .oseam-add' : 'addNewVessel'
+        'click .oseam-add' : 'addNewVessel',
+			"click th": "headerClick"
     },
+    sortUpIcon: 'icon-arrow-up',
+    sortDnIcon: 'icon-arrow-down',
     // initialized with the collections of vessels via constructor
     initialize: function() {
 	 OSeaM.frontend.on('change:language', this.render, this);
 	 // a vessel is added to the collection
 	 this.listenTo(this.collection, 'reset', this.render);
+//	 this.listenTo(this.collection, 'sort', this.render);
 
      this.collection.on('add', this.onAddItem, this);
 	 // a vessel is added to the collection
      this.collection.on('remove', this.onRemoveItem, this);
-//     this.collection.bind('remove', this.onRemoveItem);
 
      // stores the item views for this view
      this._vesselviews = []; 
@@ -79,5 +82,35 @@ OSeaM.views.Vessels = OSeaM.View.extend({
         	return cv.model === model; })[0];
         $(view.el).remove();
         return this;
-    }
+    },
+	   // Now the part that actually changes the sort order
+	   headerClick: function( e ) {
+	      var $el = $(e.currentTarget),
+	          ns = $el.attr('column'),
+	          cs = this.collection.sortAttribute;
+	       
+	      // Toggle sort if the current column is sorted
+	      if (ns == cs) {
+	         this.collection.sortDirection *= -1;
+	      } else {
+	         this.collection.sortDirection = 1;
+	      }
+	       
+	      // Adjust the indicators. Reset everything to hide the
+			// indicator
+	      $el.closest('thead').find('span').attr('class', 'icon-none');
+	       
+	      
+	      // Now show the correct icon on the correct column
+	      if (this.collection.sortDirection == 1) {
+	    	  $el.find('span').removeClass('icon-none').addClass(this.sortDnIcon);
+	      } else {
+	    	  $el.find('span').removeClass('icon-none').addClass(this.sortUpIcon);
+	      }
+	       
+	      // Now sort the collection
+	      this.collection.sortVessels(ns);
+	      _.invoke(this._vesselviews, 'remove');
+	      this.collection.forEach(this.onAddItem, this);
+	   }
 });

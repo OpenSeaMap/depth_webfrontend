@@ -13,10 +13,14 @@
 
 OSeaM.views.vesselpage = OSeaM.View.extend({
     modalDialog:null,
-    render: function() {
+	events : {
+		'change .vesseltype' : 'onChangeVesselType'
+	},
+	render: function() {
 	var language = OSeaM.frontend.getLanguage();
 		var template = OSeaM.loadTemplate('vesselgeneric-' + language);
         
+
         this.renderParams =  {
         		loa   : this.model.get('loa'),
         		breadth   : this.model.get('breadth'),
@@ -29,6 +33,7 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
         var content = $(template(this.renderParams));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
+		this.$el.find("#vesseltype option[value=" + this.model.get('vesselType') + "]").attr("selected", "selected");
         return this;
     },
     
@@ -79,7 +84,10 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
         OSeaM.frontend.translate(this.$el);
         this.isValid = false;
     },
-    removeAlerts: function() {
+    onChangeVesselType : function() {
+		this.model.set('vesselType', $("#vesseltype").val());
+	},
+	removeAlerts: function() {
         this.$el.find('.alert').remove();
         this.$el.find('.control-group').removeClass('error');
         this.$el.find('.help-inline').removeAttr('data-trt');
