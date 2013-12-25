@@ -54,7 +54,7 @@ OSeaM.views.Tracks = OSeaM.View
 						licenses : this.licenses
 					}));
 			      });
-			    render();
+			    this.render();
 			},
 			render : function() {
 				 var self = this;
