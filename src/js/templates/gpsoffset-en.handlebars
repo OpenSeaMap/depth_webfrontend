@@ -32,8 +32,7 @@
 	<div  class="control-group">
 	<p><label for="gps_manufacturer" class="tableft50">Producer of GPS</label></p>
 	 <div class="input-append">
-	<select id="gps_manufacturer">
-	<option id="other">other producer</option>
+	<datalist id="gps_manufacturer" name="gps_manufacturer">
 	<option>AdvanSea</option>
 	<option>B&amp;G</option>
 	<option>Eagle</option>
@@ -62,21 +61,19 @@
 	<option>Sperry</option>
 	<option>Trimble</option>
 	<option>VDO</option>
-	</select>
+	</datalist>
 	</div>
-	<p><label for="gps_type" class="tableft50">GPS Producer Name</label></p>
-	<input id="gps_manufacturer" name="gps_manufacturer_name" type="text" size="100" maxlength="100">
-	<p><label for="gps_type" class="tableft50">GPS Type</label></p>
-	<input id="gps_type" name="gps_type" placeholder="e.g. Garmin eTrex 30" type="text" size="100" maxlength="100">
+	<p><label for="gps_model" class="tableft50">GPS Type</label></p>
+	<input id="gps_model" name="gps_type" placeholder="e.g. Garmin eTrex 30" type="text" size="100" maxlength="100">
 	</p>
 	</div>
-	    </div>
+    </div>
 
-           <div class="span4">
-                <div id="vesselsize_gps" style="position:relative; float: left; top:100px left:450px; width:150px; height:250px; border:5px solid red; padding:0px; background-size:100% 100%; background-image: url(images/vessel.png);">
-                    <div id="draggableGps" style="position:absolute; top:{{top}}; left:{{left}}; width: 20px; height: 20px; border-radius:10px; background:#000"></div>
-                </div>
-            </div>
+   <div class="span4">
+        <div id="vesselsize_gps" style="position:relative; float: left; top:100px left:450px; width:150px; height:250px; border:5px solid red; padding:0px; background-size:100% 100%; background-image: url(images/vessel.png);">
+            <div id="draggableGps" style="position:absolute; top:{{top}}; left:{{left}}; width: 20px; height: 20px; border-radius:10px; background:#000"></div>
+        </div>
+    </div>
         
 <!--        <div class="span4">
             <div id="oseam-canvas" class="oseam-canvas"></div>
