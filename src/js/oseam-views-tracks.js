@@ -73,7 +73,7 @@ OSeaM.views.Tracks = OSeaM.View
 				_.each(this._views, function(subview) {
 				    container.appendChild(subview.render().el)
 				  });
-				 self.$el.append(subview.render().el);
+				 this.$el.append(container);
 				 
 //		        this.collection.forEach(this.onAddItem, this);
 				if(this.vessels.length > 0) {
