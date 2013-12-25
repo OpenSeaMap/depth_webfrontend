@@ -20,7 +20,8 @@ OSeaM.views.Vessel = OSeaM.View.extend({
 		"click #next_step_button" : "nextStep",
 		"click #prev_step_button" : "prevStep",
 		'change input' : 'modify',
-		'change textarea' : 'modify'
+		'change textarea' : 'modify',
+			"click th": "headerClick"
 	},
 	initialize : function() {
 		OSeaM.frontend.on("change:language", this.render, this);

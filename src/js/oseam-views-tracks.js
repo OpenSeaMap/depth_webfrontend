@@ -19,7 +19,7 @@ OSeaM.views.Tracks = OSeaM.View
 				'change .oseam-upload-wrapper input' : 'onFileSelected',
 				'change .licenseId' : 'onChangeLicenseConfigId',
 				'change .vesselId' : 'onChangeVesselConfigId',
-ä				"click th": "headerClick"
+				"click th": "headerClick"
 			},
 			initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
@@ -125,7 +125,7 @@ OSeaM.views.Tracks = OSeaM.View
 			      }
 			       
 			      // Now sort the collection
-			      this.collection.sortTracks(ns);
+			      this.collection.sortVessels(ns);
 			   },
 			onAddItem : function(model) {
 				// alert('additem');
