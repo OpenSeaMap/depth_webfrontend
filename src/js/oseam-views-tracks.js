@@ -25,7 +25,7 @@ OSeaM.views.Tracks = OSeaM.View
 		   sortDnIcon: 'icon-arrow-down',
 		   initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
-				 this.listenTo(this.collection, 'reset', this.addViews);
+				 this.listenTo(this.collection, 'reset', this.addAndRenderViews);
 				OSeaM.frontend.on("change:language", this.render, this);
    		        // stores the item views for this view
 				this._views = [];
@@ -34,16 +34,20 @@ OSeaM.views.Tracks = OSeaM.View
 		       var that = this;
 		       this.collection.fetch({wait:true});
 			   this.listenTo(this.collection, 'remove', this.onRemoveItem);
-			   this.listenTo(this.collection, "sort", this.render);
+//			   this.listenTo(this.collection, "sort", this.render);
 
 				this.vessels = new OSeaM.models.Vessels();
-		       this.listenTo(this.vessels, 'reset', this.addViews);
+		       this.listenTo(this.vessels, 'reset', this.addAndRenderViews);
 		       this.vessels.fetch({wait:true});
 		       
 			   this.licenses = new OSeaM.models.Licenses();
-			   this.listenTo(this.licenses, 'reset', this.addViews);
+			   this.listenTo(this.licenses, 'reset', this.addAndRenderViews);
 			   this.licenses.fetch({wait:true});
 			   var self = this;
+			},
+			addAndRenderViews : function() {
+				this.addViews();
+			    this.render();
 			},
 			addViews : function() {
 			 this.listEl.empty();
@@ -55,10 +59,19 @@ OSeaM.views.Tracks = OSeaM.View
 						licenses : self.licenses
 					}));
 			      });
-			    this.render();
+			},
+			renderContent : function() {
+				this.listEl = this.$el.find('tbody');
+				this.listEl.empty();
+				var container = document.createDocumentFragment();
+				
+				_.each(this._views, function(subview) {
+				    container.appendChild(subview.render().el)
+				  });
+				 this.listEl.append(container);
 			},
 			render : function() {
-				 var self = this;
+				var self = this;
 				var wait = '';
 				var selection = '';
 				var entrees = '';
@@ -69,16 +82,7 @@ OSeaM.views.Tracks = OSeaM.View
 				var content = $(template());
 				OSeaM.frontend.translate(content);
 				this.$el.html(content);
-				this.listEl = this.$el.find('tbody');
-//				this._views = [];
-
-				var container = document.createDocumentFragment();
-				
-				_.each(this._views, function(subview) {
-				    container.appendChild(subview.render().el)
-				  });
-				 this.listEl.append(container);
-				 
+				this.renderContent();
 //		        this.collection.forEach(this.onAddItem, this);
 				if(this.vessels.length > 0) {
 					this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : this.vessels});
@@ -152,6 +156,7 @@ OSeaM.views.Tracks = OSeaM.View
 			      this.listEl.empty();
 			      this.collection.sortTracks(ns);
 			      this.addViews();
+			      this.renderContent();
 			      
 //			      _.invoke(this._views, 'remove');
 //			      this.collection.forEach(this.onAddItem, this);
