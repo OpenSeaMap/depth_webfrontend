@@ -51,8 +51,8 @@ OSeaM.views.Tracks = OSeaM.View
 			    this.collection.each(function(model) {
 			    	self._views.push(new OSeaM.views.Track({
 						model : model,
-						vessels : this.vessels,
-						licenses : this.licenses
+						vessels : self.vessels,
+						licenses : self.licenses
 					}));
 			      });
 			    this.render();
@@ -148,8 +148,8 @@ OSeaM.views.Tracks = OSeaM.View
 			      }
 			       
 			      // Now sort the collection
-			      this.collection.sortTracks(ns);
 			      this.listEl.empty();
+			      this.collection.sortTracks(ns);
 			      this.addViews();
 			      
 //			      _.invoke(this._views, 'remove');
