@@ -24,6 +24,7 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 	 OSeaM.frontend.on('change:language', this.render, this);
 	 // a vessel is added to the collection
 	 this.listenTo(this.collection, 'reset', this.render);
+	 this.listenTo(this.collection, 'sort', this.render);
 
      this.collection.on('add', this.onAddItem, this);
 	 // a vessel is added to the collection

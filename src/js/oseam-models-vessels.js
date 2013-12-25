@@ -55,5 +55,24 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
         	vessels[i] = vessel;
         }
     	return vessels;
-    }
-});
+    },
+sortAttribute: "id",
+sortDirection: 1,
+
+sortVessels: function (attr) {
+   this.sortAttribute = attr;
+   this.sort();
+},
+
+comparator: function(a, b) {
+   var a = a.get(this.sortAttribute),
+       b = b.get(this.sortAttribute);
+
+   if (a == b) return 0;
+
+   if (this.sortDirection == 1) {
+      return a > b ? 1 : -1;
+   } else {
+      return a < b ? 1 : -1;
+   }
+}});
