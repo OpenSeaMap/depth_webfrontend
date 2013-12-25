@@ -37,15 +37,16 @@ OSeaM.views.Tracks = OSeaM.View
 			   this.listenTo(this.collection, "sort", this.render);
 
 				this.vessels = new OSeaM.models.Vessels();
-		       this.listenTo(this.vessels, 'reset', this.render);
+		       this.listenTo(this.vessels, 'reset', this.addViews);
 		       this.vessels.fetch({wait:true});
 		       
 			   this.licenses = new OSeaM.models.Licenses();
-			   this.listenTo(this.licenses, 'reset', this.render);
+			   this.listenTo(this.licenses, 'reset', this.addViews);
 			   this.licenses.fetch({wait:true});
 			   var self = this;
 			},
 			addViews : function() {
+			 this.listEl.empty();
 			 var self = this;
 			    this.collection.each(function(model) {
 			    	self._views.push(new OSeaM.views.Track({
@@ -96,7 +97,6 @@ OSeaM.views.Tracks = OSeaM.View
 					alert('You have to select a vessel configuration and a license in order to upload tracks');
 					return;
 				}
-// alert('onFileSelected');
 				for ( var i = 0; i < evt.target.files.length; i++) {
 					var newTrack = new OSeaM.models.Track()
 					// get vesselconfig from somewhere
@@ -149,8 +149,11 @@ OSeaM.views.Tracks = OSeaM.View
 			       
 			      // Now sort the collection
 			      this.collection.sortTracks(ns);
-			      _.invoke(this._views, 'remove');
-			      this.collection.forEach(this.onAddItem, this);
+			      this.listEl.empty();
+			      this.addViews();
+			      
+//			      _.invoke(this._views, 'remove');
+//			      this.collection.forEach(this.onAddItem, this);
 			   },
 			onAddItem : function(model) {
 				// alert('additem');
@@ -204,7 +207,6 @@ OSeaM.views.Tracks = OSeaM.View
 				this.$el.find('.help-inline').html('');
 				this.isValid = true;
 			},
-
 			onChangeVesselConfigId : function() {
 				this.candidateTrack.set('vesselconfigid', $("#vesselselection").val());
 				localStorage.lastvessel = $("#vesselselection").val();
