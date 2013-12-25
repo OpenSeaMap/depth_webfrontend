@@ -27,7 +27,7 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 	 OSeaM.frontend.on('change:language', this.render, this);
 	 // a vessel is added to the collection
 	 this.listenTo(this.collection, 'reset', this.render);
-	 this.listenTo(this.collection, 'sort', this.render);
+//	 this.listenTo(this.collection, 'sort', this.render);
 
      this.collection.on('add', this.onAddItem, this);
 	 // a vessel is added to the collection
@@ -100,6 +100,7 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 			// indicator
 	      $el.closest('thead').find('span').attr('class', 'icon-glass');
 	       
+	      
 	      // Now show the correct icon on the correct column
 	      if (this.collection.sortDirection == 1) {
 	         $el.find('span').removeClass('icon-glass').addClass(this.sortUpIcon);
@@ -109,5 +110,7 @@ OSeaM.views.Vessels = OSeaM.View.extend({
 	       
 	      // Now sort the collection
 	      this.collection.sortVessels(ns);
+	      _.invoke(this._vesselviews, 'remove');
+	      this.collection.forEach(this.onAddItem, this);
 	   }
 });
