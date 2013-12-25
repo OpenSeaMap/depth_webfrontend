@@ -48,6 +48,7 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
                 height : responseObject.height,
                 displacement : responseObject.displacement,
                 maximumspeed : responseObject.maximumspeed,
+                vesselType : responseObject.vesselType,
                 sbasoffset : newsbasoffset,
                 depthoffset : newdepthoffset
             });
