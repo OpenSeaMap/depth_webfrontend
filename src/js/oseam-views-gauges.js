@@ -12,7 +12,7 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Gauges = OSeaM.View.extend({
-	var gauges;
+	var gauges,
 	initialize: function() {
 		gauges = new OSeaM.models.Gauges();
 		this.listenTo(gauges, 'reset', this.refreshGauges);
