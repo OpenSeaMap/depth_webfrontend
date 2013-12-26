@@ -13,7 +13,8 @@
 
 OSeaM.views.Gauges = OSeaM.View.extend({
     render: function() {
-        var template = OSeaM.loadTemplate('maptracks');
+		var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('gauges-' + language);
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
