@@ -109,14 +109,14 @@ OSeaM.views.Gauges = OSeaM.View.extend({
           ), 3
         );
     },
-    function mapEventMove(event) {
+    mapEventMove: function (event) {
 //        // Set cookie for remembering lat lon values
 //        setCookie("lat", y2lat(map.getCenter().lat).toFixed(5));
 //        setCookie("lon", x2lon(map.getCenter().lon).toFixed(5));
         // Update tidal scale layer
     	gauges.fetch();
     },
-    function refreshGauges(event) {
+    refreshGauges: function (event) {
         var layer_poi_icon_style = OpenLayers.Util.extend({});
         var gaugePoint = new OpenLayers.Geometry.Point(x, y);
 
@@ -126,26 +126,26 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         var pointFeature = new OpenLayers.Feature.Vector(gaugePoint, null, layer_poi_icon_style);
         this.layerGaugeVector.addFeatures([pointFeature]);
     },
-    function plusfacteur(a) {
+    plusfacteur : function (a) {
         return a * (20037508.34 / 180);
     }
 
-    function moinsfacteur(a) {
+    moinsfacteur: function (a) {
         return a / (20037508.34 / 180);
     }
 
-    function y2lat(a) {
+    y2lat: function (a) {
         return 180/Math.PI * (2 * Math.atan(Math.exp(moinsfacteur(a)*Math.PI/180)) - Math.PI/2);
     }
 
-    function lat2y(a) {
+    lat2y: function (a) {
         return plusfacteur(180/Math.PI * Math.log(Math.tan(Math.PI/4+a*(Math.PI/180)/2)));
     }
 
-    function x2lon(a) {
+    x2lon: function (a) {
         return moinsfacteur(a);
     }
 
-    function lon2x(a) {
+    lon2x: function (a) {
         return plusfacteur(a);
     }
