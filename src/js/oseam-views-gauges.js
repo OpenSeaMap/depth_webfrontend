@@ -64,9 +64,9 @@ OSeaM.views.Gauges = OSeaM.View.extend({
                 sphericalMercator: true
             }
         );
-        this.layerTrackPoints = new OpenLayers.Layer.WMS('Track Points',
+        this.layerGauge = new OpenLayers.Layer.WMS('Gauge',
             'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
-                layers: 'trackpoints_cor1_test_dbs,trackpoints_cor1_test,test_zoom_10_cor_1_points,test_zoom_9_cor_1_points,test_zoom_8_cor_1_points,test_zoom_7_cor_1_points,test_zoom_6_cor_1_points,test_zoom_5_cor_1_points,test_zoom_4_cor_1_points,test_zoom_3_cor_1_points,test_zoom_2_cor_1_points',
+                layers: 'gauge',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
                 type: 'png',
@@ -79,7 +79,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 
         this.map.addLayers([
             this.layerBase,
-            this.layerTrackPoints
+            this.layerGauge
         ]);
         this.map.addControls([
             new OpenLayers.Control.Attribution(),
