@@ -128,23 +128,23 @@ OSeaM.views.Gauges = OSeaM.View.extend({
     },
     plusfacteur : function (a) {
         return a * (20037508.34 / 180);
-    }
+    },
 
     moinsfacteur: function (a) {
         return a / (20037508.34 / 180);
-    }
+    },
 
     y2lat: function (a) {
         return 180/Math.PI * (2 * Math.atan(Math.exp(moinsfacteur(a)*Math.PI/180)) - Math.PI/2);
-    }
+    },
 
     lat2y: function (a) {
         return plusfacteur(180/Math.PI * Math.log(Math.tan(Math.PI/4+a*(Math.PI/180)/2)));
-    }
+    },
 
     x2lon: function (a) {
         return moinsfacteur(a);
-    }
+    },
 
     lon2x: function (a) {
         return plusfacteur(a);
