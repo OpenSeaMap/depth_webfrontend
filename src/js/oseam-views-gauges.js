@@ -12,9 +12,10 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Gauges = OSeaM.View.extend({
+	var gauges;
 	initialize: function() {
-		this.gauges = new OSeaM.models.Gauges();
-		this.listenTo(this.gauges, 'reset', this.refreshGauges);
+		gauges = new OSeaM.models.Gauges();
+		this.listenTo(gauges, 'reset', this.refreshGauges);
 	},
 	render: function() {
 		var language = OSeaM.frontend.getLanguage();
