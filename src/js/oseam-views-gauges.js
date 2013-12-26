@@ -25,6 +25,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         return this;
     },
     initOpenLayers: function() {
+    	var self = this;
 
         this.projectionWGS84    = new OpenLayers.Projection('EPSG:4326');
         this.projectionMercator = new OpenLayers.Projection('EPSG:900913');
@@ -35,7 +36,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 
         this.map = new OpenLayers.Map(this.$el.find('.oseam-map-tracks')[0], {
         	eventListeners: {
-                moveend     : this.mapEventMove
+                moveend     : this.mapEventMove(self)
             },
             projection: this.projectionMercator,
             displayProjection: this.projectionWGS84,
@@ -109,12 +110,12 @@ OSeaM.views.Gauges = OSeaM.View.extend({
           ), 3
         );
     },
-    mapEventMove: function (event) {
+    mapEventMove: function (event, collection) {
 //        // Set cookie for remembering lat lon values
 //        setCookie("lat", y2lat(map.getCenter().lat).toFixed(5));
 //        setCookie("lon", x2lon(map.getCenter().lon).toFixed(5));
         // Update tidal scale layer
-    	this.collection.fetch();
+    	collection.fetch();
     },
     refreshGauges: function (event) {
         var layer_poi_icon_style = OpenLayers.Util.extend({});
