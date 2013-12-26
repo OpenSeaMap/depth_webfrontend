@@ -21,6 +21,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'introduction' : 'introduction',
         'tracks'       : 'tracks',
         'vessels'      : 'vessels',
+        'gauges'      : 'gauges',
         'maptracks'    : 'maptracks',
         'license'      : 'license',
         'instructions' : 'instructions',
