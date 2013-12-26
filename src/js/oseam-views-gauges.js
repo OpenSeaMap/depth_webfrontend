@@ -149,3 +149,5 @@ OSeaM.views.Gauges = OSeaM.View.extend({
     lon2x: function (a) {
         return plusfacteur(a);
     }
+});
+    
