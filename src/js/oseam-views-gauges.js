@@ -35,7 +35,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 
         this.map = new OpenLayers.Map(this.$el.find('.oseam-map-tracks')[0], {
         	eventListeners: {
-                moveend     : mapEventMove
+                moveend     : this.mapEventMove
             },
             projection: this.projectionMercator,
             displayProjection: this.projectionWGS84,
