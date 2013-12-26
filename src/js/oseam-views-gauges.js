@@ -77,8 +77,9 @@ OSeaM.views.Gauges = OSeaM.View.extend({
                 strokeWidth: 3,
                 cursor: "pointer"
             },
-            projection: wgs84,
-            strategies: [new OpenLayers.Strategy.Fixed()]
+            projection: wgs84
+//            ,
+//            strategies: [new OpenLayers.Strategy.Fixed()]
         });
         
         this.layerGauge = new OpenLayers.Layer.WMS('Gauge',
