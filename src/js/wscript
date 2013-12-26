@@ -17,6 +17,8 @@ def configure(ctx):
         'oseam-models-license.js',
         'oseam-models-licenses.js',
         'oseam-models-offset.js',
+        'oseam-models-gauge.js',
+        'oseam-models-gauges.js',
         'oseam-models-track.js',
         'oseam-models-tracks.js',
         'oseam-models-vessel.js',
