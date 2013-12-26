@@ -90,7 +90,9 @@ OSeaM.routers.Router = Backbone.Router.extend({
 //    	} 
     },
     gauges: function() {
-    	this.renderTopAndNavBar('gauges');
+    	this.renderTopAndNavBar('gauges', {
+			collection : OSeaM.frontend.getGauges()
+		});
 //    	if (this.checkAuthenticated() === true) {
     	OSeaM.frontend.startView('Gauges');
 //    	}

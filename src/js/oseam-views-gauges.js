@@ -12,10 +12,8 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Gauges = OSeaM.View.extend({
-	gauges:null,
 	initialize: function() {
-		gauges = new OSeaM.models.Gauges();
-		this.listenTo(gauges, 'reset', this.refreshGauges);
+		this.listenTo(this.collection, 'reset', this.refreshGauges);
 	},
 	render: function() {
 		var language = OSeaM.frontend.getLanguage();
@@ -115,7 +113,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 //        setCookie("lat", y2lat(map.getCenter().lat).toFixed(5));
 //        setCookie("lon", x2lon(map.getCenter().lon).toFixed(5));
         // Update tidal scale layer
-    	gauges.fetch();
+    	this.collection.fetch();
     },
     refreshGauges: function (event) {
         var layer_poi_icon_style = OpenLayers.Util.extend({});
