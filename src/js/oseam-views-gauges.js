@@ -12,7 +12,11 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Gauges = OSeaM.View.extend({
-    render: function() {
+	initialize: function() {
+		this.gauges = new OSeaM.models.Gauges();
+		this.listenTo(this.gauges, 'reset', this.refreshGauges);
+	},
+	render: function() {
 		var language = OSeaM.frontend.getLanguage();
 		var template = OSeaM.loadTemplate('gauges-' + language);
         var content = $(template());
@@ -31,6 +35,9 @@ OSeaM.views.Gauges = OSeaM.View.extend({
                                       );
 
         this.map = new OpenLayers.Map(this.$el.find('.oseam-map-tracks')[0], {
+        	eventListeners: {
+                moveend     : mapEventMove
+            },
             projection: this.projectionMercator,
             displayProjection: this.projectionWGS84,
             maxExtent: this.maxExtent,
@@ -64,6 +71,17 @@ OSeaM.views.Gauges = OSeaM.View.extend({
                 sphericalMercator: true
             }
         );
+        var wgs84 = new OpenLayers.Projection("EPSG:4326");
+        this.layerGaugeVector = new OpenLayers.Layer.Vector("Gauges", {
+            style: {
+                strokeColor: "blue",
+                strokeWidth: 3,
+                cursor: "pointer"
+            },
+            projection: wgs84,
+            strategies: [new OpenLayers.Strategy.Fixed()]
+        });
+        
         this.layerGauge = new OpenLayers.Layer.WMS('Gauge',
             'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
                 layers: 'gauge',
@@ -79,7 +97,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 
         this.map.addLayers([
             this.layerBase,
-            this.layerGauge
+            this.layerGaugeVector
         ]);
         this.map.addControls([
             new OpenLayers.Control.Attribution(),
@@ -90,5 +108,44 @@ OSeaM.views.Gauges = OSeaM.View.extend({
             this.projectionMercator
           ), 3
         );
+    },
+    function mapEventMove(event) {
+//        // Set cookie for remembering lat lon values
+//        setCookie("lat", y2lat(map.getCenter().lat).toFixed(5));
+//        setCookie("lon", x2lon(map.getCenter().lon).toFixed(5));
+        // Update tidal scale layer
+    	gauges.fetch();
+    },
+    function refreshGauges(event) {
+        var layer_poi_icon_style = OpenLayers.Util.extend({});
+        var gaugePoint = new OpenLayers.Geometry.Point(x, y);
+
+        layer_poi_icon_style.externalGraphic = './images/tidal_scale_24.png';
+        layer_poi_icon_style.graphicWidth = 24;
+        layer_poi_icon_style.graphicHeight = 24;
+        var pointFeature = new OpenLayers.Feature.Vector(gaugePoint, null, layer_poi_icon_style);
+        this.layerGaugeVector.addFeatures([pointFeature]);
+    },
+    function plusfacteur(a) {
+        return a * (20037508.34 / 180);
     }
-});
+
+    function moinsfacteur(a) {
+        return a / (20037508.34 / 180);
+    }
+
+    function y2lat(a) {
+        return 180/Math.PI * (2 * Math.atan(Math.exp(moinsfacteur(a)*Math.PI/180)) - Math.PI/2);
+    }
+
+    function lat2y(a) {
+        return plusfacteur(180/Math.PI * Math.log(Math.tan(Math.PI/4+a*(Math.PI/180)/2)));
+    }
+
+    function x2lon(a) {
+        return moinsfacteur(a);
+    }
+
+    function lon2x(a) {
+        return plusfacteur(a);
+    }
