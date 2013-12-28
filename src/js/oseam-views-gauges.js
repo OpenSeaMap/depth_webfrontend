@@ -121,15 +121,16 @@ OSeaM.views.Gauges = OSeaM.View.extend({
     	event.collection.fetch(this.layerGaugeVector);
     },
     refreshGauges: function (event) {
+		this.layerGaugeVector.removeAllFeatures();
         var layer_poi_icon_style = OpenLayers.Util.extend({});
 		for(var i=0; i<event.models.length; i++) {
-        var gaugePoint = new OpenLayers.Geometry.Point(event.models[i].get('longitude'), event.models[i].get('latitude'));
+//        var gaugePoint = ;
 
         layer_poi_icon_style.externalGraphic = './images/tidal_scale_24.png';
         layer_poi_icon_style.graphicWidth = 24;
         layer_poi_icon_style.graphicHeight = 24;
-        var pointFeature = new OpenLayers.Feature.Vector(gaugePoint, null, layer_poi_icon_style);
-        this.layerGaugeVector.addFeatures([pointFeature]);
+//        var pointFeature = ;
+        this.layerGaugeVector.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(this.lon2x(event.models[i].get('longitude')), this.lat2y(event.models[i].get('latitude')), null, layer_poi_icon_style))]);
 		}
     },
     plusfacteur : function (a) {
@@ -141,19 +142,19 @@ OSeaM.views.Gauges = OSeaM.View.extend({
     },
 
     y2lat: function (a) {
-        return 180/Math.PI * (2 * Math.atan(Math.exp(moinsfacteur(a)*Math.PI/180)) - Math.PI/2);
+        return 180/Math.PI * (2 * Math.atan(Math.exp(this.moinsfacteur(a)*Math.PI/180)) - Math.PI/2);
     },
 
     lat2y: function (a) {
-        return plusfacteur(180/Math.PI * Math.log(Math.tan(Math.PI/4+a*(Math.PI/180)/2)));
+        return this.plusfacteur(180/Math.PI * Math.log(Math.tan(Math.PI/4+a*(Math.PI/180)/2)));
     },
 
     x2lon: function (a) {
-        return moinsfacteur(a);
+        return this.moinsfacteur(a);
     },
 
     lon2x: function (a) {
-        return plusfacteur(a);
+        return this.plusfacteur(a);
     }
 });
     
