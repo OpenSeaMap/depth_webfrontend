@@ -21,9 +21,9 @@ OSeaM.views.User = OSeaM.View.extend({
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
-        $('#countries').bfhcountries({country: 'DE'})
-        $('#languages').bfhlanguages({language: 'de'})
-        $('#phones').bfhphone({number: '1231234567'})
+        $('#countries').bfhcountries({country: 'DE'});
+        $('#languages').bfhlanguages({language: 'de'});
+        $('#phones').bfhphone();
         return this;
     }
 });
