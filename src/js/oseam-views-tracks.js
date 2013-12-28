@@ -111,7 +111,7 @@ OSeaM.views.Tracks = OSeaM.View
 			            progress : 1,
 			            vesselconfigid : self.candidateTrack.get('vesselconfigid')
 			        });
-					this.collection.add(newTrack); 
+					self.collection.add(newTrack); 
 					var fn = function(track, evt) {
 						newTrack.onReaderLoad(evt, track, newTrack.id);
 					}
