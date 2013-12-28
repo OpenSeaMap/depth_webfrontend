@@ -15,6 +15,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 	initialize: function() {
 		this.listenTo(this.collection, 'reset', this.refreshGauges);
 		this.initOpenLayers();
+		this.collection.fetch();
 	},
 	render: function() {
 		var language = OSeaM.frontend.getLanguage();
@@ -22,7 +23,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
-//        this.initOpenLayers();
+        this.initOpenLayers();
         return this;
     },
     initOpenLayers: function() {
