@@ -38,7 +38,9 @@ OSeaM.views.gpspage = OSeaM.View.extend({
 //    	$("#draggableGps").css("top", (e.clientY - position.y) + "px");
     },
     render: function() {
-        var template = OSeaM.loadTemplate('gpsoffset');
+			var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('gpsoffset-' + language);
+        //var template = OSeaM.loadTemplate('gpsoffset');
         var sbasoffset = this.model.get('sbasoffset'); 
         var relativeY = sbasoffset.get('distanceFromStern') / this.model.get('loa');
         var relativeX = sbasoffset.get('distanceFromCenter') / this.model.get('breadth');
@@ -48,6 +50,9 @@ OSeaM.views.gpspage = OSeaM.View.extend({
         	gps_distanceFromStern : sbasoffset.get('distanceFromStern'),
         	gps_distanceFromCenter : sbasoffset.get('distanceFromCenter'),
         	gps_distanceWaterline : sbasoffset.get('distanceWaterline'),
+			gps_OffsetKeel : sbasoffset.get('distanceKeel'),
+			gps_manufacturer : sbasoffset.get('manufacturer'),
+			gps_model : sbasoffset.get('model'),
         	top : topY,		
         	left : leftX
 		}));
@@ -68,7 +73,46 @@ OSeaM.views.gpspage = OSeaM.View.extend({
 //        var topY = (((-1) * (relativeY * 250)) + 250) + "px";
 //    	$("#draggableGps").css("top", topY + "px");
 //    },
-    validate: function() {
-    	return true;
+    
+	validate: function() {
+
+	  
+		var sbasoffset = this.model.get('sbasoffset');
+     		
+			
+	  this.removeAlerts();
+        var errors = [];
+        		
+		if (OSeaM.utils.Validation.gps_distanceFromStern(sbasoffset.get('distanceFromStern')) !== true){
+			this.markInvalid($('#gps_distanceFromStern'), '1107:Please enter a decimal');
+            }
+				if (OSeaM.utils.Validation.gps_distanceFromCenter(sbasoffset.get('distanceFromCenter')) !== true){
+			this.markInvalid($('#gps_distanceFromCenter'), '1107:Please enter a decimal');
+            }
+		if (OSeaM.utils.Validation.gps_distanceWaterline(sbasoffset.get('distanceWaterline')) !== true){
+			this.markInvalid($('#gps_distanceWaterline'), '1107:Please enter a decimal');
+            }
+			
+							
+				
+        return this.isValid;
+    
+    },
+	    markInvalid: function(field, text) {
+        field.parents('.control-group').addClass('error');
+	    field.nextAll('.help-inline').attr('data-trt', text);
+		  
+		// alles wird markliert
+		//this.$el.find('.help-inline').attr('data-trt', text);  
+        OSeaM.frontend.translate(this.$el);
+        this.isValid = false;
+    },
+    removeAlerts: function() {
+        this.$el.find('.alert').remove();
+        this.$el.find('.control-group').removeClass('error');
+        this.$el.find('.help-inline').removeAttr('data-trt');
+        this.$el.find('.help-inline').html('');
+        this.isValid = true;
     }
+	
 });

@@ -11,32 +11,7 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.models.Tracks = Backbone.Collection.extend({
-    model: OSeaM.models.Track,
-    url: OSeaM.apiUrl + 'track',
-    uploadFile: function(file) {
-        var track = new OSeaM.models.Track();
-        this.add(track);
-        track.uploadFile(file);
-    },
-    sortAttribute: "id",
-    sortDirection: 1,
-  
-    sortTracks: function (attr) {
-       this.sortAttribute = attr;
-       this.sort();
-    },
-  
-    comparator: function(a, b) {
-       var a = a.get(this.sortAttribute),
-           b = b.get(this.sortAttribute);
-  
-       if (a == b) return 0;
-  
-       if (this.sortDirection == 1) {
-          return a > b ? 1 : -1;
-       } else {
-          return a < b ? 1 : -1;
-       }
-    }
+OSeaM.models.Gauges = Backbone.Collection.extend({
+    model: OSeaM.models.Gauge,
+    url: OSeaM.apiUrl + 'gauge'
 });

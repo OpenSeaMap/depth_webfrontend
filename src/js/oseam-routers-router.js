@@ -21,6 +21,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'introduction' : 'introduction',
         'tracks'       : 'tracks',
         'vessels'      : 'vessels',
+        'gauges'      : 'gauges',
         'maptracks'    : 'maptracks',
         'license'      : 'license',
         'instructions' : 'instructions',
@@ -90,11 +91,11 @@ OSeaM.routers.Router = Backbone.Router.extend({
     },
     gauges: function() {
     	this.renderTopAndNavBar('gauges');
-    	if (this.checkAuthenticated() === true) {
+//    	if (this.checkAuthenticated() === true) {
     	OSeaM.frontend.startView('Gauges', {
-    			collection : OSeaM.frontend.getGauges()
-    			});
-    	}
+			collection : OSeaM.frontend.getGauges()
+		});
+//    	}
     },
     maptracks: function() {
         this.renderTopAndNavBar('maptracks');

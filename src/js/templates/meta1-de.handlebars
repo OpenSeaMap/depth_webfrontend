@@ -1,18 +1,23 @@
 <div>
         <form class="form-horizontal"> <span style="position:relative; top:0px; left:670px; float: left;"><a href="http://wiki.openseamap.org/wiki/De:Metadata_help" target="_blank"><img src="images/help.png" width="32" height="32"/></a></span>
-            <legend data-trt="1071:Vessel Configuration Name"></legend>
-            <div class="control-group">
-                <label class="control-label" for="name">Name</label>
-                <div class="controls">
-                    <input type="text" id="name" name="name" data-trt-placeholder="1071:Vessel Name" value="{{name}}" />
-					<span class="help-inline"></span>
-                    <span class="help-block">Bitte geben Sie einen individuellen Namen für die Fahrzeugkonfiguration ein.</span>
-                </div>
-            </div>
-			
-            <legend data-trt="1074:Description"></legend>
+        <h4>Allgemein</h4>
+        <h5>Vergeben Sie einen Namen und zus�tzliche Details</h5>
+
+                     
+	<div class="control-group">
+    <legend data-trt="1071:Name der Konfiguration"></legend>
+    <p><label for="name" class="tableft50">Name</label></p>
+    <div class="input-append">
+        <input type="text" id="name" name="name" placeholder="Name der Fahrzeugkonfiguration" value="{{name}}" title="Bitte geben Sie einen individuellen Namen für die Fahrzeugkonfiguration ein.">
+		 <span class="help-inline helpOsm"></span>
+    </div>
+    </div>
+	
+			<div class="control-group">
+            <legend data-trt="1074:Anmerkungen"></legend>
             <div class="input-append">
                 <textarea class="textareabig" name="description" id="description" placeholder="Bitte geben Sie hier zusätzliche Informationen ein die uns helfen könnten die Datenqualität zu verbessern">{{description}}</textarea>
-            </div>                      
+            </div>                     
+			</div>			
         </form>
     </div>    

@@ -73,5 +73,8 @@
 	"1102":"The Configuration Name already exist, choose a new One",
 	"1103":"Please enter a decimal (e.g. 5.5)",
 	"1104":"Edit Vessel Configuration",
+	"1105":"Please enter the vessel length",
+	"1106":"Please enter the beam",
+	"1107":"Please enter a decimal",
 	"9103":"Username already exists."
 }
