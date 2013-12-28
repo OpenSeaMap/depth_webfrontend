@@ -13,7 +13,8 @@
 
 OSeaM.views.About = OSeaM.View.extend({
     render: function() {
-        var template = OSeaM.loadTemplate('about');
+		var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('about-' + language);
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
