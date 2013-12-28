@@ -15,9 +15,9 @@ OSeaM.models.Gauge = Backbone.Model.extend({
     defaults: {
         id   : null,
         name   : '',
-		gaugetype   : '',
-		lat: '',
-		lon: ''
+        gaugeType   : '',
+		latitude: '',
+		longitude: ''
 		
     },
     url: function() {
