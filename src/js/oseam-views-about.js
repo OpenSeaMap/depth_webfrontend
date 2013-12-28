@@ -12,6 +12,9 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.About = OSeaM.View.extend({
+    initialize: function() {
+        OSeaM.frontend.on('change:language', this.render, this);
+    },
     render: function() {
 		var language = OSeaM.frontend.getLanguage();
 		var template = OSeaM.loadTemplate('about-' + language);
