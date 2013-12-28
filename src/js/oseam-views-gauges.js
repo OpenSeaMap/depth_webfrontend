@@ -130,7 +130,10 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         layer_poi_icon_style.graphicWidth = 24;
         layer_poi_icon_style.graphicHeight = 24;
 //        var pointFeature = ;
-        this.layerGaugeVector.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(this.lon2x(event.models[i].get('longitude')), this.lat2y(event.models[i].get('latitude')), null, layer_poi_icon_style))]);
+// ,
+        this.layerGaugeVector.addFeatures([new OpenLayers.Feature.Vector(
+			new OpenLayers.Geometry.Point(this.lon2x(event.models[i].get('longitude')), this.lat2y(event.models[i].get('latitude'))), null, layer_poi_icon_style
+			)]);
 		}
     },
     plusfacteur : function (a) {
