@@ -74,6 +74,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 //            strategies: [new OpenLayers.Strategy.Fixed()]
         });
         
+        // legacy layer where gauges are pre-rendered
         this.layerGauge = new OpenLayers.Layer.WMS('Gauge',
             'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
                 layers: 'gauge',
@@ -114,19 +115,17 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         );
 		this.layerGaugeVector.events.on({
                 'featureselected': function(feature) {
-//					var view = feature.feature.data.view;
+                	// shows the details view
 				    this.detailView = new OSeaM.views.Gauge({ model: feature.feature.data.model });
-          			$("#detail").append(this.detailView.el);
-//					alert("y");
-
-//                    document.getElementById('counter').innerHTML = this.selectedFeatures.length;
+          			$("#detail").append(this.detailView.render().el);
                 },
                 'featureunselected': function(feature) {
-					alert("x");
-//                    document.getElementById('counter').innerHTML = this.selectedFeatures.length;
+                	// removes the details view
+					$("#detail").empty();
                 }
             });
 
+		// this makes the gauge selectable
 		var sf = new OpenLayers.Control.SelectFeature( this.layerGaugeVector);
 		this.map.addControl(sf);
 		sf.activate();
@@ -139,6 +138,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         // Update tidal scale layer
     	event.collection.fetch(this.layerGaugeVector);
     },
+    // show a gauge icon for each view in the map
     refreshGauges: function (event) {
 		this.layerGaugeVector.removeAllFeatures();
         var layer_poi_icon_style = OpenLayers.Util.extend({});
