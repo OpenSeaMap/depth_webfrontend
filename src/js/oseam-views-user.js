@@ -23,7 +23,7 @@ OSeaM.views.User = OSeaM.View.extend({
         this.$el.html(content);
         $('#countries').bfhcountries({country: 'DE'});
         $('#languages').bfhlanguages({language: 'de'});
-        $('#phones').bfhphone();
+        $('#phones').bfhphone({format : '+1 ddd ddddddd'});
         return this;
     }
 });
