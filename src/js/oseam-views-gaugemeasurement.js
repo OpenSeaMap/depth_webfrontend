@@ -12,6 +12,7 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Gauge = OSeaM.View.extend({
+    tagName: 'tr',
     events: {
         'click .icon-trash' : 'onDelete'
     },
@@ -22,10 +23,7 @@ OSeaM.views.Gauge = OSeaM.View.extend({
         var template = OSeaM.loadTemplate('gauge');
         var content = $(template({
             id : this.model.get('id'),
-            name : this.model.get('name'),
-            type : this.model.get('gaugeType'),
-            lat : this.model.get('latitude'),
-            lon : this.model.get('longitude')
+            name : this.model.get('name')
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);

@@ -112,6 +112,25 @@ OSeaM.views.Gauges = OSeaM.View.extend({
             this.projectionMercator
           ), 3
         );
+		this.layerGaugeVector.events.on({
+                'featureselected': function(feature) {
+//					var view = feature.feature.data.view;
+				    this.detailView = new OSeaM.views.Gauge({ model: feature.feature.data.model });
+          			$("#detail").append(this.detailView.el);
+//					alert("y");
+
+//                    document.getElementById('counter').innerHTML = this.selectedFeatures.length;
+                },
+                'featureunselected': function(feature) {
+					alert("x");
+//                    document.getElementById('counter').innerHTML = this.selectedFeatures.length;
+                }
+            });
+
+		var sf = new OpenLayers.Control.SelectFeature( this.layerGaugeVector);
+		this.map.addControl(sf);
+		sf.activate();
+
     },
     mapEventMove: function (event, collection) {
 //        // Set cookie for remembering lat lon values
@@ -124,16 +143,20 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 		this.layerGaugeVector.removeAllFeatures();
         var layer_poi_icon_style = OpenLayers.Util.extend({});
 		for(var i=0; i<event.models.length; i++) {
-//        var gaugePoint = ;
-
-        layer_poi_icon_style.externalGraphic = './images/tidal_scale_24.png';
-        layer_poi_icon_style.graphicWidth = 24;
-        layer_poi_icon_style.graphicHeight = 24;
-//        var pointFeature = ;
-// ,
-        this.layerGaugeVector.addFeatures([new OpenLayers.Feature.Vector(
-			new OpenLayers.Geometry.Point(this.lon2x(event.models[i].get('longitude')), this.lat2y(event.models[i].get('latitude'))), null, layer_poi_icon_style
-			)]);
+	        layer_poi_icon_style.externalGraphic = './images/tidal_scale_24.png';
+	        layer_poi_icon_style.graphicWidth = 24;
+	        layer_poi_icon_style.graphicHeight = 24;
+	        this.layerGaugeVector.addFeatures([new OpenLayers.Feature.Vector(
+				new OpenLayers.Geometry.Point(
+					this.lon2x(event.models[i].get('longitude')), 
+					this.lat2y(event.models[i].get('latitude'))
+					),
+					{
+						model: event.models[i],
+						view : this
+					} ,
+					layer_poi_icon_style
+				)]);
 		}
     },
     plusfacteur : function (a) {
