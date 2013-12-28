@@ -73,28 +73,30 @@ OSeaM.views.Tracks = OSeaM.View
 				}
 //				 alert('onFileSelected');
 				for ( var i = 0; i < evt.target.files.length; i++) {
-					var newTrack = new OSeaM.models.Track()
-					// get vesselconfig from somewhere
-					newTrack.set({
-			            fileName : evt.target.files[i].name,
-			            status : this.STATUS_STARTING_UPLOAD,
-			            license : this.candidateTrack.get('license'),
-			            vesselconfigid : this.candidateTrack.get('vesselconfigid')
-			        });
-					this.collection.add(newTrack); 
-					var fn = function(track, evt) {
-						newTrack.onReaderLoad(evt, track, newTrack.id);
+					var storeTrack = function(newTrack) {
+						// get vesselconfig from somewhere
+						newTrack.set({
+							fileName : evt.target.files[i].name,
+							status : this.STATUS_STARTING_UPLOAD,
+							license : this.candidateTrack.get('license'),
+							vesselconfigid : this.candidateTrack.get('vesselconfigid')
+						});
+						this.collection.add(newTrack); 
+						var fn = function(track, evt) {
+							newTrack.onReaderLoad(evt, track, newTrack.id);
+						}
+						// issue a post request
+						var jqXHR = newTrack.save({}, {
+							// TODO: do something with the error
+							error: function(newTrack, xhr, options) {
+								this.collection.remove(newTrack);
+								console.log(xhr);            
+							},
+							// on success start the progress of upload
+							success: jQuery.proxy(fn,this, evt.target.files[i])
+						});
 					}
-					// issue a post request
-					var jqXHR = newTrack.save({}, {
-						// TODO: do something with the error
-						error: function(newTrack, xhr, options) {
-							this.collection.remove(newTrack);
-					        console.log(xhr);            
-					    },
-					    // on success start the progress of upload
-					    success: jQuery.proxy(fn,this, evt.target.files[i])
-					});
+					storeTrack(new OSeaM.models.Track());
 				}
 			},
 			onAddItem : function(model) {
