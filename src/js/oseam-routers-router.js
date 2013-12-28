@@ -22,6 +22,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'tracks'       : 'tracks',
         'vessels'      : 'vessels',
         'gauges'      : 'gauges',
+        'user'      : 'user',
         'maptracks'    : 'maptracks',
         'license'      : 'license',
         'instructions' : 'instructions',
@@ -60,6 +61,10 @@ OSeaM.routers.Router = Backbone.Router.extend({
     about: function() {
         this.renderTopAndNavBar('about');
         OSeaM.frontend.startView('About');
+    },
+    user: function() {
+        this.renderTopAndNavBar('user');
+        OSeaM.frontend.startView('User');
     },
     register: function() {
         this.renderTopAndNavBar('register');
