@@ -27,10 +27,10 @@ OSeaM = {
     init: function() {
         OSeaM.configureBackboneSync();
         this.frontend = new OSeaM.models.Frontend();
-        if(localstorage.language == null) {
-        	localstorage.language = 'en';
+        if(localStorage.language == null) {
+        	localStorage.language = 'en';
         }
-        this.frontend.setLanguage(localstorage.language);
+        this.frontend.setLanguage(localStorage.language);
         this.container = $('.oseam-container');
         this.router = new OSeaM.routers.Router();
         Backbone.history.start();
