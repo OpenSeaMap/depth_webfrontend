@@ -14,6 +14,7 @@
 OSeaM.views.Gauges = OSeaM.View.extend({
 	initialize: function() {
 		this.listenTo(this.collection, 'reset', this.refreshGauges);
+		this.initOpenLayers();
 	},
 	render: function() {
 		var language = OSeaM.frontend.getLanguage();
@@ -21,7 +22,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
-        this.initOpenLayers();
+//        this.initOpenLayers();
         return this;
     },
     initOpenLayers: function() {
@@ -34,17 +35,6 @@ OSeaM.views.Gauges = OSeaM.View.extend({
                                           this.projectionMercator
                                       );
 
-        this.map = new OpenLayers.Map(this.$el.find('.oseam-map-tracks')[0], {
-        	eventListeners: {
-                moveend     : this.mapEventMove(self)
-            },
-            projection: this.projectionMercator,
-            displayProjection: this.projectionWGS84,
-            maxExtent: this.maxExtent,
-            numZoomLevels: 22,
-            maxResolution: 156543.0399,
-            units: 'meters'
-        });
  
         this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap',
             'http://osm1.wtnet.de/tiles/base/${z}/${x}/${y}.png', {
@@ -96,6 +86,18 @@ OSeaM.views.Gauges = OSeaM.View.extend({
             }
         );
 
+        this.map = new OpenLayers.Map(this.$el.find('.oseam-map-tracks')[0], {
+//        	eventListeners: {
+//                moveend     : this.mapEventMove(self)
+//            },
+            projection: this.projectionMercator,
+            displayProjection: this.projectionWGS84,
+            maxExtent: this.maxExtent,
+            numZoomLevels: 22,
+            maxResolution: 156543.0399,
+            units: 'meters'
+        });
+
         this.map.addLayers([
             this.layerBase,
             this.layerGaugeVector
@@ -115,17 +117,19 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 //        setCookie("lat", y2lat(map.getCenter().lat).toFixed(5));
 //        setCookie("lon", x2lon(map.getCenter().lon).toFixed(5));
         // Update tidal scale layer
-    	collection.fetch();
+    	event.collection.fetch(this.layerGaugeVector);
     },
     refreshGauges: function (event) {
         var layer_poi_icon_style = OpenLayers.Util.extend({});
-        var gaugePoint = new OpenLayers.Geometry.Point(x, y);
+		for(var i=0; i<event.models.length; i++) {
+        var gaugePoint = new OpenLayers.Geometry.Point(event.models[i].get('longitude'), event.models[i].get('latitude'));
 
         layer_poi_icon_style.externalGraphic = './images/tidal_scale_24.png';
         layer_poi_icon_style.graphicWidth = 24;
         layer_poi_icon_style.graphicHeight = 24;
         var pointFeature = new OpenLayers.Feature.Vector(gaugePoint, null, layer_poi_icon_style);
         this.layerGaugeVector.addFeatures([pointFeature]);
+		}
     },
     plusfacteur : function (a) {
         return a * (20037508.34 / 180);
