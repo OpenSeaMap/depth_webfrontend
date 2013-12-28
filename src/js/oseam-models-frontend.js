@@ -83,6 +83,7 @@ OSeaM.models.Frontend = Backbone.Model.extend({
             this.set({language: language});
             this.translate($('body'));
         }
+        localstorage.language = 'language';
     },
     getLanguage: function() {
         return this.get('language');
