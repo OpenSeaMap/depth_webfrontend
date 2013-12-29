@@ -18,12 +18,18 @@ OSeaM.views.User = OSeaM.View.extend({
     render: function() {
         var language = OSeaM.frontend.getLanguage();
         var template = OSeaM.loadTemplate('user-' + language);
-        var content = $(template());
+        var content = $(template( {
+            user_name         : this.model.get('user_name'),
+            forename   : this.model.get('forname'),
+            surname   : this.model.get('surname'),
+            organisation   : this.model.get('organisation'),
+            acceptedEmailContact   : this.model.get('acceptedEmailContact')
+        }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
-        $('#countries').bfhcountries({country: 'DE'});
-        $('#languages').bfhlanguages({language: 'de'});
-        $('#phones').bfhphone({country: 'countries'});
+        $('#countries').bfhcountries({country: this.model.get('country')});
+        $('#languages').bfhlanguages({language: this.model.get('lanugage')});
+        $('#phones').bfhphone({country: 'countries', number : 'phone'});
         return this;
     }
 });

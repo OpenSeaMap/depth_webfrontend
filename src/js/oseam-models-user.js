@@ -20,6 +20,6 @@ OSeaM.models.User = Backbone.Model.extend({
         language    : null
     },
     urlRoot: function() {
-    	return OSeaM.apiUrl + 'users';
+    	return OSeaM.apiUrl + 'users/current';
     }
 });
