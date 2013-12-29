@@ -31,7 +31,11 @@ OSeaM.views.User = OSeaM.View.extend({
         this.$el.html(content);
         $('#countries').bfhcountries({country: this.model.get('country')});
         $('#languages').bfhlanguages({language: this.model.get('lanugage')});
-        //$('#phones').bfhphone({country: 'countries'});
+        if(this.model.get('phone').length == 0) {
+        	$('#phones').bfhphone({country: 'countries'});
+        } else {
+        	$('#phones').bfhphone({country: 'countries', phone : this.model.get('phone')});
+        }
         return this;
     }
 });
