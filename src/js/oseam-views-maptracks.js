@@ -84,7 +84,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                     transparent: true
                 },{
                     isBaseLayer: false,
-                    tileSize: new OpenLayers.Size(1024,1024)
+                    tileSize: new OpenLayers.Size(1024,1024),
+                    visibility : false
                 }
             );
 
