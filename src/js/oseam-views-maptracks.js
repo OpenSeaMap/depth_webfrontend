@@ -22,8 +22,12 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
     },
     mapEventMove: function (view) {
         var fn = function(data) {
+//            this.attributionControl.updateAttribution();
+            this.layerBase.attribution = 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',
             this.layerTrackPoints10.attribution = data;
             this.layerTrackPoints.attribution = data;
+            this.attributionControl.draw();
+//            this.attributionControl = new OpenLayers.Control.Attribution();
             this.attributionControl.updateAttribution();
         };
         if(this.map != null) {
@@ -64,10 +68,10 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
 //        	},
             units: 'meters'
         });
+
  
         this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap',
             'http://osm1.wtnet.de/tiles/base/${z}/${x}/${y}.png', {
-                attribution: 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',
                 resolutions: [
                     156543.03390625, 78271.516953125, 39135.7584765625,
                     19567.87923828125, 9783.939619140625, 4891.9698095703125,
@@ -134,7 +138,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         );
         this.map.events.register( 'moveend', this, this.mapEventMove);
         
-//        this.mapEventMove(this);
+        this.mapEventMove(this);
     },
     plusfacteur : function (a) {
         return a * (20037508.34 / 180);
