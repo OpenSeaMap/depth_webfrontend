@@ -64,7 +64,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
     },
     user: function() {
         this.renderTopAndNavBar('user');
-        OSeaM.frontend.startView('User'. {
+        OSeaM.frontend.startView('User', {
             model: OSeaM.frontend.getUser()
         });
     },
