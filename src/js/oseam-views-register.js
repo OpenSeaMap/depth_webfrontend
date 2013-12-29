@@ -54,6 +54,14 @@ OSeaM.views.Register = OSeaM.View.extend({
 //            },
             success: jQuery.proxy(fn, this)
         });
+        $('#countries').bfhcountries({country: this.model.get('country')});
+        $('#languages').bfhlanguages({language: this.model.get('language')});
+        if(this.model.get('phone') == null) {
+        	$('#phones').bfhphone({country: 'countries'});
+        } else {
+        	$('#phones').bfhphone({country: 'countries', phone : this.model.get('phone')});
+        }
+
         return this;
     },
     replaceCaptcha: function(data) {
