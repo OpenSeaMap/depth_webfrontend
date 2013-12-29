@@ -121,7 +121,14 @@ OSeaM.views.Register = OSeaM.View.extend({
         var params = {
             username : this.fieldUsername.val(),
             password : this.fieldPassword1.val(),
-            captcha  : this.fieldCaptcha.val()
+            captcha  : this.fieldCaptcha.val(),
+            forename : this.$el.find('#forename').val(),
+        	surname : this.$el.find('#surname').val(),
+        	organisation : this.$el.find('#organisation').val(),
+        	acceptedEmailContact : this.$el.find('#acceptedEmailContact').val(),
+	        country : this.$el.find('#countries').val(),
+	        language : this.$el.find('#languages').val(),
+        	phone : this.$el.find('#phone').val()
         };
         params.password = jQuery.encoding.digests.hexSha1Str(params.password).toLowerCase();
         // TODO : license accept

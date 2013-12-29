@@ -41,15 +41,54 @@
         </div>
 </div>-->
     </div>
-	    <div class="control-group">
-        <div class="controls">
-            <label class="checkbox">
-                <input type="checkbox" id="{{idMail}}"></input>
-                <div data-trt="1071:blah"></div>
-            </label>
+        <div class="control-group">
+            <p><label class="tableft50">Forename</label></p>
+            <div class="input-append">
+                <input type="text" id="forename" name="forename" placeholder="Jane"/>
+            </div>
         </div>
-    </div>
-    <div class="control-group">
+
+        <div class="control-group">
+            <p><label class="tableft50">Surname</label></p>
+            <div class="input-append">
+                <input type="text" id="surname" name="surname" placeholder="Doe"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Organisation</label></p>
+            <div class="input-append">
+                <input type="text" id="organisation" name="organisation" placeholder="Your Organisation if any" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">You may contact me via E-Mail</label></p>
+            <div class="input-append">
+                <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact" checked="false"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Country</label></p>
+            <div class="input-append">
+                <select name="country" id="countries" class="form-control bfh-countries" data-country="US"></select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Language</label></p>
+            <div class="input-append">
+                <select name="language" id="languages" class="form-control bfh-languages" data-language="en"></select>            
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Phone</label></p>
+            <div class="input-append">
+                <input name="phone" id="phones" type="text" class="form-control bfh-phone" data-country="countries">
+            </div>
+        </div>    <div class="control-group">
         <div class="controls">
             <button type="submit" id="{{idSubmit}}" class="btn btn-primary" data-loading-text="Loading..." data-trt="1018:Register"></button>
         </div>
