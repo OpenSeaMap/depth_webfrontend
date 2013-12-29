@@ -21,6 +21,8 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'introduction' : 'introduction',
         'tracks'       : 'tracks',
         'vessels'      : 'vessels',
+        'gauges'      : 'gauges',
+        'user'      : 'user',
         'maptracks'    : 'maptracks',
         'license'      : 'license',
         'instructions' : 'instructions',
@@ -60,6 +62,12 @@ OSeaM.routers.Router = Backbone.Router.extend({
         this.renderTopAndNavBar('about');
         OSeaM.frontend.startView('About');
     },
+    user: function() {
+        this.renderTopAndNavBar('user');
+        OSeaM.frontend.startView('User', {
+            model: OSeaM.frontend.getUser()
+        });
+    },
     register: function() {
         this.renderTopAndNavBar('register');
         OSeaM.frontend.startView('Register', {
@@ -90,11 +98,11 @@ OSeaM.routers.Router = Backbone.Router.extend({
     },
     gauges: function() {
     	this.renderTopAndNavBar('gauges');
-    	if (this.checkAuthenticated() === true) {
+//    	if (this.checkAuthenticated() === true) {
     	OSeaM.frontend.startView('Gauges', {
-    			collection : OSeaM.frontend.getGauges()
-    			});
-    	}
+			collection : OSeaM.frontend.getGauges()
+		});
+//    	}
     },
     maptracks: function() {
         this.renderTopAndNavBar('maptracks');

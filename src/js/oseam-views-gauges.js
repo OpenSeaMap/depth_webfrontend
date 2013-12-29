@@ -11,43 +11,23 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.MapTracks = OSeaM.View.extend({
-    render: function() {
-        var template = OSeaM.loadTemplate('maptracks');
+OSeaM.views.Gauges = OSeaM.View.extend({
+	initialize: function() {
+		this.listenTo(this.collection, 'reset', this.refreshGauges);
+		this.render();
+		this.collection.fetch();
+	},
+	render: function() {
+		var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('gauges-' + language);
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         this.initOpenLayers();
         return this;
     },
-    mapEventMove: function (view) {
-        var fn = function(data) {
-//            this.attributionControl.updateAttribution();
-            this.layerBase.attribution = 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',
-            this.layerTrackPoints10.attribution = data;
-            this.layerTrackPoints.attribution = data;
-            this.attributionControl.draw();
-//            this.attributionControl = new OpenLayers.Control.Attribution();
-            this.attributionControl.updateAttribution();
-        };
-        if(this.map != null) {
-        var bounds = this.map.getExtent().toArray();
-        var b = this.y2lat(bounds[1]).toFixed(5);
-        var t = this.y2lat(bounds[3]).toFixed(5);
-        var l = this.x2lon(bounds[0]).toFixed(5);
-        var r = this.x2lon(bounds[2]).toFixed(5);
-        
-        jQuery.ajax({
-            type: 'GET',
-            url: OSeaM.apiUrl + 'license?lat1=' + b + '&lon1=' + l + '&lat2=' + t + '&lon2=' + r  ,
-            dataType: 'text',
-            success: jQuery.proxy(fn, this)
-        });
-            
-        }
-
-    },
     initOpenLayers: function() {
+    	var self = this;
 
         this.projectionWGS84    = new OpenLayers.Projection('EPSG:4326');
         this.projectionMercator = new OpenLayers.Projection('EPSG:900913');
@@ -56,22 +36,10 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                                           this.projectionMercator
                                       );
 
-        this.map = new OpenLayers.Map(this.$el.find('.oseam-map-tracks')[0], {
-            projection: this.projectionMercator,
-            displayProjection: this.projectionWGS84,
-            maxExtent: this.maxExtent,
-            numZoomLevels: 22,
-            maxResolution: 156543.0399,
-//        	events: {
-//        		moveend     : this.mapEventMove(this),
-//        		zoomend     : this.mapEventMove(this)
-//        	},
-            units: 'meters'
-        });
-
  
         this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap',
             'http://osm1.wtnet.de/tiles/base/${z}/${x}/${y}.png', {
+                attribution: 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',
                 resolutions: [
                     156543.03390625, 78271.516953125, 39135.7584765625,
                     19567.87923828125, 9783.939619140625, 4891.9698095703125,
@@ -94,9 +62,22 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 sphericalMercator: true
             }
         );
-        this.layerTrackPoints = new OpenLayers.Layer.WMS('100m',
+        var wgs84 = new OpenLayers.Projection("EPSG:4326");
+        this.layerGaugeVector = new OpenLayers.Layer.Vector("Gauges", {
+            style: {
+                strokeColor: "blue",
+                strokeWidth: 3,
+                cursor: "pointer"
+            },
+            projection: wgs84
+//            ,
+//            strategies: [new OpenLayers.Strategy.Fixed()]
+        });
+        
+        // legacy layer where gauges are pre-rendered
+        this.layerGauge = new OpenLayers.Layer.WMS('Gauge',
             'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
-                layers: 'trackpoints_cor1_test_dbs,trackpoints_cor1_test,test_zoom_10_cor_1_points,test_zoom_9_cor_1_points,test_zoom_8_cor_1_points,test_zoom_7_cor_1_points,test_zoom_6_cor_1_points,test_zoom_5_cor_1_points,test_zoom_4_cor_1_points,test_zoom_3_cor_1_points,test_zoom_2_cor_1_points',
+                layers: 'gauge',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
                 type: 'png',
@@ -106,39 +87,77 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 tileSize: new OpenLayers.Size(1024,1024)
             }
         );
-        this.layerTrackPoints10 = new OpenLayers.Layer.WMS('10m',
-                'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
-                    layers: 'trackpoints_cor1_test_dbs_10,trackpoints_cor1_test_10,test_zoom_10_cor_1_points_10,test_zoom_9_cor_1_points_10,test_zoom_8_cor_1_points_10,test_zoom_7_cor_1_points_10,test_zoom_6_cor_1_points_10,test_zoom_5_cor_1_points_10,test_zoom_4_cor_1_points_10,test_zoom_3_cor_1_points_10,test_zoom_2_cor_1_points_10',
-                    numZoomLevels: 22,
-                    projection: this.projectionMercator,
-                    type: 'png',
-                    transparent: true
-                },{
-                    isBaseLayer: false,
-                    tileSize: new OpenLayers.Size(1024,1024),
-                    visibility : false
-                }
-            );
+
+        this.map = new OpenLayers.Map(this.$el.find('.oseam-map-tracks')[0], {
+//        	eventListeners: {
+//                moveend     : this.mapEventMove(self)
+//            },
+            projection: this.projectionMercator,
+            displayProjection: this.projectionWGS84,
+            maxExtent: this.maxExtent,
+            numZoomLevels: 22,
+            maxResolution: 156543.0399,
+            units: 'meters'
+        });
 
         this.map.addLayers([
             this.layerBase,
-            this.layerTrackPoints,
-            this.layerTrackPoints10
+            this.layerGaugeVector
         ]);
-        this.attributionControl = new OpenLayers.Control.Attribution();
         this.map.addControls([
-            this.attributionControl,
-            new OpenLayers.Control.KeyboardDefaults(),
-            new OpenLayers.Control.LayerSwitcher()
+            new OpenLayers.Control.Attribution(),
+            new OpenLayers.Control.KeyboardDefaults()
         ]);
         this.map.setCenter(new OpenLayers.LonLat(0.0, 40.0).transform(
             this.projectionWGS84,
             this.projectionMercator
           ), 3
         );
-        this.map.events.register( 'moveend', this, this.mapEventMove);
-        
-        this.mapEventMove(this);
+		this.layerGaugeVector.events.on({
+                'featureselected': function(feature) {
+                	// shows the details view
+				    this.detailView = new OSeaM.views.Gauge({ model: feature.feature.data.model });
+          			$("#detail").append(this.detailView.render().el);
+                },
+                'featureunselected': function(feature) {
+                	// removes the details view
+					$("#detail").empty();
+                }
+            });
+
+		// this makes the gauge selectable
+		var sf = new OpenLayers.Control.SelectFeature( this.layerGaugeVector);
+		this.map.addControl(sf);
+		sf.activate();
+
+    },
+    mapEventMove: function (event, collection) {
+//        // Set cookie for remembering lat lon values
+//        setCookie("lat", y2lat(map.getCenter().lat).toFixed(5));
+//        setCookie("lon", x2lon(map.getCenter().lon).toFixed(5));
+        // Update tidal scale layer
+    	event.collection.fetch(this.layerGaugeVector);
+    },
+    // show a gauge icon for each view in the map
+    refreshGauges: function (event) {
+		this.layerGaugeVector.removeAllFeatures();
+        var layer_poi_icon_style = OpenLayers.Util.extend({});
+		for(var i=0; i<event.models.length; i++) {
+	        layer_poi_icon_style.externalGraphic = './images/tidal_scale_24.png';
+	        layer_poi_icon_style.graphicWidth = 24;
+	        layer_poi_icon_style.graphicHeight = 24;
+	        this.layerGaugeVector.addFeatures([new OpenLayers.Feature.Vector(
+				new OpenLayers.Geometry.Point(
+					this.lon2x(event.models[i].get('longitude')), 
+					this.lat2y(event.models[i].get('latitude'))
+					),
+					{
+						model: event.models[i],
+						view : this
+					} ,
+					layer_poi_icon_style
+				)]);
+		}
     },
     plusfacteur : function (a) {
         return a * (20037508.34 / 180);
@@ -164,3 +183,4 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         return this.plusfacteur(a);
     }
 });
+    

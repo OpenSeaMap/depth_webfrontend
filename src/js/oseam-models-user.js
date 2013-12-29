@@ -11,16 +11,15 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.About = OSeaM.View.extend({
-    initialize: function() {
-        OSeaM.frontend.on('change:language', this.render, this);
+OSeaM.models.User = Backbone.Model.extend({
+    defaults: {
+        user_Name   : null,
+        forname     : null,
+        surname     : null,
+        country     : null,
+        language    : null
     },
-    render: function() {
-		var language = OSeaM.frontend.getLanguage();
-		var template = OSeaM.loadTemplate('about-' + language);
-        var content = $(template());
-        OSeaM.frontend.translate(content);
-        this.$el.html(content);
-        return this;
+    urlRoot: function() {
+    	return OSeaM.apiUrl + 'users/current';
     }
 });

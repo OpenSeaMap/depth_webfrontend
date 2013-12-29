@@ -1,0 +1,68 @@
+<div>
+
+    <div class="span8">
+        <h4>User Data</h4>
+        <h5>Manage your user data</h5>
+        
+        <form name="user">
+        <div class="control-group">
+            <p><label class="tableft50">E-Mail*</label></p>
+            <div class="input-append">
+                <input type="text" id="user" name="user_name" placeholder="jane@doe.com" value="{{user_name}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Forename</label></p>
+            <div class="input-append">
+                <input type="text" id="forename" name="forename" placeholder="Jane" value="{{forename}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Surname</label></p>
+            <div class="input-append">
+                <input type="text" id="surname" name="surname" placeholder="Doe" value="{{surname}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Organisation</label></p>
+            <div class="input-append">
+                <input type="text" id="organisation" name="organisation" placeholder="Hydrographic Institute" value="{{organisation}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">You may contact me via E-Mail</label></p>
+            <div class="input-append">
+                <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact" checked="{{acceptedEmailContact}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Country</label></p>
+            <div class="input-append">
+                <select id="countries" class="form-control bfh-countries" data-country="US"></select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Language</label></p>
+            <div class="input-append">
+                <select id="languages" class="form-control bfh-languages" data-language="en"></select>            
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50">Phone</label></p>
+            <div class="input-append">
+                <input id="phones" type="text" class="form-control bfh-phone" data-country="countries">
+            </div>
+        </div>
+        
+        </form>
+        
+    </div>
+
+</div>

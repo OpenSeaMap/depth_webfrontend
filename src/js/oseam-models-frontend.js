@@ -54,6 +54,14 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         return this.get('gauges');
     },
+    getUser: function() {
+        if (this.has('user') === false) {
+            this.set({
+            	user: new OSeaM.models.User()
+            });
+        }
+        return this.get('user');
+    },
     startView: function(name, settings) {
         if (this.actualView) {
             this.actualView.close();
@@ -83,6 +91,7 @@ OSeaM.models.Frontend = Backbone.Model.extend({
             this.set({language: language});
             this.translate($('body'));
         }
+        localStorage.language = language;
     },
     getLanguage: function() {
         return this.get('language');

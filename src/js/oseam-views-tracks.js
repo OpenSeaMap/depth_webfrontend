@@ -102,16 +102,16 @@ OSeaM.views.Tracks = OSeaM.View
 					return;
 				}
 				for ( var i = 0; i < evt.target.files.length; i++) {
-					var newTrack = new OSeaM.models.Track()
+					var storeTrack = function(newTrack, self) {
 					// get vesselconfig from somewhere
 					newTrack.set({
 			            fileName : evt.target.files[i].name,
-			            status : this.STATUS_STARTING_UPLOAD,
-			            license : this.candidateTrack.get('license'),
+			            status : self.STATUS_STARTING_UPLOAD,
+			            license : self.candidateTrack.get('license'),
 			            progress : 1,
-			            vesselconfigid : this.candidateTrack.get('vesselconfigid')
+			            vesselconfigid : self.candidateTrack.get('vesselconfigid')
 			        });
-					this.collection.add(newTrack); 
+					self.collection.add(newTrack); 
 					var fn = function(track, evt) {
 						newTrack.onReaderLoad(evt, track, newTrack.id);
 					}
@@ -119,12 +119,14 @@ OSeaM.views.Tracks = OSeaM.View
 					var jqXHR = newTrack.save({}, {
 						// TODO: do something with the error
 						error: function(newTrack, xhr, options) {
-							this.collection.remove(newTrack);
+							self.collection.remove(newTrack);
 					        console.log(xhr);            
 					    },
 					    // on success start the progress of upload
-					    success: jQuery.proxy(fn,this, evt.target.files[i])
+					    success: jQuery.proxy(fn,self, evt.target.files[i])
 					});
+					}
+					storeTrack(new OSeaM.models.Track(), this);
 				}
 			},
 			   // Now the part that actually changes the sort order

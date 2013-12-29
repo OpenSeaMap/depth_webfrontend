@@ -11,16 +11,7 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.About = OSeaM.View.extend({
-    initialize: function() {
-        OSeaM.frontend.on('change:language', this.render, this);
-    },
-    render: function() {
-		var language = OSeaM.frontend.getLanguage();
-		var template = OSeaM.loadTemplate('about-' + language);
-        var content = $(template());
-        OSeaM.frontend.translate(content);
-        this.$el.html(content);
-        return this;
-    }
+OSeaM.models.Gauges = Backbone.Collection.extend({
+    model: OSeaM.models.Gauge,
+    url: OSeaM.apiUrl + 'gauge'
 });
