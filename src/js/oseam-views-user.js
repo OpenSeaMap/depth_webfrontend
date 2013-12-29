@@ -14,6 +14,8 @@
 OSeaM.views.User = OSeaM.View.extend({
     initialize: function() {
         OSeaM.frontend.on('change:language', this.render, this);
+        this.listenTo(this.model, 'change', this.render);
+        this.model.fetch();
     },
     render: function() {
         var language = OSeaM.frontend.getLanguage();
@@ -29,7 +31,7 @@ OSeaM.views.User = OSeaM.View.extend({
         this.$el.html(content);
         $('#countries').bfhcountries({country: this.model.get('country')});
         $('#languages').bfhlanguages({language: this.model.get('lanugage')});
-        $('#phones').bfhphone({country: 'countries', number : 'phone'});
+        //$('#phones').bfhphone({country: 'countries'});
         return this;
     }
 });
