@@ -22,17 +22,25 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
     },
     mapEventMove: function (view) {
         var fn = function(data) {
-            console.log(data);
+            this.layerTrackPoints10.attribution = data;
+            this.layerTrackPoints.attribution = data;
+            this.attributionControl.updateAttribution();
         };
+        if(this.map != null) {
+        var bounds = this.map.getExtent().toArray();
+        var b = this.y2lat(bounds[1]).toFixed(5);
+        var t = this.y2lat(bounds[3]).toFixed(5);
+        var l = this.x2lon(bounds[0]).toFixed(5);
+        var r = this.x2lon(bounds[2]).toFixed(5);
+        
         jQuery.ajax({
             type: 'GET',
-            url: OSeaM.apiUrl + 'licenses?lat1=10&lon1=10&lat2=20&lon2=20' ,
+            url: OSeaM.apiUrl + 'license?lat1=' + b + '&lon1=' + l + '&lat2=' + t + '&lon2=' + r  ,
             dataType: 'text',
-//            xhrFields: {
-//                withCredentials: true
-//            },
             success: jQuery.proxy(fn, this)
         });
+            
+        }
 
     },
     initOpenLayers: function() {
@@ -50,9 +58,10 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             maxExtent: this.maxExtent,
             numZoomLevels: 22,
             maxResolution: 156543.0399,
-        	eventListeners: {
-        		moveend     : this.mapEventMove(this)
-        	},
+//        	events: {
+//        		moveend     : this.mapEventMove(this),
+//        		zoomend     : this.mapEventMove(this)
+//        	},
             units: 'meters'
         });
  
@@ -112,8 +121,9 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             this.layerTrackPoints,
             this.layerTrackPoints10
         ]);
+        this.attributionControl = new OpenLayers.Control.Attribution();
         this.map.addControls([
-            new OpenLayers.Control.Attribution(),
+            this.attributionControl,
             new OpenLayers.Control.KeyboardDefaults(),
             new OpenLayers.Control.LayerSwitcher()
         ]);
@@ -122,6 +132,9 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             this.projectionMercator
           ), 3
         );
+        this.map.events.register( 'moveend', this, this.mapEventMove);
+        
+//        this.mapEventMove(this);
     },
     plusfacteur : function (a) {
         return a * (20037508.34 / 180);
