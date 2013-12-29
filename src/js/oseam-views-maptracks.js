@@ -20,6 +20,21 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         this.initOpenLayers();
         return this;
     },
+    mapEventMove: function (view) {
+        var fn = function(data) {
+            console.log(data);
+        };
+        jQuery.ajax({
+            type: 'GET',
+            url: OSeaM.apiUrl + 'licenses?lat1=10&lon1=10&lat2=20&lon2=20' ,
+            dataType: 'text',
+//            xhrFields: {
+//                withCredentials: true
+//            },
+            success: jQuery.proxy(fn, this)
+        });
+
+    },
     initOpenLayers: function() {
 
         this.projectionWGS84    = new OpenLayers.Projection('EPSG:4326');
@@ -35,6 +50,9 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             maxExtent: this.maxExtent,
             numZoomLevels: 22,
             maxResolution: 156543.0399,
+        	eventListeners: {
+        		moveend     : this.mapEventMove(this)
+        	},
             units: 'meters'
         });
  
@@ -104,5 +122,29 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             this.projectionMercator
           ), 3
         );
+    },
+    ,
+    plusfacteur : function (a) {
+        return a * (20037508.34 / 180);
+    },
+
+    moinsfacteur: function (a) {
+        return a / (20037508.34 / 180);
+    },
+
+    y2lat: function (a) {
+        return 180/Math.PI * (2 * Math.atan(Math.exp(this.moinsfacteur(a)*Math.PI/180)) - Math.PI/2);
+    },
+
+    lat2y: function (a) {
+        return this.plusfacteur(180/Math.PI * Math.log(Math.tan(Math.PI/4+a*(Math.PI/180)/2)));
+    },
+
+    x2lon: function (a) {
+        return this.moinsfacteur(a);
+    },
+
+    lon2x: function (a) {
+        return this.plusfacteur(a);
     }
 });
