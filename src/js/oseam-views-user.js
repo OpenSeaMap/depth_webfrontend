@@ -30,8 +30,8 @@ OSeaM.views.User = OSeaM.View.extend({
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         $('#countries').bfhcountries({country: this.model.get('country')});
-        $('#languages').bfhlanguages({language: this.model.get('lanugage')});
-        if(this.model.get('phone').length == 0) {
+        $('#languages').bfhlanguages({language: this.model.get('language')});
+        if(this.model.get('phone') == null) {
         	$('#phones').bfhphone({country: 'countries'});
         } else {
         	$('#phones').bfhphone({country: 'countries', phone : this.model.get('phone')});
