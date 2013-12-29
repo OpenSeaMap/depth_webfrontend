@@ -123,7 +123,6 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
           ), 3
         );
     },
-    ,
     plusfacteur : function (a) {
         return a * (20037508.34 / 180);
     },
