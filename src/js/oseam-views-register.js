@@ -136,7 +136,7 @@ OSeaM.views.Register = OSeaM.View.extend({
         	acceptedEmailContact : this.$el.find('#acceptedEmailContact').val(),
 	        country : this.$el.find('#countries').val(),
 	        language : this.$el.find('#languages').val(),
-        	phone : this.$el.find('#phone').val()
+        	phone : this.$el.find('#phones').val()
         };
         params.password = jQuery.encoding.digests.hexSha1Str(params.password).toLowerCase();
         // TODO : license accept
