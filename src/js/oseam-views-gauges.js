@@ -14,7 +14,7 @@
 OSeaM.views.Gauges = OSeaM.View.extend({
 	initialize: function() {
 		this.listenTo(this.collection, 'reset', this.refreshGauges);
-		this.initOpenLayers();
+		this.render();
 		this.collection.fetch();
 	},
 	render: function() {
