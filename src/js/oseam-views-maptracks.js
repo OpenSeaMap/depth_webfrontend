@@ -121,8 +121,17 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             );
         this.layerContours = new OpenLayers.Layer.WMS("Contours",
                 'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
-			     {layers: "contour", projection: new OpenLayers.Projection("EPSG:900913"), type: 'png', transparent: true},
-{visibility: true, isBaseLayer: false, tileSize: new OpenLayers.Size(1024,1024)});
+            layers: 'contour',
+            numZoomLevels: 22,
+            projection: this.projectionMercator,
+            type: 'png',
+            transparent: true
+        },{
+            isBaseLayer: false,
+            tileSize: new OpenLayers.Size(1024,1024),
+            visibility : false
+        }
+    );
 
         
         this.map.addLayers([
