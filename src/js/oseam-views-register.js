@@ -22,7 +22,9 @@ OSeaM.views.Register = OSeaM.View.extend({
         this.model.bind('createFailure', this.onCreateFailure, this);
     },
     render: function() {
-        var template = OSeaM.loadTemplate('register');
+		var language = OSeaM.frontend.getLanguage();
+		var template = OSeaM.loadTemplate('register-' + language);
+        //var template = OSeaM.loadTemplate('register');
         this.renderParams =  {
             captchaUrl  : this.model.getCaptchaUrl(),
             idUsername  : OSeaM.id(),
