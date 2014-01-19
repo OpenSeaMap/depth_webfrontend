@@ -119,11 +119,26 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                     visibility : false
                 }
             );
+        this.layerContours = new OpenLayers.Layer.WMS("Contours",
+                'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+            layers: 'contour',
+            numZoomLevels: 22,
+            projection: this.projectionMercator,
+            type: 'png',
+            transparent: true
+        },{
+            isBaseLayer: false,
+            tileSize: new OpenLayers.Size(1024,1024),
+            visibility : false
+        }
+    );
 
+        
         this.map.addLayers([
             this.layerBase,
             this.layerTrackPoints,
-            this.layerTrackPoints10
+            this.layerTrackPoints10,
+            this.layerContours
         ]);
         this.attributionControl = new OpenLayers.Control.Attribution();
         this.map.addControls([
