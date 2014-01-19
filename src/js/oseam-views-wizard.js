@@ -105,8 +105,13 @@ OSeaM.views.Wizard = OSeaM.View.extend({
 		this.title.html(currentStep.title);
 		// this.instructions.html(currentStep.instructions);
 		this.currentView = currentStep.view;
-		this.currentStepContainer.html(this.currentView.render().el);
+		
+		//this.currentStepContainer.html(this.currentView.render().el);
 
+		// important to register the events
+		this.currentView.setElement(this.currentStepContainer);
+		this.currentView.render();
+		
 		this.renderProgressIndicator();
 
 	},
