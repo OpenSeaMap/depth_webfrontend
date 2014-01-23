@@ -16,7 +16,12 @@ OSeaM.views.Gauge = OSeaM.View.extend({
         'click .icon-trash' : 'onDelete'
     },
     initialize: function() {
+		this._views = [];
         this.model.on('change:id',       this.render,           this);
+		this.gaugemeasurements = new OSeaM.models.GaugeMeasurements();
+	       this.listenTo(this.gaugemeasurements, 'reset', this.addAndRenderViews);
+	       this.gaugemeasurements.fetch({wait:true});
+
     },
     render: function() {
         var template = OSeaM.loadTemplate('gauge');
@@ -29,9 +34,48 @@ OSeaM.views.Gauge = OSeaM.View.extend({
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
+		this.renderContent();
         return this;
     },
+	addAndRenderViews : function() {
+		this.addViews();
+	    this.render();
+	},
+	addViews : function() {
+	 this.listEl.empty();
+	 var self = this;
+	    this.gaugemeasurements.each(function(model) {
+	    	self._views.push(new OSeaM.views.GaugeMeasurement({
+				model : model
+			}));
+	      });
+	},
     onDelete: function() {
     	this.model.destroy();
-    }
+    },
+	onAddItem : function(model) {
+		var view = new OSeaM.views.GaugeMeasurement({
+			model : model
+		});
+        this._views.push(view);
+		
+		this.listEl.append(view.render().el);
+		return this;
+	},
+    onRemoveItem: function(model) {
+        var view = _(this._views).select(function(cv) { 
+        	return cv.model === model; })[0];
+        $(view.el).remove();
+        return this;
+    },
+	renderContent : function() {
+		this.listEl = this.$el.find('tbody');
+		this.listEl.empty();
+		var container = document.createDocumentFragment();
+		
+		_.each(this._views, function(subview) {
+		    container.appendChild(subview.render().el)
+		  });
+		 this.listEl.append(container);
+	}
 });

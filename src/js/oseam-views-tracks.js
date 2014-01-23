@@ -25,7 +25,7 @@ OSeaM.views.Tracks = OSeaM.View
 		   sortDnIcon: 'icon-arrow-down',
 		   initialize : function() {
 				this.listenTo(this.collection, 'add', this.onAddItem);
-				 this.listenTo(this.collection, 'reset', this.addAndRenderViews);
+				this.listenTo(this.collection, 'reset', this.addAndRenderViews);
 				OSeaM.frontend.on("change:language", this.render, this);
    		        // stores the item views for this view
 				this._views = [];

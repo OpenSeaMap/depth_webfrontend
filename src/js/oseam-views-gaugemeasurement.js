@@ -11,7 +11,7 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.Gauge = OSeaM.View.extend({
+OSeaM.views.GaugeMeasurement = OSeaM.View.extend({
     tagName: 'tr',
     events: {
         'click .icon-trash' : 'onDelete'
@@ -20,16 +20,18 @@ OSeaM.views.Gauge = OSeaM.View.extend({
         this.model.on('change:id',       this.render,           this);
     },
     render: function() {
-        var template = OSeaM.loadTemplate('gauge');
+        var template = OSeaM.loadTemplate('gaugemeasurement');
         var content = $(template({
-            id : this.model.get('id'),
-            name : this.model.get('name')
+        	date : this.model.get('date'),
+        	value : this.model.get('value')
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         return this;
     },
     onDelete: function() {
-    	this.model.destroy();
+    	if(confirm('Do you really want to delete that value ?')) {
+    		this.model.destroy();
+    	}
     }
 });
