@@ -18,7 +18,8 @@ OSeaM.views.Gauge = OSeaM.View.extend({
     initialize: function() {
 		this._views = [];
         this.model.on('change:id',       this.render,           this);
-		this.gaugemeasurements = new OSeaM.models.GaugeMeasurements(this.model.get('id'));
+		this.gaugemeasurements = new OSeaM.models.GaugeMeasurements();
+		this.gaugemeasurements.url = OSeaM.apiUrl + 'gauge/' + this.model.get('id') + '/gaugemeasurements';
        this.listenTo(this.gaugemeasurements, 'reset', this.addAndRenderViews);
        this.gaugemeasurements.fetch({wait:true});
 
