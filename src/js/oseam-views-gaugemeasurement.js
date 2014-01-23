@@ -21,8 +21,13 @@ OSeaM.views.GaugeMeasurement = OSeaM.View.extend({
     },
     render: function() {
         var template = OSeaM.loadTemplate('gaugemeasurement');
+        var dateX = new Date(this.model.get('timestamp'));
         var content = $(template({
-        	date : this.model.get('date'),
+        	date : dateX.getUTCFullYear() +"-"+
+            ("0" + (dateX.getMonth()+1)).slice(-2) +"-"+
+            ("0" + dateX.getDay()).slice(-2) + " " +
+            ("0" + dateX.getHours()).slice(-2) + ":" +
+            ("0" + dateX.getMinutes()).slice(-2),
         	value : this.model.get('value')
         }));
         OSeaM.frontend.translate(content);
