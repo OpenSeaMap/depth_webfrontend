@@ -13,7 +13,6 @@
 
 OSeaM.models.GaugeMeasurements = Backbone.Collection.extend({
     model: OSeaM.models.GaugeMeasurement,
-    url: OSeaM.apiUrl + 'gauge'
 //    sortAttribute: "id",
 //    sortDirection: 1,
 //  
