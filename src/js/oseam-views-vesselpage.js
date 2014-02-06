@@ -14,7 +14,9 @@
 OSeaM.views.vesselpage = OSeaM.View.extend({
     modalDialog:null,
 	events : {
-		'change .vesseltype' : 'onChangeVesselType'
+		'change .vesseltype' : 'onChangeVesselType',
+		'change #loa' : 'replaceLoa',
+       	'change #breadth' : 'replaceBreadth'
 	},
 	render: function() {
 	var language = OSeaM.frontend.getLanguage();
@@ -93,5 +95,15 @@ OSeaM.views.vesselpage = OSeaM.View.extend({
         this.$el.find('.help-inline').removeAttr('data-trt');
         this.$el.find('.help-inline').html('');
         this.isValid = true;
-    }
+    },
+			replaceLoa : function(){
+var value = $("#loa").val();
+value = value.replace(/,/g, '.');
+$("#loa").val(value);
+	} ,
+		replaceBreadth : function(){
+var value = $("#breadth").val();
+value = value.replace(/,/g, '.');
+$("#breadth").val(value);
+	} 
 });

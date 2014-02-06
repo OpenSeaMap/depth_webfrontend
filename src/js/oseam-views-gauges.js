@@ -76,7 +76,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         
         // legacy layer where gauges are pre-rendered
         this.layerGauge = new OpenLayers.Layer.WMS('Gauge',
-            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+            'http:///192.168.1.1/cgi-bin/mapserv.fcgi?', {
                 layers: 'gauge',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,

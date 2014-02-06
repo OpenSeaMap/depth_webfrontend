@@ -19,6 +19,8 @@ def configure(ctx):
         'oseam-models-offset.js',
         'oseam-models-gauge.js',
         'oseam-models-gauges.js',
+        'oseam-models-gaugemeasurement.js',
+        'oseam-models-gaugemeasurements.js',
         'oseam-models-track.js',
         'oseam-models-tracks.js',
         'oseam-models-user.js',
