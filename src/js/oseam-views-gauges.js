@@ -74,20 +74,6 @@ OSeaM.views.Gauges = OSeaM.View.extend({
 //            strategies: [new OpenLayers.Strategy.Fixed()]
         });
         
-        // legacy layer where gauges are pre-rendered
-        this.layerGauge = new OpenLayers.Layer.WMS('Gauge',
-            'http:///192.168.1.1/cgi-bin/mapserv.fcgi?', {
-                layers: 'gauge',
-                numZoomLevels: 22,
-                projection: this.projectionMercator,
-                type: 'png',
-                transparent: true
-            },{
-                isBaseLayer: false,
-                tileSize: new OpenLayers.Size(1024,1024)
-            }
-        );
-
         this.map = new OpenLayers.Map(this.$el.find('.oseam-map-tracks')[0], {
 //        	eventListeners: {
 //                moveend     : this.mapEventMove(self)
