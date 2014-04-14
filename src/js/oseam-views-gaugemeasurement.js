@@ -25,7 +25,7 @@ OSeaM.views.GaugeMeasurement = OSeaM.View.extend({
         var content = $(template({
         	date : dateX.getUTCFullYear() +"-"+
             ("0" + (dateX.getMonth()+1)).slice(-2) +"-"+
-            ("0" + dateX.getDay()).slice(-2) + " " +
+            ("0" + dateX.getDate()).slice(-2) + " " +
             ("0" + dateX.getHours()).slice(-2) + ":" +
             ("0" + dateX.getMinutes()).slice(-2),
         	value : this.model.get('value')
