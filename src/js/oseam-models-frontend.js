@@ -54,6 +54,14 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         return this.get('gauges');
     },
+    getGaugeMeasurements: function() {
+        if (this.has('gaugemeasurements') === false) {
+            this.set({
+            	gaugemeasurements: new OSeaM.models.GaugeMeasurements()
+            });
+        }
+        return this.get('gaugemeasurements');
+    },
     getUser: function() {
         if (this.has('user') === false) {
             this.set({

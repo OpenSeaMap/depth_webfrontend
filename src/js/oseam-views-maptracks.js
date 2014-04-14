@@ -121,7 +121,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             );
         this.layerContours = new OpenLayers.Layer.WMS("Contours",
                 'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
-            layers: 'contour',
+            layers: ['contour','contour2'],
             numZoomLevels: 22,
             projection: this.projectionMercator,
             type: 'png',

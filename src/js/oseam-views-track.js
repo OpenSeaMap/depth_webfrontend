@@ -58,7 +58,7 @@ OSeaM.views.Track = OSeaM.View.extend({
             vesselconfigid : vesselName,
             uploadDate : date.getUTCFullYear() +"-"+
             ("0" + (date.getMonth()+1)).slice(-2) +"-"+
-            ("0" + date.getDay()).slice(-2),
+            ("0" + date.getDate()).slice(-2),
             status     : this.model.getStatusText()
         }));
         OSeaM.frontend.translate(content);
