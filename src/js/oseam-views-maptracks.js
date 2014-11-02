@@ -197,7 +197,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             layers: ['contour','contour2'],
             numZoomLevels: 22,
             projection: this.projectionMercator,
-            type: 'png',:w
+            type: 'png',
             
             transparent: true
         },{
