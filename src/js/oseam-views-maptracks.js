@@ -192,13 +192,13 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         	 		  isBaseLayer: false, 
         	 		  tileSize: new OpenLayers.Size(1024,1024)
         	 	  });
-             
         this.layerContours = new OpenLayers.Layer.WMS("Contours",
                 'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
             layers: ['contour','contour2'],
             numZoomLevels: 22,
             projection: this.projectionMercator,
-            type: 'png',
+            type: 'png',:w
+            
             transparent: true
         },{
             isBaseLayer: false,
