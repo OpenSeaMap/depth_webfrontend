@@ -129,6 +129,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 },{
                     isBaseLayer: false,
                     tileSize: new OpenLayers.Size(1024,1024)
+                visibility : false
                 }
             );
 //            this.layerTrackPoints10_filter1 = new OpenLayers.Layer.WMS('10m Filter 1',
@@ -154,6 +155,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                     },{
                         isBaseLayer: false,
                         tileSize: new OpenLayers.Size(1024,1024)
+                    	visibility : false
                     }
                 );
 //             this.layerTrackPoints10_filter2 = new OpenLayers.Layer.WMS('10m Filter 2',
@@ -210,11 +212,11 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         
         this.map.addLayers([
             this.layerBase,
+            this.triangulation,
             this.layerTrackPoints,
             this.layerTrackPoints10,
             this.layerTrackPoints_filter1,
             this.layerTrackPoints_filter2,
-            this.triangulation,
             this.layerContours,
             this.msl2lat
         ]);
