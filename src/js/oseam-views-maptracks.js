@@ -39,7 +39,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         
         jQuery.ajax({
             type: 'GET',
-            url: OSeaM.apiUrl + 'license?lat1=' + b + '&lon1=' + l + '&lat2=' + t + '&lon2=' + r  ,
+            url: OSeaM.apiUrl + 'license/bbox?lat1=' + b + '&lon1=' + l + '&lat2=' + t + '&lon2=' + r  ,
             dataType: 'text',
             success: jQuery.proxy(fn, this)
         });
