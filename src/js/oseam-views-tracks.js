@@ -51,6 +51,7 @@ OSeaM.views.Tracks = OSeaM.View
 			},
 			addViews : function() {
 			 this.listEl.empty();
+			 this._views = [];
 			 var self = this;
 			    this.collection.each(function(model) {
 			    	self._views.push(new OSeaM.views.Track({
