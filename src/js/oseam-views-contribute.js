@@ -12,8 +12,12 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Attributions = OSeaM.View.extend({
+    initialize: function() {
+        OSeaM.frontend.on('change:language', this.render, this);
+    },
     render: function() {
-        var template = OSeaM.loadTemplate('contribute');
+		var language = OSeaM.frontend.getLanguage();
+        var template = OSeaM.loadTemplate('contribute-' + language);
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
