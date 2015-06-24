@@ -33,6 +33,7 @@ OSeaM.models.Vessels = Backbone.Collection.extend({
         	newdepthoffset.set('distanceFromCenter', y['distanceFromCenter']);
         	newdepthoffset.set('distanceWaterline', y['distanceWaterline']);
 			newdepthoffset.set('offsetKeel', y['offsetKeel']);
+			newdepthoffset.set('offsetType', y['offsetType']);
 			newdepthoffset.set('manufacturer', y['manufacturer']);
 			newdepthoffset.set('model', y['model']);
         	
