@@ -20,6 +20,7 @@ OSeaM.views.Vessel = OSeaM.View.extend({
 		"click #next_step_button" : "nextStep",
 		"click #prev_step_button" : "prevStep",
 		'change input' : 'modify',
+		'change select' : 'modify',
 		'change textarea' : 'modify'
 	},
 	initialize : function() {

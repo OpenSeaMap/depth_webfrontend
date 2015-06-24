@@ -12,6 +12,9 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Gauges = OSeaM.View.extend({
+    events: {
+        'click .oseam-add' : 'addNewGauge',
+    },
 	initialize: function() {
 		this.listenTo(this.collection, 'reset', this.refreshGauges);
 		this.render();
@@ -25,6 +28,15 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         this.$el.html(content);
         this.initOpenLayers();
         return this;
+    },
+    addNewGauge: function(evt) {
+    	var gauge = new OSeaM.models.Gauge();
+    	view = new OSeaM.views.GaugeDialog({
+    		el: this.$el,
+    		model : vessel,
+    		collection : this.collection
+    	});
+    	view.render().modal('show');
     },
     initOpenLayers: function() {
     	var self = this;

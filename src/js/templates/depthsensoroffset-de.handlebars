@@ -31,20 +31,21 @@
         </div>			
         </div>
 
-       <p><label class="tableft50">Typp der Tiefenmessung</label></p>
+       <p><label class="tableft50">Typ der Tiefenmessung</label></p>
         <div class="input-append">
-            <select name="depthmeasurement" size="1">
-              <option>Automatisch</option>
-              <option>Tiefen unter der Messvorrichtung</option>
-              <option>Tiefe unter dem Kiel</option>
-              <option>Tiefe unter dem Wasserspiegel</option>
+            <select id="depth_offsetType" name="depth_offsetType" size="1">
+              {{#select depth_offsetType}}
+              <option value="transducer">Tiefe unter dem Geber</option>
+              <option value="keel">Tiefe unter dem Kiel</option>
+              <option value="water">Tiefe unter dem Wasserspiegel</option>
+              {{/select}}
             </select>
         </div>
 
 		<div class="control-group">
         <p><label for="depth_offsetKeel" class="tableft50">Sensor Abstand zum Kiel</label></p>
         <div class="input-append">
-            <input type="text" class="input-mini" id="depth_offsetKeel" name="depth_offsetKeel" placeholder="0.00" value="{{depth_offsetKeel}}" title="Abstand des Sensors vom Kiel"/>
+            <input type="text" class="input-mini" id="depth_offsetKeel" name="depth_offsetKeel" placeholder="0.00" value="{{depth_offsetKeel}}" title="Sensor Abstand zum Kiel"/>
             <span class="add-on">m</span>
 			<span class="help-inline helpOsm"></span> 
         </div>			
@@ -54,6 +55,7 @@
 	 <div class="input-append">
 	<datalist id="depth_manufacturer" name="depth_manufacturer">
 	<option>Airmar</option>
+    <option>B&amp;G</option>
 	<option>Garmin</option>
 	<option>Humminbird</option>
 	<option>Lowrance</option>
