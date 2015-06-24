@@ -20,8 +20,8 @@ OSeaM = {
     frontend: null,
     router: null,
 //    apiUrl: 'http://192.168.0.11:8080/org.osm.depth.upload/api2/',
-//    apiUrl: 'http://depth.openseamap.org:8080/org.osm.depth.upload/api2/',
-    apiUrl: 'http://testdepth.openseamap.org:8080/org.osm.depth.upload.stage/api2/',
+    apiUrl: 'http://depth.openseamap.org:8080/org.osm.depth.upload/api2/',
+//    apiUrl: 'http://testdepth.openseamap.org:8080/org.osm.depth.upload.stage/api2/',
 //	apiUrl: 'http://localhost:8080/org.osm.depth.upload/api2/',
     autoId: 0,
     init: function() {
