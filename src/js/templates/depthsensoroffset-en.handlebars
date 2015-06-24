@@ -33,11 +33,10 @@
 
        <p><label class="tableft50">Depth Measurement</label></p>
         <div class="input-append">
-            <select name="depthmeasurement" size="1">
-              <option>Autodetect</option>
-              <option>Depth below Transducer</option>
-              <option>Depth below Keel</option>
-              <option>Depth below Waterline</option>
+            <select name="depthmeasurement" size="1" {{#select status}}>
+              <option value="transducer">Depth below Transducer</option>
+              <option value="keel">Depth below Keel</option>
+              <option value="water">Depth below Waterline</option>
             </select>
         </div>
 
@@ -54,6 +53,7 @@
 	 <div class="input-append">
 	<datalist id="depth_manufacturer" name="depth_manufacturer">
 		<option>Airmar</option>
+        <option>B&amp;G</option>
 		<option>Garmin</option>
 		<option>Humminbird</option>
 		<option>Lowrance</option>

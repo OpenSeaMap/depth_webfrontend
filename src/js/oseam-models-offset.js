@@ -18,6 +18,7 @@ OSeaM.models.Offset = Backbone.Model.extend({
     	distanceWaterline   : '',
 		offsetKeel : '',
 		manufacturer : '',
-		model : ''
+		model : '',
+		offsetType : ''
     }
 });

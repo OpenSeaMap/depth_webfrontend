@@ -19,9 +19,9 @@ OSeaM = {
     container: null,
     frontend: null,
     router: null,
-//    apiUrl: 'http://192.168.1.29:8100/org.osm.depth.upload/api2/',
-    apiUrl: 'http://depth.openseamap.org:8080/org.osm.depth.upload/api2/',
-//    apiUrl: 'http://testdepth.openseamap.org:8080/org.osm.depth.upload.stage/api2/',
+//    apiUrl: 'http://192.168.0.11:8080/org.osm.depth.upload/api2/',
+//    apiUrl: 'http://depth.openseamap.org:8080/org.osm.depth.upload/api2/',
+    apiUrl: 'http://testdepth.openseamap.org:8080/org.osm.depth.upload.stage/api2/',
 //	apiUrl: 'http://localhost:8080/org.osm.depth.upload/api2/',
     autoId: 0,
     init: function() {
@@ -34,6 +34,13 @@ OSeaM = {
         this.container = $('.oseam-container');
         this.router = new OSeaM.routers.Router();
         Backbone.history.start();
+        
+        // helper for setting default option
+        window.Handlebars.registerHelper('select', function( value, options ){
+            var $el = $('<select />').html( options.fn(this) );
+            $el.find('[value="' + value + '"]').attr({'selected':'selected'});
+            return $el.html();
+        });
     },
     configureBackboneSync: function() {
         var originalSync = Backbone.sync;
