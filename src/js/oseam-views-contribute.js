@@ -11,7 +11,7 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.Attributions = OSeaM.View.extend({
+OSeaM.views.Contribute = OSeaM.View.extend({
     initialize: function() {
         OSeaM.frontend.on('change:language', this.render, this);
     },
