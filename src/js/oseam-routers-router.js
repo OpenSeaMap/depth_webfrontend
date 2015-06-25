@@ -27,6 +27,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'license'      : 'license',
         'instructions' : 'instructions',
         'attributions' : 'attributions',
+        'contribute'   : 'contribute',
         '*default'     : 'home'
     },
     renderTopAndNavBar: function(activeItem) {
@@ -115,6 +116,10 @@ OSeaM.routers.Router = Backbone.Router.extend({
     license: function() {
         this.renderTopAndNavBar('license');
         OSeaM.frontend.startView('License');
+    },
+    contribute: function() {
+        this.renderTopAndNavBar('contribute');
+        OSeaM.frontend.startView('Contribute');
     },
     attributions: function() {
         this.renderTopAndNavBar('attributions');
