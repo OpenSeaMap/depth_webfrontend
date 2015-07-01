@@ -32,18 +32,22 @@ OSeaM.views.Tracks = OSeaM.View
 				this.candidateTrack = new OSeaM.models.Track();
 
 		       var that = this;
-		       this.collection.fetch({wait:true});
+		       this.collection.fetch().done(function(){
+						that.addAndRenderViews();
+					});
 			   this.listenTo(this.collection, 'remove', this.onRemoveItem);
 //			   this.listenTo(this.collection, "sort", this.render);
 
 				this.vessels = new OSeaM.models.Vessels();
-		       this.listenTo(this.vessels, 'reset', this.addAndRenderViews);
-		       this.vessels.fetch({wait:true});
-		       
+		       this.vessels.fetch().done(function(){
+						that.renderVesselSelection();
+					});
+
 			   this.licenses = new OSeaM.models.Licenses();
-			   this.listenTo(this.licenses, 'reset', this.addAndRenderViews);
-			   this.licenses.fetch({wait:true});
-			   var self = this;
+			   this.licenses.fetch().done(function(){
+					that.renderLicenceSelection();
+				});
+
 			},
 			addAndRenderViews : function() {
 				this.addViews();
@@ -65,11 +69,21 @@ OSeaM.views.Tracks = OSeaM.View
 				this.listEl = this.$el.find('tbody');
 				this.listEl.empty();
 				var container = document.createDocumentFragment();
-				
+
 				_.each(this._views, function(subview) {
 				    container.appendChild(subview.render().el)
 				  });
 				 this.listEl.append(container);
+			},
+			renderVesselSelection: function(){
+					this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : this.vessels});
+					$("#vesselselection option[value=" + localStorage.lastvessel + "]").attr("selected", "selected");
+					this.candidateTrack.set('vesselconfigid', localStorage.lastvessel);
+			},
+			renderLicenceSelection: function(){
+				this.licenseviews = new OSeaM.views.Selection({el : $("#licenseselection"), collection : this.licenses});
+				$("#licenseselection option[value=" + localStorage.lastlicense + "]").attr("selected", "selected");
+				this.candidateTrack.set('license', localStorage.lastlicense);
 			},
 			render : function() {
 				var self = this;
@@ -85,17 +99,11 @@ OSeaM.views.Tracks = OSeaM.View
 				this.$el.html(content);
 				this.renderContent();
 //		        this.collection.forEach(this.onAddItem, this);
-				if(this.vessels.length > 0) {
-					this.vesselviews = new OSeaM.views.Selection({el : $("#vesselselection"), collection : this.vessels});
-					$("#vesselselection option[value=" + localStorage.lastvessel + "]").attr("selected", "selected");
-					this.candidateTrack.set('vesselconfigid', localStorage.lastvessel);
+				if(this.vessels)
+					this.renderVesselSelection();
 
-				}
-				if(this.licenses) {
-					this.licenseviews = new OSeaM.views.Selection({el : $("#licenseselection"), collection : this.licenses});
-					$("#licenseselection option[value=" + localStorage.lastlicense + "]").attr("selected", "selected");
-					this.candidateTrack.set('license', localStorage.lastlicense);
-				}
+				if(this.licenses)
+					this.renderLicenceSelection();
 			},
 			onFileSelected : function(evt) {
 				if(typeof this.candidateTrack.get('vesselconfigid') === "undefined" || typeof  this.candidateTrack.get('license') === "undefined") {
@@ -112,7 +120,7 @@ OSeaM.views.Tracks = OSeaM.View
 			            progress : 1,
 			            vesselconfigid : self.candidateTrack.get('vesselconfigid')
 			        });
-					self.collection.add(newTrack); 
+					self.collection.add(newTrack);
 					var fn = function(track, evt) {
 						newTrack.onReaderLoad(evt, track, newTrack.id);
 					}
@@ -121,7 +129,7 @@ OSeaM.views.Tracks = OSeaM.View
 						// TODO: do something with the error
 						error: function(newTrack, xhr, options) {
 							self.collection.remove(newTrack);
-					        console.log(xhr);            
+					        console.log(xhr);
 					    },
 					    // on success start the progress of upload
 					    success: jQuery.proxy(fn,self, evt.target.files[i])
@@ -135,32 +143,32 @@ OSeaM.views.Tracks = OSeaM.View
 			      var $el = $(e.currentTarget),
 			          ns = $el.attr('column'),
 			          cs = this.collection.sortAttribute;
-			       
+
 			      // Toggle sort if the current column is sorted
 			      if (ns == cs) {
 			         this.collection.sortDirection *= -1;
 			      } else {
 			         this.collection.sortDirection = 1;
 			      }
-			       
+
 			      // Adjust the indicators. Reset everything to hide the
 					// indicator
 			      $el.closest('thead').find('span').attr('class', 'icon-none');
-			       
+
 			      // Now show the correct icon on the correct column
 			      if (this.collection.sortDirection == 1) {
 			    	  $el.find('span').removeClass('icon-none').addClass(this.sortDnIcon);
 			      } else {
 			    	  $el.find('span').removeClass('icon-none').addClass(this.sortUpIcon);
 			      }
-			       
+
 			      // Now sort the collection
 			      this._views = [];
 			      this.listEl.empty();
 			      this.collection.sortTracks(ns);
 			      this.addViews();
 			      this.renderContent();
-			      
+
 //			      _.invoke(this._views, 'remove');
 //			      this.collection.forEach(this.onAddItem, this);
 			   },
@@ -173,7 +181,7 @@ OSeaM.views.Tracks = OSeaM.View
 				});
 		        // Adding project item view to the list
 		        this._views.push(view);
-				
+
 				this.listEl.append(view.render().el);
 				return this;
 			},
@@ -181,7 +189,7 @@ OSeaM.views.Tracks = OSeaM.View
 		    onRemoveItem: function(model) {
 		    	// a vessel item is removed and the appropriate view is added
 				// and rendered
-		        var view = _(this._views).select(function(cv) { 
+		        var view = _(this._views).select(function(cv) {
 		        	return cv.model === model; })[0];
 		        $(view.el).remove();
 		        return this;
