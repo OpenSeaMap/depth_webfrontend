@@ -14,6 +14,7 @@ def build(ctx):
 
     ctx.install_files('${PREFIX}', 'index.html')
     ctx.install_files('${PREFIX}', 'robots.txt')
+    ctx.install_files('${PREFIX}', 'favicon.ico')
     ctx.install_files('${PREFIX}', ctx.path.ant_glob('css/*.css'), relative_trick=True)
     ctx.install_files('${PREFIX}', ctx.path.ant_glob('images/*.png'), relative_trick=True)
     ctx.install_files('${PREFIX}', ctx.path.ant_glob('images/*.jpg'), relative_trick=True)
