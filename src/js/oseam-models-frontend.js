@@ -106,12 +106,12 @@ OSeaM.models.Frontend = Backbone.Model.extend({
     },
     translate: function(el) {
         // Seach in children
-        elements = el.find('[data-trt], [data-trt-placeholder]');
+        elements = el.find('[data-trt], [data-trt-placeholder], [title]');
         for (var i = 0; i < elements.length; i++) {
             this.translateEl(elements[i]);
         }
         // Seach on top level
-        elements = el.filter('[data-trt], [data-trt-placeholder]');
+        elements = el.filter('[data-trt], [data-trt-placeholder], [title]');
         for (var i = 0; i < elements.length; i++) {
             this.translateEl(elements[i]);
         }
