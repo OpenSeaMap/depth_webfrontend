@@ -59,7 +59,8 @@ OSeaM.views.Track = OSeaM.View.extend({
             uploadDate : date.getUTCFullYear() +"-"+
             ("0" + (date.getMonth()+1)).slice(-2) +"-"+
             ("0" + date.getDate()).slice(-2),
-            status     : this.model.getStatusText()
+            status     : this.model.getStatusText(),
+            statustooltip     : this.model.getStatusTooltip()
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
