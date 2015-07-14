@@ -78,5 +78,11 @@
 	"1107":"Please enter a decimal",
     "1200":"User",
     "1201":"Contribute",
+    "1300":"The file has been successfully uploaded. It will be processed within an hour.",
+    "1301":"The file content could not be detected. This may fail if a compressed file contains errors or if we are unable to detect the file format. See the supported file formats for reference.",
+    "1302":"The file format has been detected. For non-container tracks, the contents have not been processed yet.",
+    "1303":"The file has been detected as a duplicate of another file. Please delete this file.",
+    "1304":"The file has been processed. The trackpoints are visible on the map.",
+    "1305":"The file does not contain position information AND depth information or does not have sufficient data points.",
 	"9103":"Username already exists."
 }

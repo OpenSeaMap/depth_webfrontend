@@ -106,12 +106,12 @@ OSeaM.models.Frontend = Backbone.Model.extend({
     },
     translate: function(el) {
         // Seach in children
-        elements = el.find('[data-trt], [data-trt-placeholder]');
+        elements = el.find('[data-trt], [data-trt-placeholder], [title]');
         for (var i = 0; i < elements.length; i++) {
             this.translateEl(elements[i]);
         }
         // Seach on top level
-        elements = el.filter('[data-trt], [data-trt-placeholder]');
+        elements = el.filter('[data-trt], [data-trt-placeholder], [title]');
         for (var i = 0; i < elements.length; i++) {
             this.translateEl(elements[i]);
         }
@@ -121,6 +121,10 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         var dataTrt = jEl.data('trt') || '0000:Unknown';
         dataTrt = dataTrt.split(':', 2);
         jEl.html(this.getPhrase(dataTrt[0]));
+        if(el.title) {
+            var dataTrt2 = el.title.split(':', 2);
+            jEl.attr('title',this.getPhrase(dataTrt2[0]));
+        }
         var dataTrt = jEl.data('trt-placeholder') || null;
         if (dataTrt) {
             dataTrt = dataTrt.split(':', 2);
