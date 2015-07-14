@@ -60,6 +60,7 @@ OSeaM.views.Track = OSeaM.View.extend({
             ("0" + (date.getMonth()+1)).slice(-2) +"-"+
             ("0" + date.getDate()).slice(-2),
             status     : this.model.getStatusText()
+            statustooltip     : this.model.getStatusTooltip()
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);

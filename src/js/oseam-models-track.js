@@ -71,7 +71,32 @@ OSeaM.models.Track = Backbone.Model.extend({
                 return '-';
         }
     },
-    onReaderLoad: function(evt, file, id) {
+    getStatusTooltip: function() {
+        switch (this.get('upload_state')) {
+            case this.STATUS_STARTING_UPLOAD:
+                return '1038:Starting upload ...';
+            case this.STATUS_REQUESTING_ID:
+                return '1039:Requesting track id ...';
+            case this.STATUS_UPLOADING:
+                return '1044:Upload in progress ...';
+            case this.STATUS_UPLOADED:
+                return '1300:';
+            case this.STATUS_FILECORRUPT:
+                return '1301:File Corrupt.';
+            case this.STATUS_PREPROCESSED:
+                return '1302:Preprocessed';
+            case this.STATUS_CONTENT_UNKNOWN:
+                return '1301:Content Unknown.';
+            case this.STATUS_DUPLICATE:
+                return '1303:Duplicate';
+            case this.STATUS_PROCESSED:
+                return '1304:Processed';
+            case this.STATUS_NODATA:
+                return '1305:No usable data';
+            default:
+                return '-';
+        }
+    },    onReaderLoad: function(evt, file, id) {
         this.set('upload_state', this.STATUS_UPLOADING);
         var fd = new FormData();
         fd.append('track', file);

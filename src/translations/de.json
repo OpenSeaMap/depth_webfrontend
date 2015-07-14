@@ -77,5 +77,11 @@
 	"1107":"Dezimalzahl",
     "1200":"Benutzer",
     "1201":"Beitragen",
+    "1300":"Die Datei wurde erfolgreich hochgeladen. Sie wird innerhalb einer Stunde prozessiert.",
+    "1301":"Der Dateiinhalt wurde nicht erkannt. Das kann fehlschalgen, wenn eine komprimierte Datei Fehler enthält oder das Dateiformat nicht erkannt werden konnte. Bitte bei den unterstützten Formaten prüfen, ob es unterstützt wird.",
+    "1302":"Der Dateiinhalt konnte erkannt werden. Für Dateien, die nicht mehrere Tracks enthalten, wurden die Inhalte noch nicht prozessiert.",
+    "1303":"Die Datei wurde als ein Duplikat einer anderen Datei erkannt. Bitte löschen Sie die Datei.",
+    "1304":"Die Datei wurde verarbeitet. Die Inhalte werden auf der Webseite dargestellt.",
+    "1305":"Die Datei enthält keine Positions- UND Tiefeninformationen oder hat nicht genügend DatenpunkteThe file does not contain position information AND depth information or does not have sufficient data points.",
     "9103":"Benutzername existiert bereits."
 }
