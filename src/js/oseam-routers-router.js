@@ -18,6 +18,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'home'         : 'home',
         'about'        : 'about',
         'register'     : 'register',
+        'reset-password'     : 'resetPassword',
         'introduction' : 'introduction',
         'tracks'       : 'tracks',
         'vessels'      : 'vessels',
@@ -74,7 +75,13 @@ OSeaM.routers.Router = Backbone.Router.extend({
         OSeaM.frontend.startView('Register', {
             model: OSeaM.frontend.getAuth()
         });
-    }, 
+    },
+    resetPassword: function() {
+        this.renderTopAndNavBar('ResetPassword');
+        OSeaM.frontend.startView('ResetPassword', {
+            model: OSeaM.frontend.getAuth()
+        });
+    },
     introduction: function() {
         this.renderTopAndNavBar('introduction');
         OSeaM.frontend.startView('Introduction');
@@ -95,7 +102,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
     	OSeaM.frontend.startView('Vessels', {
     			collection : OSeaM.frontend.getVessels()
     			});
-//    	} 
+//    	}
     },
     gauges: function() {
     	this.renderTopAndNavBar('gauges');

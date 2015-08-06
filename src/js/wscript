@@ -42,6 +42,7 @@ def configure(ctx):
         'oseam-views-meta3.js',
         'oseam-views-meta4.js',
         'oseam-views-register.js',
+        'oseam-views-resetPassword.js',
         'oseam-views-selection.js',
         'oseam-views-selectionitem.js',
         'oseam-views-sensorpositions.js',
