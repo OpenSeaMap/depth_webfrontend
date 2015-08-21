@@ -84,5 +84,10 @@
     "1303":"The file has been detected as a duplicate of another file. Please delete this file.",
     "1304":"The file has been processed. The trackpoints are visible on the map.",
     "1305":"The file does not contain position information AND depth information or does not have sufficient data points.",
-	"9103":"Username already exists."
+	"9103":"Username already exists.",
+  "1400":"Reset password",
+  "1401":"Request new password",
+  "1402":"Password requested",
+  "1403":"A new password was sent to your mail address",
+  "1404":"Username does not exists."
 }
