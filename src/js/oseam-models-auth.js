@@ -57,6 +57,20 @@ OSeaM.models.Auth = Backbone.Model.extend({
     onCreateError: function(jqXHR, textStatus, errorThrown) {
         this.trigger('createFailure', jqXHR);
     },
+    requestNewPassword: function(params) {
+        jQuery.ajax({
+            type: 'POST',
+            url: OSeaM.apiUrl + 'reset-password',
+            contentType: "application/x-www-form-urlencoded",
+            data: params,
+            context: this,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(data){ this.trigger('passwordResetSuccess', data); },
+            error: function(data){ this.trigger('passwordResetFailure', data); },
+        });
+    },
     login: function(params) {
         this.set({username : params.username});
         jQuery.ajax({
