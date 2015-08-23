@@ -60,7 +60,7 @@ OSeaM.models.Auth = Backbone.Model.extend({
     requestNewPassword: function(params) {
         jQuery.ajax({
             type: 'POST',
-            url: OSeaM.apiUrl + '/users/reset',
+            url: OSeaM.apiUrl + 'users/reset',
             contentType: "application/x-www-form-urlencoded",
             data: params,
             context: this,
