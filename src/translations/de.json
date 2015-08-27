@@ -83,5 +83,10 @@
     "1303":"Die Datei wurde als ein Duplikat einer anderen Datei erkannt. Bitte löschen Sie die Datei.",
     "1304":"Die Datei wurde verarbeitet. Die Inhalte werden auf der Webseite dargestellt.",
     "1305":"Die Datei enthält keine Positions- UND Tiefeninformationen oder hat nicht genügend DatenpunkteThe file does not contain position information AND depth information or does not have sufficient data points.",
-    "9103":"Benutzername existiert bereits."
+    "9103":"Benutzername existiert bereits.",
+    "1400":"Passwort zurücksetzen",
+    "1401":"Neues Passwort anfordern",
+    "1402":"Passwort wurde angefordert.",
+    "1403":"Ein neues Passwort wurde an die Mailadresse gesendet",
+    "1404":"Nutzername existiert nicht."
 }
