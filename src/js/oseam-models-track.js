@@ -67,6 +67,10 @@ OSeaM.models.Track = Backbone.Model.extend({
                 return '1054:Processed';
             case this.STATUS_NODATA:
                 return '1055:No usable data';
+            case this.STATUS_REPROCESS:
+                return '1056:Reprocess';
+            case this.STATUS_CONTOURS_GENERATED:
+                return '1057:Contours generated';
             default:
                 return '-';
         }
@@ -93,6 +97,10 @@ OSeaM.models.Track = Backbone.Model.extend({
                 return '1304:Processed';
             case this.STATUS_NODATA:
                 return '1305:No usable data';
+            case this.STATUS_REPROCESS:
+                return '1306:Marked for Reprocessing';
+            case this.STATUS_CONTOURS_GENERATED:
+                return '1307:Contours generated';
             default:
                 return '-';
         }
