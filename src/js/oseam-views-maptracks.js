@@ -70,8 +70,10 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         });
 
  
-        this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap',
-            'http://osm1.wtnet.de/tiles/base/${z}/${x}/${y}.png', {
+        this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap', [
+                'http://a.tile.openstreetmap.org/${z}/${x}/${y}.png',
+                'http://b.tile.openstreetmap.org/${z}/${x}/${y}.png',
+                'http://c.tile.openstreetmap.org/${z}/${x}/${y}.png'], {
                 resolutions: [
                     156543.03390625, 78271.516953125, 39135.7584765625,
                     19567.87923828125, 9783.939619140625, 4891.9698095703125,
