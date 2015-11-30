@@ -10,11 +10,12 @@ Installation
 The Python build tool 'Waf' is used to build this repository. The
 following tools are required:
 
-  * Python (http://www.python.org/)
+  * Python2 (http://www.python.org/)
   * Closure-Compiler (https://developers.google.com/closure/compiler/)
-    (works with version 20120403)
+    (works with version 20120403; Download: https://code.google.com/p/closure-compiler/downloads/detail?name=compiler-20120430.zip)
   * Handlebars (http://handlebarsjs.com/precompilation.html)
     (works with version 1.0.12)
+    > npm install -g handlebars@1.0.12
 
 To build this project execute the following commands:
 
@@ -25,6 +26,9 @@ The install command will copy all necessary files into the folder
 './debug'. To test your developments point your favourite web
 server to this directory.
 
+Note: waf requires python2. On current systems you may need to use:
+  > python2 waf configure
+  > python2 waf build_debug && ./waf install_debug
 
 Tests
 -----
