@@ -49,8 +49,10 @@ OSeaM.views.Gauges = OSeaM.View.extend({
                                       );
 
  
-        this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap',
-            'http://osm1.wtnet.de/tiles/base/${z}/${x}/${y}.png', {
+        this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap',[
+                 'http://a.tile.openstreetmap.org/${z}/${x}/${y}.png',
+                 'http://b.tile.openstreetmap.org/${z}/${x}/${y}.png',
+                 'http://c.tile.openstreetmap.org/${z}/${x}/${y}.png'], {
                 attribution: 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',
                 resolutions: [
                     156543.03390625, 78271.516953125, 39135.7584765625,
