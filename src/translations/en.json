@@ -80,6 +80,7 @@
 	"1107":"Please enter a decimal",
     "1200":"User",
     "1201":"Contribute",
+    "1202":"Documentation",
     "1300":"The file has been successfully uploaded. It will be processed within an hour.",
     "1301":"The file content could not be detected. This may fail if a compressed file contains errors or if we are unable to detect the file format. See the supported file formats for reference.",
     "1302":"The file format has been detected. For non-container tracks, the contents have not been processed yet.",
