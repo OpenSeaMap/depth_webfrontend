@@ -1,0 +1,87 @@
+<h3>Documentation</h3>
+This is the technical documentation for adopters or the ones who want to contribute to the project.<br>
+
+<h4>Server Communication</h4>
+You can upload tracks via a generic REST interface. This may be interesting for third parties who want to provide an upload mechanism to the OpenSeaMap Depth project.
+This interface is being used by the webpage and the hardware logger as well.
+The API can be accessed via <br> 
+https at <a href=https://depth.openseamap.org:8443/org.osm.depth.upload/api2/>https://depth.openseamap.org:8443/org.osm.depth.upload/api2/</a> or<br>
+http at <a href=http://depth.openseamap.org:8080/org.osm.depth.upload/api2/>http://depth.openseamap.org:8080/org.osm.depth.upload/api2/</a>
+
+<h5>Sign In</h5>
+In order to upload any data you need to have an account.
+It is recommended to create an account through the web interface. If that does not fit your needs there is a captcha management in place where you can create a new user and need to supply the content of the captcha as a seperate field.  
+
+<h5>User management</h5>
+Once you have an account you can login. Your credentials will be transported <b>unencrypted</b> over the wire unless you use https so it is recommended to use https instead of http as protocol.
+The authentication type is BASIC authentication. See the 
+
+<h5>Tracks Management</h5>
+In order to list and upload tracks you need to be logged in. You will see your uploaded tracks and you may delete your own tracks. Tracks of other users are not visible for you.
+You may access the tracks via the <a href="https://depth.openseamap.org:8443/org.osm.depth.upload/api2/tracks">/tracks</a> URL.
+Uploading a track is a two step process. First you need to provide a track filename, a vesselconfigid and a licenseid through a post to the tracks URL.
+The server will return a track data structure that contains the track id. This id must be provided in a multipart message together with the uploaded file.
+See <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/src/main/java/org/osm/depth/upload/resources/TrackResource.java">TrackResource</a> and
+<a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/src/main/java/org/osm/depth/upload/messages/Track.java">Track</a> for further reference.
+
+<h5>Vessel Management</h5>
+In order to upload tracks one needs to define a vessel configuration and supply the id during upload.
+You may have a look at <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/src/main/java/org/osm/depth/upload/messages/VesselConfiguration.java"> for data reference.
+In order to manipulate the vessel configuration have a look at the REST methods provided in <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/src/main/java/org/osm/depth/upload/resources/VesselConfigurationResource.java"</a>.
+
+<h5>License Management</h5>
+Currently there is only one license, the PDDL available. The id of this license is 1. By providing this license id to the track upload you provide this track under the terms of the PDDL.
+It is planned to provide different licenses. However this may limit data usage to different terms.  
+
+<h4>Backend Processing</h4>
+The backend processing consists of several processing stages. Once every hour the backend processing is triggered. It analyzes the uploaded tracks and determines their file types.
+
+<h5>Track File Determination</h5> 
+The files are being parsed and analyzed for a particular content and compression. The gained information is stored into the database.
+
+<h5>Recording Session Clustering</h5>
+Since there are many different file formats out there the following may happen:
+<ul>
+    <li>A track file contains a single recording</li>
+    <li>A track file is one of many parts of a single recording</li>
+    <li>A track file may contain multiple recordings</li>
+</ul>
+In order to provide good filtering results it is desirable to analyze the contents of the tracks per recording as noise distribution and satellite constellations do vary only slightly through a single recording.
+This requires to cluster the tracks based on their recording time and put the in an appropriate order so that recordings can be processed instead of files.
+<br>
+As an performance improvement the clustering determines further information like if there is sufficient data to be filtered, start and end time of a track and whether the track contains absolute UTC or relative recording time.
+Absolute UTC time can be used to do time corrections whereas relative time may only be suitable for positional corrections.
+
+<h5>Gauge Retrieval</h5>
+If there are any nearby gauges registered, the gauge values are being retrieved for the given track times if possible. This may be used by filters later on to correct the water level if necessary. 
+Currently only German gauges are registered and values are retrieved.
+If you want to provide an interface to query other countries I'd be happy to hear from you and we can dig into the details.
+
+<h5>Filtering</h5>
+Since some formats provide the same data through different messages at different rates and accuracy the best choice needs to be determined. This may be particular difficult if the bus or device is unreliable and does not record at equidistant intervals.
+A statistics processor picks the best data and provides that to the filter.
+Multiple pluggable filters may be run. While one filter may just pass through the raw data another one may use tide correction and models such as the Kalman Filter or Kalman Smoother to generate improved results.
+Each filter run can be stored to a different table to compare the outcome of the filtering.
+
+<h6>Kalman Filter</h6>
+The well known Kalman Filter, Kalman Smoother and the Unscented Kalman Filter have been implemented. Apart from very simple models nothing else has been tested so far. 
+Given the sensor data from GPS, log, compass, accelerometer, gyroscope, windex and offline water current prediction models this may yield a perfect opportunity to design interesting sailing boat models.
+Contact us through the mailing list if your are interested.
+
+<h6>Tide Correction<h6>
+The tide correction may be used during filtering.
+The lowest astronomical tide has been calculated with the DTU10 Tide model on a 0.125° Grid. Given an arbitrary position at sea and the height of the tide calculated at that time one can estimate the depth above LAT for any point at sea.
+It has been coded in a modular way so it is fairly easy to use the tide prediction in a stand-alone product.  
+
+<h5>Contour Line Generation</h5>
+The contour line generation is still under development. Several algorithms have been tried. Since it is to be expected that OpenSeaMap will have highly clustered data that is very unevenly distributed and with a billions of points, traditional
+generation mechanism may yield undesirable. Inverse Distance weighing is known to have problems with clustered data while Kriging may yield bad results in unknown locations. Curve fitting mechanisms may have problems with local area updates if an additional track has been uploaded.
+Therefore an incremental constrained delaunay triangulation supported by a quad edge index is being developed.    
+<br>
+Given the input edges of the osm coastline and the additional points of the tracks a constrained delaunay triangulation gives good first results compared to official data. Given such large datasets performance and numerical stability are real problems
+that are currently being solved.
+
+ 
+
+
+

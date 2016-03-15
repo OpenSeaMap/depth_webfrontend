@@ -29,6 +29,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'instructions' : 'instructions',
         'attributions' : 'attributions',
         'contribute'   : 'contribute',
+        'documentation'   : 'documentation',
         '*default'     : 'home'
     },
     renderTopAndNavBar: function(activeItem) {
@@ -127,6 +128,10 @@ OSeaM.routers.Router = Backbone.Router.extend({
     contribute: function() {
         this.renderTopAndNavBar('contribute');
         OSeaM.frontend.startView('Contribute');
+    },
+    documentation: function() {
+        this.renderTopAndNavBar('documentation');
+        OSeaM.frontend.startView('Documentation');
     },
     attributions: function() {
         this.renderTopAndNavBar('attributions');
