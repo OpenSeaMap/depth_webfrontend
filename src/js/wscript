@@ -28,6 +28,7 @@ def configure(ctx):
         'oseam-models-vessels.js',
         'oseam-views-about.js',
         'oseam-views-attributions.js',
+        'oseam-views-documentation.js',
         'oseam-views-contribute.js',
         'oseam-views-depthsensorpage.js',
         'oseam-views-gpspage.js',

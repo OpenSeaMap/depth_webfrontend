@@ -79,6 +79,7 @@
 	"1107":"Dezimalzahl",
     "1200":"Benutzer",
     "1201":"Beitragen",
+    "1202":"Dokumentation",
     "1300":"Die Datei wurde erfolgreich hochgeladen. Sie wird innerhalb einer Stunde prozessiert.",
     "1301":"Der Dateiinhalt wurde nicht erkannt. Das kann fehlschalgen, wenn eine komprimierte Datei Fehler enthält oder das Dateiformat nicht erkannt werden konnte. Bitte bei den unterstützten Formaten prüfen, ob es unterstützt wird.",
     "1302":"Der Dateiinhalt konnte erkannt werden. Für Dateien, die nicht mehrere Tracks enthalten, wurden die Inhalte noch nicht prozessiert.",
