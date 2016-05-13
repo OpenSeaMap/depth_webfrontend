@@ -203,6 +203,10 @@ table.separate tr:first-child td:last-child {
     border-top-right-radius:10px
 }
 
+body {
+                padding-top: 60px;
+            }
+
 .helpOsm {
 font-size: 14px; !important
 }
