@@ -62,7 +62,7 @@ In order to manipulate the vessel configuration have a look at the REST methods 
 Currently there is only one license, the PDDL available. The id of this license is 1. By providing this license id to the track upload you provide this track under the terms of the PDDL.
 It is planned to provide different licenses. However this may limit data usage to different terms.  
 
-<h4><a name="backendprocessing">2 Backend Processing</a></h4>
+<h4><a name="backendprocessing">2. Backend Processing</a></h4>
 The depth postprocessing is using a modern and highly modular component architecture based on OSGi.
 This allows for contributors to easily replace certain functionality by their own implementation.
 One side effect is that this architecture is very easily testable even in a system that has not all components installed.
@@ -73,7 +73,7 @@ The second step generates filtered track data out of sequences of tracks.
 The last and final step generates contour lines out of filtered data.
 Each step may be replaced by your own implementation if you require and each step may be skipped to account for faster testing.
 
-<h5><a name="datamodel">Data Model</a></h5>
+<h5><a name="datamodel">2.1 Data Model</a></h5>
 The data model is a domain specific model that models measurements and their associated units. The data model unifies the different file formats by providing
 a common set of measurement contents. The data model used for measurements is based on the Eclipse Modeling Framework and can be modified through the associated Eclipse features.
 The same data model is being used for the OpenSeaMap Data Logger. 
@@ -89,7 +89,7 @@ It resides in the <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk
 The data model for geometry is used during contour line generation. It is again not modeled with EMF for performance reasons with plain old java objects (POJO). 
 It resides in <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.geometry">net.sf.seesea.geometry</a>.
 
-<h5><a name="contentdetection">Track Content Type Detection</a></h5>
+<h5><a name="contentdetection">2.2 Track Content Type Detection</a></h5>
 The uploaded files have no content type information. The track content type detection determines file formats, compression types and unfoldes potentially contained
 tracks that are either specific to the track file format or due to compression. If such a contained track does occur the container trackid will be set to the id of the
 containing track id file to indicate that it belongs to this id. This is important for use track deletions where all contained tracks need to be deleted as well.
@@ -104,10 +104,10 @@ The following UML sequence diagram shows the general content detection flow.<br>
 
 <img src="images/ContentDetection.png">Sequence Diagram for Content Detection</img>
 
-<h5><a name="filtering">Filtering</a></h5>
+<h5><a name="filtering">2.3 Filtering</a></h5>
 
  
-<h5>Recording Session Clustering</h5>
+<h6>Recording Session Clustering</h6>
 Since there are many different file formats out there the following may happen:
 <ul>
     <li>A track file contains a single recording</li>
@@ -120,12 +120,12 @@ This requires to cluster the tracks based on their recording time and put the in
 As an performance improvement the clustering determines further information like if there is sufficient data to be filtered, start and end time of a track and whether the track contains absolute UTC or relative recording time.
 Absolute UTC time can be used to do time corrections whereas relative time may only be suitable for positional corrections.
 
-<h5>Gauge Retrieval</h5>
+<h6>Gauge Retrieval</h6>
 If there are any nearby gauges registered, the gauge values are being retrieved for the given track times if possible. This may be used by filters later on to correct the water level if necessary. 
 Currently only German gauges are registered and values are retrieved.
 If you want to provide an interface to query other countries I'd be happy to hear from you and we can dig into the details.
 
-<h5>Filtering</h5>
+<h6>Filtering</h6>
 Since some formats provide the same data through different messages at different rates and accuracy the best choice needs to be determined. This may be particular difficult if the bus or device is unreliable and does not record at equidistant intervals.
 A statistics processor picks the best data and provides that to the filter.
 Multiple pluggable filters may be run. While one filter may just pass through the raw data another one may use tide correction and models such as the Kalman Filter or Kalman Smoother to generate improved results.
