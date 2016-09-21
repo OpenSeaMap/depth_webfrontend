@@ -1,0 +1,92 @@
+def configure(ctx):
+    ctx.find_program('closure-compiler', var='CLOSURECOMPILER')
+    ctx.find_program('handlebars', var='HANDLEBARS')
+    ctx.env.CLOSURECOMPILERFLAGS = '--compilation_level SIMPLE_OPTIMIZATIONS'
+    ctx.env.JSSTAGE1 = [
+        'oseam.js',
+        'oseam-utils-validation.js',
+        'oseam-routers-router.js',
+        'oseam-models-auth.js',
+        'oseam-models-frontend.js',
+        'oseam-views-toolbar.js',
+        'oseam-views-navbar.js',
+        'oseam-views-home.js',
+        'init.js'
+    ]
+    ctx.env.JSSTAGE2 = [
+        'oseam-models-license.js',
+        'oseam-models-licenses.js',
+        'oseam-models-offset.js',
+        'oseam-models-gauge.js',
+        'oseam-models-gauges.js',
+        'oseam-models-gaugemeasurement.js',
+        'oseam-models-gaugemeasurements.js',
+        'oseam-models-track.js',
+        'oseam-models-tracks.js',
+        'oseam-models-user.js',
+        'oseam-models-vessel.js',
+        'oseam-models-vessels.js',
+        'oseam-views-about.js',
+        'oseam-views-attributions.js',
+        'oseam-views-documentation.js',
+        'oseam-views-contribute.js',
+        'oseam-views-depthsensorpage.js',
+        'oseam-views-gpspage.js',
+        'oseam-views-gaugemeasurement.js',
+        'oseam-views-gauge.js',
+        'oseam-views-gauges.js',
+        'oseam-views-license.js',
+        'oseam-views-login.js',
+        'oseam-views-maptracks.js',
+        'oseam-views-meta1.js',
+        'oseam-views-meta2.js',
+        'oseam-views-meta3.js',
+        'oseam-views-meta4.js',
+        'oseam-views-register.js',
+        'oseam-views-resetPassword.js',
+        'oseam-views-selection.js',
+        'oseam-views-selectionitem.js',
+        'oseam-views-sensorpositions.js',
+        'oseam-views-instructions.js',
+        'oseam-views-introduction.js',
+        'oseam-views-track.js',
+        'oseam-views-tracks.js',
+        'oseam-views-user.js',
+        'oseam-views-vessel.js',
+        'oseam-views-vesselitem.js',
+        'oseam-views-vesselpage.js',
+        'oseam-views-vessels.js',
+        'oseam-views-wizard.js',
+    ]
+    ctx.env.JSSTAGE1NAME = 'all-stage1.js'
+    ctx.env.JSSTAGE2NAME = 'all-stage2.js'
+    ctx.env.NAME = 'release'
+
+
+
+def build(ctx):
+
+    ctx(
+        rule         = '${HANDLEBARS} -m ${SRC} -f ${TGT}',
+        source       = ctx.path.ant_glob('templates/*.handlebars'),
+        target       = 'templates.js',
+        install_path = '${PREFIX}/js'
+    )
+
+    if ctx.env.NAME == 'release':
+        ctx(
+            rule         = '${CLOSURECOMPILER} ${CLOSURECOMPILERFLAGS} --js ${SRC} --js_output_file ${TGT}',
+            source       = ctx.env.JSSTAGE1,
+            target       = ctx.env.JSSTAGE1NAME,
+            install_path = '${PREFIX}/js'
+        )
+
+        ctx(
+            rule         = '${CLOSURECOMPILER} ${CLOSURECOMPILERFLAGS} --js ${SRC} --js_output_file ${TGT}',
+            source       = ctx.env.JSSTAGE2,
+            target       = ctx.env.JSSTAGE2NAME,
+            install_path = '${PREFIX}/js'
+        )
+
+    if ctx.env.NAME == 'debug':
+        ctx.install_files('${PREFIX}/js', ctx.path.ant_glob('*.js'))
