@@ -8,9 +8,64 @@ If you think your tracks were not processed correctly, create an issue as well s
 
 <h4>Sources</h4>
 The <a href="https://github.com/OpenSeaMap/depth_webfrontend.git">website</a> is hosted at Github.<br>
+
+<h5>Backend Processing</h5>
+The backend processing transforms the raw data we receive into filter readable data points that may be shown on a map.
 The sources for the <a href="http://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/">server</a> can be found at SourceForge.<br>
-The <a href="http://sourceforge.net/p/seesea/code/HEAD/tree/trunk/">backend processing</a> is only partially released to the public as there are some licensing issues and programming issues to be addressed.<br>
-Released parts may be found at SourceForge.<br>
+
+<h6>IDE Setup</h6>
+The backend processing can be developed with the Eclipse IDE. To setup the IDE go through the following steps:
+<ul>
+	<li><a href="http://www.oracle.com/technetwork/java/javase/overview/index.html>>Download Java</a></li>
+	<li><a href="https://www.eclipse.org/downloads/index.php?show_instructions=TRUE">Download the Eclipse Installer</a></li>
+	<li>Start the installer</li>
+	<li>Select "Advanced Mode"</li>
+	<li>From the branch  "Eclipse.org" select either the "Java EE Developers" or the "Eclipse Committers" edition, click "Next"</li>
+	<li><a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.installers.depth/OpenSeaMapDepthBackendprocessing.setup">Download</a> the setup file and drop it to the projects folder.</li>
+	<li>Finish the wizard and wait for the installation to complete</li>
+	<li><a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.installers.depth/projectSet.psf">Import</a> the project set</a></li>
+</ul>
+<br>
+
+<h6>Postgres Database Setup</h6>
+In order to process the raw data you need to create two databases with postgis enabled.
+Any postgres version above 9.0 should fit the purpose. Postgis version should be 2.0 or higher.
+Execute the following commands as postgres super user (required in order to create the postgis extension)
+<ul>
+	<li>CREATE DATABASE osmapi;</li>
+	<li>CREATE DATABASE depth;</li>
+	<li>CREATE EXTENSION postgis WITH osmapi;</li>
+	<li>CREATE EXTENSION postgis WITH depth;</li>
+</ul>
+<ul>
+	<li>Hint: A graphical client such as PgAdmin is capable to create such databases with a nice user interface.</li>
+	<li>Optional: You may optionally use another user than the postgres super user by adding an existing user through adding "OWNER <osmdbuser>" to the CREATE DATABASE statements</li> 
+	<li>Optional: For gauge update processing you need a complete opensteetmap database. Instructions how to setup such a database can be found <a href="http://wiki.openstreetmap.org/wiki/Setting_up_a_local_copy_of_the_OpenStreetMap_database,_kept_up_to_date_with_minutely_diffs">here</a></li>
+</ul>
+
+<h6>Configuration</h6>
+The backend processing is built on a highly modular component architecture that is based on OSGi and configured through OSGi.
+The configuration is stored within the IDE in the projects folder net.sf.seesea.data.processing.feature/rootfiles/config.
+Each of the <a href=#documentation>documented</a> steps can be enabled or disabled.
+Consult each of the configuration files for detailed options. Delete or rename a configuration file if you want to disable a particular system component.
+For a minimal setup you need to provide the database credentials to 
+
+<h6>Raw Data Retrieval</h6>
+There are two ways the retrieve the raw data (currently ~150GB).
+<ul>
+	<li>Download the the data through bittorrent</li>
+	<li>Become a contributor by request and download the data directly</li>
+</ul>
+<a href="https://depth.openseamap.org/torrents.zip">Download</a> the latest torrent zip file and unzip it.
+Add all contained torrents to your favorite bittorrent client and please keep sharing for others since we do not have a good bandwidth.
+
+<h6>Run Processing</h6>
+<ul>
+	<li>Navigate to the project net.sf.seesea.postprocess.product</li>
+	<li>Double click on net.sf.seesea.postprocess.product</li>
+	<li>Launch an Eclipse Application or Launch an Eclipse Application in Debug mode</li>
+</ul>
+The processing takes several hours to complete. If you want to see early filter results we recommend the free <a href="http://www.qgis.org/>Quantum GIS</a> tooling to get some visualizations. 
 
 <h4>Resources</h4>
 The developer communication is done via <a href="mailto:openseamap-develop@lists.sourceforge.net">mailing list</a>.<br>
