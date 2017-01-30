@@ -10,11 +10,11 @@ If you think your tracks were not processed correctly, create an issue as well s
 The backend processing transforms the raw data OpenSeaMap receives into filter readable data points that may be shown on a map.
 The latest binaries can be found here.
 <ul>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86_64.zip>Windows x86_64</a></li>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86.zip>Windows x86_32</a></li>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86_64.zip>Linux x86_64</a></li>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86.zip>Linux x86_32</a></li>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-macosx.cocoa.x86_64.zip>MacOSX</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86_64.zip">Windows x86_64</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86.zip">Windows x86_32</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86_64.zip">Linux x86_64</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86.zip">Linux x86_32</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-macosx.cocoa.x86_64.zip">MacOSX</a></li>
 </ul>
 
 <h5>Postgres Database Setup</h5>
@@ -22,11 +22,11 @@ In order to process the raw data you need to create two <a href="https://www.pos
 Any postgres version above 9.0 should fit the purpose. Postgis version should be 2.0 or higher.
 <h6>Linux</h6>
 Execute the following commands as postgres super user (required in order to create the postgis extension)
-<pre>psql -d postgres -c "CREATE USER osm WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD = 'changeme';"</pre>
-<pre>psql -d postgres -c "CREATE DATABASE osmapi WITH OWNER = osm ENCODING = 'UTF8';</pre>
-<pre>psql -d postgres -c "CREATE DATABASE depth WITH OWNER = osm ENCODING = 'UTF8';</pre>
-<pre>psql -d osmapi -c "CREATE EXTENSION postgis;"</pre>
-<pre>psql -d depth -c "CREATE EXTENSION postgis;"</pre>
+<pre>psql -d postgres -c "CREATE USER osm WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD = 'changeme';"
+psql -d postgres -c "CREATE DATABASE osmapi WITH OWNER = osm ENCODING = 'UTF8';
+psql -d postgres -c "CREATE DATABASE depth WITH OWNER = osm ENCODING = 'UTF8';
+psql -d osmapi -c "CREATE EXTENSION postgis;"
+psql -d depth -c "CREATE EXTENSION postgis;"</pre>
 A script <pre>postgres.sql</pre> that creates the two databases resides in the root folder of the application.
 
 <h6>Windows</h6>
@@ -54,7 +54,15 @@ There are two ways the retrieve the raw data (currently ~150GB).
 <a href="https://depth.openseamap.org/torrents.zip">Download</a> the latest torrent zip file and unzip it.
 Add all contained torrents to your favorite bittorrent client and please keep sharing for others since our bandwith is very limited.<br>
 
-To configure downloading files through the official API configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>.
+To configure downloading files through the official API configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
+<pre>user=youruser
+password=yourpassword
+checkSSLCertificate=false
+apiURL=https://depth.openseamap.org:8443/org.osm.depth.upload/api2/track
+storageLocation=data
+trackRange=1000,2000
+</pre>
+
 You must provide your API username and password that you use for
 the website depth.openseamap.org. Initially the sync is configured to download track file id from 1000 to 2000 to limit bandwidth impact.
 Comment the trackRange parameter to get all tracks. The SQL data is always downloaded completely. The SQL data contains the whole database
@@ -69,7 +77,15 @@ In case you modified the password of the database to be something different than
 <h6>Filtering</h6>
 By default unfiltered processing is enabled so boat sensor offset correction or tide correction or sophisticated filtering
 will not occur. In order to render fast the data is written into four database tables where only one stores all the data and
-the others store sampled data respective to the zoom level of the map. 
+the others store sampled data respective to the zoom level of the map.
+This is configured in <pre>net.sf.seesea.data.io.postgis.PostInsertGISWriter.cfg<pre>
+<pre># configures the tables to write to. Several tables are used to provide fast rendering of sampled data points
+outputTables=trackpoints_raw_filter_16,trackpoints_raw_filter_12,trackpoints_raw_filter_10,trackpoints_raw_filter_8
+# identifies the persistent output used by the filter engine
+id=filter1
+</pre>
+The unfiltered processing itself is configured in <pre>net.sf.seesea.data.postprocessing.filter.UnfilteredMeasurementProcessor.cfg</pre>
+It disables boat sensor offset correction and configures the persistent output identifier.
 
 <h6>Contour Generation</h6>
 Contour generation is currently disabled. If you look at the sources there is some delaunay triangulation based contour line
