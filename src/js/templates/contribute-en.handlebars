@@ -78,7 +78,7 @@ In case you modified the password of the database to be something different than
 By default unfiltered processing is enabled so boat sensor offset correction or tide correction or sophisticated filtering
 will not occur. In order to render fast the data is written into four database tables where only one stores all the data and
 the others store sampled data respective to the zoom level of the map.
-This is configured in <pre>net.sf.seesea.data.io.postgis.PostInsertGISWriter.cfg<pre>
+This is configured in <pre>net.sf.seesea.data.io.postgis.PostInsertGISWriter.cfg</pre>
 <pre># configures the tables to write to. Several tables are used to provide fast rendering of sampled data points
 outputTables=trackpoints_raw_filter_16,trackpoints_raw_filter_12,trackpoints_raw_filter_10,trackpoints_raw_filter_8
 # identifies the persistent output used by the filter engine
