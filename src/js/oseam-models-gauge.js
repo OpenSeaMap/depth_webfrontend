@@ -21,6 +21,6 @@ OSeaM.models.Gauge = Backbone.Model.extend({
 		
     },
     url: function() {
-    	return OSeaM.apiUrl + '/gauge' ;
+    	return OSeaM.apiUrl + 'gauge' ;
     }
 });
