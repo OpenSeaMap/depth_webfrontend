@@ -55,6 +55,7 @@ OSeaM.views.GaugeDialog = OSeaM.View.extend({
 		this.undelegateEvents();
 	},
 	modify: function(e) {
+		var attribute = {};
     	attribute[e.currentTarget.name] = e.currentTarget.value;
     	this.model.set(attribute);
 	}
