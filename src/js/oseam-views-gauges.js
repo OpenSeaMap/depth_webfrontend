@@ -33,7 +33,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
     	var gauge = new OSeaM.models.Gauge();
     	view = new OSeaM.views.GaugeDialog({
     		el: this.$el,
-    		model : vessel,
+    		model : gauge,
     		collection : this.collection
     	});
     	view.render().modal('show');
