@@ -4,6 +4,8 @@ OSeaM.views.GaugeDialog = OSeaM.View.extend({
 		'click #oseam-cancel' : 'onCancel',
 		'click #close' : 'onCancel',
 		'click #oseam-save' : 'onSave',
+		'change input' : 'modify',
+		'change select' : 'modify',
 	},
 	initialize : function() {
 		OSeaM.frontend.on("change:language", this.render, this);
