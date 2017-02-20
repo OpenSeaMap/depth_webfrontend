@@ -10,8 +10,7 @@
 			<div class="control-group">
 				<p><label class="tableft50">Name</label></p>
 	        	<div class="input-append">
-		            <input type="text" id="name" name="name" placeholder="0.00" value="{{name}}" title="Gauge Name"/>
-		            <span class="add-on">m</span>
+		            <input type="text" id="name" name="name" placeholder="Gauge Name" value="{{name}}" title="Gauge Name"/>
 					<span class="help-inline helpOsm"></span>
 	        	</div>
 		    </div>
@@ -30,6 +29,14 @@
 	        	<div class="input-append">
 		            <input type="text" id="longitude" name="longitude" placeholder="0.0" value="{{longitude}}" title="Longitude"/>
 	            	<span class="add-on">°</span>
+					<span class="help-inline helpOsm"></span>
+	        	</div>
+	    	</div>
+			<div class="control-group">
+		        <p><label class="tableft50">Reference Waterlevel</label></p>
+	        	<div class="input-append">
+		            <input type="text" id="waterlevel" name="waterlevel" placeholder="0.0" value="{{waterlevel}}" title="Gauge level to which depths should be aligned"/>
+	            	<span class="add-on">m</span>
 					<span class="help-inline helpOsm"></span>
 	        	</div>
 	    	</div>
