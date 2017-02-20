@@ -7,34 +7,33 @@
     	<div class="span8">
 	        <h4>Gauge</h4>
 	        <h5>Edit details of gauge</h5>
-        
-			 <div class="control-group">
-		<p><label class="tableft50">Name</label></p>
-        <div class="input-append">
-            <input type="text" class="input-mini" id="name" name="name" placeholder="0.00" value="{{name}}" title="Gauge Name"/>
-            <span class="add-on">m</span>
-							<span class="help-inline helpOsm"></span>
-        </div>
-	    </div>
-		
-		 <div class="control-group">
-        <p><label class="tableft50">Latitude</label></p>
-        <div class="input-append">
-            <input type="text" class="input-mini" id="latitude" name="latitude" placeholder="0.0" value="{{latitude}}" title="Latitude"/>
-            <span class="add-on">Decimal Degree</span>
-							<span class="help-inline helpOsm"></span>
-        </div>
+			<div class="control-group">
+				<p><label class="tableft50">Name</label></p>
+	        	<div class="input-append">
+		            <input type="text" id="name" name="name" placeholder="0.00" value="{{name}}" title="Gauge Name"/>
+		            <span class="add-on">m</span>
+					<span class="help-inline helpOsm"></span>
+	        	</div>
 		    </div>
-		
-		 <div class="control-group">
-        <p><label class="tableft50">Longitude</label></p>
-        <div class="input-append">
-            <input type="text" class="input-mini" id="longitude" name="longitude" placeholder="0.0" value="{{longitude}}" title="Longitude"/>
-            <span class="add-on">m</span>
-							<span class="help-inline helpOsm"></span>
-        </div>
-    </div>
-    
+		    
+			<div class="control-group">
+		        <p><label class="tableft50">Latitude</label></p>
+		        <div class="input-append">
+		            <input type="text" id="latitude" name="latitude" placeholder="0.0" value="{{latitude}}" title="Latitude"/>
+		            <span class="add-on">°</span>
+					<span class="help-inline helpOsm"></span>
+		        </div>
+		    </div>
+			
+			<div class="control-group">
+		        <p><label class="tableft50">Longitude</label></p>
+	        	<div class="input-append">
+		            <input type="text" id="longitude" name="longitude" placeholder="0.0" value="{{longitude}}" title="Longitude"/>
+	            	<span class="add-on">°</span>
+					<span class="help-inline helpOsm"></span>
+	        	</div>
+	    	</div>
+	    </div>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" id="oseam-cancel" aria-hidden="true">Cancel</button>

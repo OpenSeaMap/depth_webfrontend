@@ -9,7 +9,6 @@ OSeaM.views.GaugeDialog = OSeaM.View.extend({
 		OSeaM.frontend.on("change:language", this.render, this);
 	},
 	render : function() {
-		new OSeaM.views.Wizard();
 		var language = OSeaM.frontend.getLanguage();
 		var template = OSeaM.loadTemplate('gaugedialog-' + language);
 		//var template = OSeaM.loadTemplate('vessel');
