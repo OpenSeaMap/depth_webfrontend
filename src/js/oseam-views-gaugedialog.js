@@ -51,5 +51,10 @@ OSeaM.views.GaugeDialog = OSeaM.View.extend({
 		//        this.wizard.remove();
 		this.el.remove();
 		this.undelegateEvents();
+	},
+	modify: function(e) {
+    	attribute[e.currentTarget.name] = e.currentTarget.value;
+    	this.model.set(attribute);
 	}
+
 });
