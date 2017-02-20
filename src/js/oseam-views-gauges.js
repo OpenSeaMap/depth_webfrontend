@@ -108,6 +108,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         	new OpenLayers.Control.PanZoomBar(),
             new OpenLayers.Control.Navigation(),
             new OpenLayers.Control.Attribution(),
+            new OpenLayers.Control.MousePosition()
         ]);
         this.map.setCenter(new OpenLayers.LonLat(0.0, 40.0).transform(
             this.projectionWGS84,
