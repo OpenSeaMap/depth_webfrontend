@@ -6,11 +6,135 @@ Reports for the web page can be reported there.
 Errors that may come from the server parts are reported there as well.<br>
 If you think your tracks were not processed correctly, create an issue as well stating the track id.
 
+<h4>Binaries Backend Processing</h4>
+The backend processing transforms the raw data OpenSeaMap receives into filter readable data points that may be shown on a map.
+The latest binaries can be found here.
+<ul>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86_64.zip">Windows x86_64</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86.zip">Windows x86_32</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86_64.zip">Linux x86_64</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86.zip">Linux x86_32</a></li>
+	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-macosx.cocoa.x86_64.zip">MacOSX</a></li>
+</ul>
+
+<h5>Postgres Database Setup</h5>
+In order to process the raw data you need to create two <a href="https://www.postgresql.org/download/">postgres</a> databases with <a href="http://postgis.net/install/">postgis</a> enabled.
+Any postgres version above 9.0 should fit the purpose. Postgis version should be 2.0 or higher.
+<h6>Linux</h6>
+Execute the following commands as postgres super user (required in order to create the postgis extension)
+<pre>psql -d postgres -c "CREATE USER osm WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD = 'changeme';"
+psql -d postgres -c "CREATE DATABASE osmapi WITH OWNER = osm ENCODING = 'UTF8';
+psql -d postgres -c "CREATE DATABASE depth WITH OWNER = osm ENCODING = 'UTF8';
+psql -d osmapi -c "CREATE EXTENSION postgis;"
+psql -d depth -c "CREATE EXTENSION postgis;"</pre>
+A script <pre>postgres.sql</pre> that creates the two databases resides in the root folder of the application.
+
+<h6>Windows</h6>
+Download and install <a href="https://www.pgadmin.org/download/">PGAdmin</a>. Login as superuser.
+Create user osm with password changeme. Enable login rights in the dialog.
+<img src="images/NewUser.png"/><br/>
+Create a new database owned by user osm
+<img src="images/CreateDatabase.png"/><br/>
+Create two database osmapi and depth
+<img src="images/CreateDatabaseOSMAPI.png"/><br/>
+Create postgis extension for each database
+<img src="images/CreateExtension.png"/><br/>
+
+<ul>
+	<li>Optional: For gauge update processing (not requried by default) you need a complete opensteetmap database. Instructions how to setup such a database can be found <a href="http://wiki.openstreetmap.org/wiki/Setting_up_a_local_copy_of_the_OpenStreetMap_database,_kept_up_to_date_with_minutely_diffs">here</a></li>
+</ul>
+
+<h5>Configuration</h5>
+The backend processing is built on a highly modular component architecture that is based on OSGi and configured through OSGi.
+Each of the <a href=#documentation>documented</a> steps can be enabled or disabled.
+Consult each of the configuration files for detailed options. Delete or rename a configuration file if you want to disable a particular system component.
+
+<h6>Data Retrieval</h6>
+There are two ways the retrieve the raw data (currently ~150GB).
+<ul>
+	<li>Download the the data through bittorrent</li>
+	<li>Become a contributor by request and download the data directly</li>
+</ul>
+<a href="https://depth.openseamap.org/torrents.zip">Download</a> the latest torrent zip file and unzip it.
+Add all contained torrents to your favorite bittorrent client and please keep sharing for others since our bandwith is very limited.<br>
+
+To configure downloading files through the official API configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
+<pre>user=youruser
+password=yourpassword
+checkSSLCertificate=false
+apiURL=https://depth.openseamap.org:8443/org.osm.depth.upload/api2/track
+storageLocation=data
+trackRange=1000,2000
+</pre>
+
+You must provide your API username and password that you use for
+the website depth.openseamap.org. Initially the sync is configured to download track file id from 1000 to 2000 to limit bandwidth impact.
+Comment the trackRange parameter to get all tracks. The SQL data is always downloaded completely. The SQL data contains the whole database
+stripped by privacy relevant information. The server updates that file on a daily basis so it may not contain all the latest information.
+
+<h6>Content Detection</h6>
+Content detection determines file content types and compression and stores the detection result back to the persistent storage. Since
+the storage mechanism is pluggable the storage mechanism needs to be configured as well.
+In case you modified the password of the database to be something different than 'changeme' configure the
+<pre>net.sf.seesea.data.io.postgis.PostgresDatasourceConfiguration-*</pre> files and set the password appropriately.
+
+<h6>Filtering</h6>
+By default unfiltered processing is enabled so boat sensor offset correction or tide correction or sophisticated filtering
+will not occur. In order to render fast the data is written into four database tables where only one stores all the data and
+the others store sampled data respective to the zoom level of the map.
+This is configured in <pre>net.sf.seesea.data.io.postgis.PostInsertGISWriter.cfg</pre>
+<pre># configures the tables to write to. Several tables are used to provide fast rendering of sampled data points
+outputTables=trackpoints_raw_filter_16,trackpoints_raw_filter_12,trackpoints_raw_filter_10,trackpoints_raw_filter_8
+# identifies the persistent output used by the filter engine
+id=filter1
+</pre>
+The unfiltered processing itself is configured in <pre>net.sf.seesea.data.postprocessing.filter.UnfilteredMeasurementProcessor.cfg</pre>
+It disables boat sensor offset correction and configures the persistent output identifier.
+
+<h6>Contour Generation</h6>
+Contour generation is currently disabled. If you look at the sources there is some delaunay triangulation based contour line
+generation. 
+
+The processing takes several hours to complete. If you want to see early filter results we recommend the free <a href="http://www.qgis.org/>Quantum GIS</a> tooling to get some visualizations. 
+
+
 <h4>Sources</h4>
 The <a href="https://github.com/OpenSeaMap/depth_webfrontend.git">website</a> is hosted at Github.<br>
 The sources for the <a href="http://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/">server</a> can be found at SourceForge.<br>
-The <a href="http://sourceforge.net/p/seesea/code/HEAD/tree/trunk/">backend processing</a> is only partially released to the public as there are some licensing issues and programming issues to be addressed.<br>
-Released parts may be found at SourceForge.<br>
+
+The configuration is stored within the IDE in the projects folder net.sf.seesea.data.processing.feature/rootfiles/config.
+
+
+
+<h6>IDE Setup</h6>
+The backend processing can be developed with the Eclipse IDE. To setup the IDE go through the following steps:
+<ul>
+	<li><a href="http://www.oracle.com/technetwork/java/javase/overview/index.html>>Download Java</a></li>
+	<li><a href="https://www.eclipse.org/downloads/index.php?show_instructions=TRUE">Download the Eclipse Installer</a></li>
+	<li>Start the installer</li>
+	<li>Select "Advanced Mode"</li>
+	<li>From the branch  "Eclipse.org" select either the "Java EE Developers" or the "Eclipse Committers" edition, click "Next"</li>
+	<li><a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.installers.depth/OpenSeaMapDepthBackendprocessing.setup">Download</a> the setup file and drop it to the projects folder.</li>
+	<li>Finish the wizard and wait for the installation to complete</li>
+	<li><a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.installers.depth/projectSet.psf">Import</a> the project set</a></li>
+</ul>
+<br>
+
+<h6>Run Processing</h6>
+<ul>
+	<li>Navigate to the project net.sf.seesea.postprocess.product</li>
+	<li>Double click on net.sf.seesea.postprocess.product</li>
+	<li>Change command line parameter to -Dfelix.fileinstall.dir=${workspace_loc}\net.sf.seesea.data.processing.feature\rootfiles\config</li>
+	<li>Launch an Eclipse Application or Launch an Eclipse Application in Debug mode</li>
+</ul>
+
+<h6>Building</h6>
+Checkout the source code:
+<pre>svn co http://svn.code.sf.net/p/seesea/code/trunk</pre>
+Change directory to the aggregator:
+<pre>cd net.sf.seesea.aggregator</pre>
+Run the maven based build
+<pre>mvn clean verify</pre>
 
 <h4>Resources</h4>
 The developer communication is done via <a href="mailto:openseamap-develop@lists.sourceforge.net">mailing list</a>.<br>

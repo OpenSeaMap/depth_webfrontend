@@ -17,10 +17,11 @@ OSeaM.models.Gauge = Backbone.Model.extend({
         name   : '',
         gaugeType   : '',
 		latitude: '',
-		longitude: ''
+		longitude: '',
+		waterlevel: ''
 		
     },
     url: function() {
-    	return OSeaM.apiUrl + '/gauge' ;
+    	return OSeaM.apiUrl + 'gauge' ;
     }
 });

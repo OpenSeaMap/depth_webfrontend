@@ -226,7 +226,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         this.map.addControls([
             this.attributionControl,
             new OpenLayers.Control.KeyboardDefaults(),
-            new OpenLayers.Control.LayerSwitcher()
+            new OpenLayers.Control.LayerSwitcher(),
+            new OpenLayers.Control.MousePosition()
         ]);
         this.map.setCenter(new OpenLayers.LonLat(0.0, 40.0).transform(
             this.projectionWGS84,

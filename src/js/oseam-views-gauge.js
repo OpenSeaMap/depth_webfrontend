@@ -29,9 +29,10 @@ OSeaM.views.Gauge = OSeaM.View.extend({
         var content = $(template({
             id : this.model.get('id'),
             name : this.model.get('name'),
-            type : this.model.get('gaugeType'),
-            lat : this.model.get('latitude'),
-            lon : this.model.get('longitude')
+            gaugeType : this.model.get('gaugeType'),
+            latitude : this.model.get('latitude'),
+            longitude : this.model.get('longitude'),
+            waterlevel : this.model.get('waterlevel')
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);

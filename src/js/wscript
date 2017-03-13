@@ -33,6 +33,7 @@ def configure(ctx):
         'oseam-views-depthsensorpage.js',
         'oseam-views-gpspage.js',
         'oseam-views-gaugemeasurement.js',
+        'oseam-views-gaugedialog.js',
         'oseam-views-gauge.js',
         'oseam-views-gauges.js',
         'oseam-views-license.js',
