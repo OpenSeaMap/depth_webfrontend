@@ -10,11 +10,11 @@ If you think your tracks were not processed correctly, create an issue as well s
 The backend processing transforms the raw data OpenSeaMap receives into filter readable data points that may be shown on a map.
 The latest binaries can be found here.
 <ul>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86_64.zip">Windows x86_64</a></li>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86.zip">Windows x86_32</a></li>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86_64.zip">Linux x86_64</a></li>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86.zip">Linux x86_32</a></li>
-	<li><a href="https://depth.openseamap.org:8443/jenkins/job/DepthBackProcessingMaster/lastSuccessfulBuild/artifact/.repository/net/sf/seesea/net.sf.seesea.postprocess.product/1.0.0-SNAPSHOT/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-macosx.cocoa.x86_64.zip">MacOSX</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86_64.zip" download>Windows x86_64</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86.zip" download>Windows x86_32</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86_64.zip" download>Linux x86_64</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86.zip" download>Linux x86_32</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-macosx.cocoa.x86_64.zip" download>MacOSX</a></li>
 </ul>
 
 <h5>Postgres Database Setup</h5>
@@ -53,10 +53,12 @@ Consult each of the configuration files for detailed options. Delete or rename a
 There are two ways the retrieve the raw data (currently ~150GB).
 <ul>
 	<li>Download the the data through bittorrent</li>
-	<li>Become a contributor by request and download the data directly</li>
+	<li>Become a contributor by request and download the raw data and sql schema dumps directly</li>
 </ul>
-<a href="https://depth.openseamap.org/torrents.zip">Download</a> the latest torrent zip file and unzip it.
+<a href="/torrent/torrents.zip">Download</a> the latest torrent zip file and unzip it.
 Add all contained torrents to your favorite bittorrent client and please keep sharing for others since our bandwith is very limited.<br>
+
+The database dumps are available <a href="/dump">here</a>
 
 To configure downloading files through the official API configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
 <pre>user=youruser
@@ -109,7 +111,7 @@ The configuration is stored within the IDE in the projects folder net.sf.seesea.
 <h6>IDE Setup</h6>
 The backend processing can be developed with the Eclipse IDE. To setup the IDE go through the following steps:
 <ul>
-	<li><a href="http://www.oracle.com/technetwork/java/javase/overview/index.html>>Download Java</a></li>
+	<li><a href="http://www.oracle.com/technetwork/java/javase/overview/index.html">Download Java</a></li>
 	<li><a href="https://www.eclipse.org/downloads/index.php?show_instructions=TRUE">Download the Eclipse Installer</a></li>
 	<li>Start the installer</li>
 	<li>Select "Advanced Mode"</li>
