@@ -62,7 +62,7 @@ There are two ways to retrieve the raw data (currently ~150GB).
 
 If you want to do an early evaluation of the backend processing download a medium sized torrent and get the full metadata dump.
 The software will process the available data and generate data points for it.
-
+<br>
 To configure downloading files directly configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
 <pre>user=youruser
 password=yourpassword
@@ -129,6 +129,17 @@ The backend processing can be developed with the Eclipse IDE. To setup the IDE g
 	<li>Change command line parameter to -Dfelix.fileinstall.dir=${workspace_loc}\net.sf.seesea.data.processing.feature\rootfiles\config</li>
 	<li>Launch an Eclipse Application or Launch an Eclipse Application in Debug mode</li>
 </ul>
+
+<h6>Analyzing individual formats</h6>
+You may want to look at individual files quickly to analyze their contents or to decode the data that is stored inside.
+For example you might want to analyze why a certain file was not processed and look at the data stored.
+Another example might be that some of the files contain 1D depth data or sea floor side scan data that is currently not used by OpenSeaMap and you want to create some awesome
+map overlay with that data. Wind speeds might even be interesting for weather related analysis.<br>
+
+The different file formats like ADM, FSH, GPX, SON, NMEA and SL2 are analyzed in the appropriate net.sf.seesea.provider
+bundles. Each of the bundles has a test plugin associated with it. It contains test methods and a res folder that stores some
+files for reference testing. You easily modify the test method to reference another file to do some analysis.
+Execute that test via right click -> Run as Junit - Test. This way you don't need to do a full run to analyse some details.
 
 <h6>Building</h6>
 Checkout the source code:
