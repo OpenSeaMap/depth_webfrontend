@@ -8,6 +8,7 @@ If you think your tracks were not processed correctly, create an issue as well s
 
 <h4>Binaries Backend Processing</h4>
 The backend processing transforms the raw data OpenSeaMap receives into filter readable data points that may be shown on a map.
+Early work has been done to create contour lines out of that data.
 The latest binaries can be found here.
 <ul>
 	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86_64.zip" download>Windows x86_64</a></li>
@@ -50,17 +51,19 @@ Each of the <a href=#documentation>documented</a> steps can be enabled or disabl
 Consult each of the configuration files for detailed options. Delete or rename a configuration file if you want to disable a particular system component.
 
 <h6>Data Retrieval</h6>
-There are two ways the retrieve the raw data (currently ~150GB).
+You will need two datasets. One is the raw recorded data from users. The other dataset contains meta-information such as the original file name.<br>
+
+There are two ways to retrieve the raw data (currently ~150GB).
 <ul>
-	<li>Download the the data through bittorrent</li>
-	<li>Become a contributor by request and download the raw data and sql schema dumps directly</li>
+	<li>Download the raw data through <a href="/torrent/torrents.zip">bittorrent</a>, unzip that file and add it to your favorite torrent client. Please keep sharing for others since our bandwidth is very limited. Download the <a href="/dump">metadata</a> through the web download.</a></li>
+	<li>Become a contributor by request and download the raw data and SQL schema dumps directly</li>
 </ul>
-<a href="/torrent/torrents.zip">Download</a> the latest torrent zip file and unzip it.
-Add all contained torrents to your favorite bittorrent client and please keep sharing for others since our bandwith is very limited.<br>
+<br>
 
-The database dumps are available <a href="/dump">here</a>
+If you want to do an early evaluation of the backend processing download a medium sized torrent and get the full metadata dump.
+The software will process the available data and generate data points for it.
 
-To configure downloading files through the official API configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
+To configure downloading files directly configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
 <pre>user=youruser
 password=yourpassword
 checkSSLCertificate=false
@@ -82,7 +85,7 @@ In case you modified the password of the database to be something different than
 
 <h6>Filtering</h6>
 By default unfiltered processing is enabled so boat sensor offset correction or tide correction or sophisticated filtering
-will not occur. In order to render fast the data is written into four database tables where only one stores all the data and
+will not occur. In order to render result on a GUI fast the data is written into four database tables where only one stores all the data and
 the others store sampled data respective to the zoom level of the map.
 This is configured in <pre>net.sf.seesea.data.io.postgis.PostInsertGISWriter.cfg</pre>
 <pre># configures the tables to write to. Several tables are used to provide fast rendering of sampled data points
@@ -91,22 +94,19 @@ outputTables=trackpoints_raw_filter_16,trackpoints_raw_filter_12,trackpoints_raw
 id=filter1
 </pre>
 The unfiltered processing itself is configured in <pre>net.sf.seesea.data.postprocessing.filter.UnfilteredMeasurementProcessor.cfg</pre>
-It disables boat sensor offset correction and configures the persistent output identifier.
+It disables boat sensor offset correction and configures the persistent output identifier where the filter will store its output data.
 
 <h6>Contour Generation</h6>
 Contour generation is currently disabled. If you look at the sources there is some delaunay triangulation based contour line
 generation. 
 
-The processing takes several hours to complete. If you want to see early filter results we recommend the free <a href="http://www.qgis.org/>Quantum GIS</a> tooling to get some visualizations. 
-
+The processing takes several hours to complete. If you want to see filter results we recommend the free <a href="http://www.qgis.org/>Quantum GIS</a> tooling to get some visualizations. 
 
 <h4>Sources</h4>
 The <a href="https://github.com/OpenSeaMap/depth_webfrontend.git">website</a> is hosted at Github.<br>
 The sources for the <a href="http://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/">server</a> can be found at SourceForge.<br>
 
 The configuration is stored within the IDE in the projects folder net.sf.seesea.data.processing.feature/rootfiles/config.
-
-
 
 <h6>IDE Setup</h6>
 The backend processing can be developed with the Eclipse IDE. To setup the IDE go through the following steps:
