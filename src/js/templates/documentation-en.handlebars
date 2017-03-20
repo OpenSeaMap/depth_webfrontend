@@ -88,22 +88,42 @@ The data model for geometry is used during contour line generation. It is again 
 It resides in <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.geometry">net.sf.seesea.geometry</a>.
 
 <h5><a name="contentdetection">2.2 Track Content Type Detection</a></h5>
-The uploaded files have no content type information. The track content type detection determines file formats, compression types and unfoldes potentially contained
-tracks that are either specific to the track file format or due to compression. If such a contained track does occur the container trackid will be set to the id of the
-containing track id file to indicate that it belongs to this id. This is important for use track deletions where all contained tracks need to be deleted as well.
-The content type detection is based on the Apache Tika framework can detect several file and compression formats. However it is unable to detect particular track file formats.
-Therefore file formats can provide an IStreamProcessor that is being used to detect a particular track file format and must be provided by a track file format plugin.
+The uploaded files have no content type information. The track content type detection determines file formats, compression types and unfolds potentially contained
+tracks that are either specific to the track file format or due to compression. If such a contained track does occur the container track id will be set to the id of the
+containing track id file to indicate that it belongs to this id. This is important for track deletions where all contained tracks need to be deleted as well.
+<br>
+The content type detection is based on the Apache Tika framework and can detect several file and compression formats. However it is unable to detect particular track file formats.
+Therefore file formats can provide an IStreamProcessor. It is being used to detect a particular track file format and must be provided by a track file format plugin.
+<br>
 The IStreamProcessor uses a fixed amount of bytes to detect file formats without reading the whole track file. Some track file formats do not support this kind of early
 content detection because the nature of the format does not permit that in general. In that case a ITrackFileDecompressor may be provided to detect the file type.<br>
 
 You can provide a new file format by implementing these interface in a separate bundle and providing them as OSGi services.<br> 
+<ul>
+	<li>Create a new plugin project named net.sf.seesea.provider.navigation.&lt;yourformat&gt;.</li>
+	<li>Right click on the plugin project and Configure -> Enable DS Annotations</li>
+	<li>Open the MANIFEST.MF</li>
+	<li>In the dependencies tab add net.sf.seesea.model.core and net.sf.seesea.track.api</li>
+	<li>Create a new class implementing IStreamProcessor</li>
+	<li>Add the @Component annotation to the class</li>
+	<li>If the file format is a binary add (property="type:String=binary") after the component annotation</li>
+	<li>Create a new class implementing ITrackFileProcessor</li>
+	<li>Add the @Component(factory="trackfile.&lt;yourmimetype&gt;") annotation to the class</li>
+	<li>Extend the net.sf.seesea.data.postprocessing.data.FileType with the given mime type prefixed by "application/"</li>
+	<li>Create a new fragment project named net.sf.seesea.provider.navigation.&lt;yourformat&gt;.test</li>
+	<li>Open the MANIFEST.MF</li>
+	<li>In the dependencies tab add org.junit</li>
+	<li>Write unit tests in order to test the implementation</li>
+	<li>Add you plugin to the net.sf.seesea.data.processing.feature and launch the product</li>
+	<li>If you need additional libraries open up net.sf.seesea.thirdparty/pom.xml and add the desired library. Right click on the pom.xml and execute the Maven goal p2:site. Press F5 when finished and you will see a new target directory. Add that directory to your net.sf.seesea.backend.target target definition file and set it as target platform so the new library will resolve</li>
+</ul>
 
 The following UML sequence diagram shows the general content detection flow.<br>
+<br>
 
 <img src="images/ContentDetection.png">Sequence Diagram for Content Detection</img>
 
 <h5><a name="filtering">2.3 Filtering</a></h5>
-
  
 <h6>Recording Session Clustering</h6>
 Since there are many different file formats out there the following may happen:
