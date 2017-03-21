@@ -24,8 +24,8 @@ Any postgres version above 9.0 should fit the purpose. Postgis version should be
 <h6>Linux</h6>
 Execute the following commands as postgres super user (required in order to create the postgis extension)
 <pre>psql -d postgres -c "CREATE USER osm WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD = 'changeme';"
-psql -d postgres -c "CREATE DATABASE osmapi WITH OWNER = osm ENCODING = 'UTF8';
-psql -d postgres -c "CREATE DATABASE depth WITH OWNER = osm ENCODING = 'UTF8';
+psql -d postgres -c "CREATE DATABASE osmapi WITH OWNER = osm ENCODING = 'UTF8'";
+psql -d postgres -c "CREATE DATABASE depth WITH OWNER = osm ENCODING = 'UTF8'";
 psql -d osmapi -c "CREATE EXTENSION postgis;"
 psql -d depth -c "CREATE EXTENSION postgis;"</pre>
 A script <pre>postgres.sql</pre> that creates the two databases resides in the root folder of the application.
