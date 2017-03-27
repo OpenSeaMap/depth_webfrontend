@@ -23,7 +23,7 @@ In order to process the raw data you need to create two <a href="https://www.pos
 Any postgres version above 9.0 should fit the purpose. Postgis version should be 2.0 or higher.
 <h6>Linux</h6>
 Execute the following commands as postgres super user (required in order to create the postgis extension)
-<pre>psql -d postgres -c "CREATE USER osm WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD = 'changeme';"
+<pre>psql -d postgres -c "CREATE USER osm WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD 'changeme';"
 psql -d postgres -c "CREATE DATABASE osmapi WITH OWNER = osm ENCODING = 'UTF8'";
 psql -d postgres -c "CREATE DATABASE depth WITH OWNER = osm ENCODING = 'UTF8'";
 psql -d osmapi -c "CREATE EXTENSION postgis;"
@@ -60,9 +60,10 @@ There are two ways to retrieve the raw data (currently ~150GB).
 </ul>
 <br>
 
-If you want to do an early evaluation of the backend processing download a medium sized torrent and get the full metadata dump.
+If you want to do an early evaluation of the backend processing download a medium sized torrent and get the full metadata dump. Change the basedir parameter in net.sf.seesea.track.persistence.database.DatabaseTrackPersistence.cfg and net.sf.seesea.content.impl.ContentDetector.cfg to your torrent download location.
 The software will process the available data and generate data points for it.
 <br>
+
 To configure downloading files directly configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
 <pre>user=youruser
 password=yourpassword
@@ -85,7 +86,7 @@ In case you modified the password of the database to be something different than
 
 <h6>Filtering</h6>
 By default unfiltered processing is enabled so boat sensor offset correction or tide correction or sophisticated filtering
-will not occur. In order to render result on a GUI fast the data is written into four database tables where only one stores all the data and
+will not occur. In order to render result on a GUI fast the data is written into four database tables where only trackpoints_raw_filter_16 stores all the data and
 the others store sampled data respective to the zoom level of the map.
 This is configured in <pre>net.sf.seesea.data.io.postgis.PostInsertGISWriter.cfg</pre>
 <pre># configures the tables to write to. Several tables are used to provide fast rendering of sampled data points
