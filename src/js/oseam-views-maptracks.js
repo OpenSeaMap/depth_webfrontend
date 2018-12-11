@@ -26,6 +26,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             this.layerBase.attribution = 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',
             this.layerTrackPoints10.attribution = data;
             this.layerTrackPoints.attribution = data;
+            this.layerTrackPointsSingle10.attribution = data;
+            this.layerTrackPointsSingle100.attribution = data;
             this.attributionControl.draw();
 //            this.attributionControl = new OpenLayers.Control.Attribution();
             this.attributionControl.updateAttribution();
@@ -94,6 +96,30 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 ],
                 transitionEffect: 'resize',
                 sphericalMercator: true
+            }
+        );
+        this.layerTrackPointsSingle100 = new OpenLayers.Layer.WMS('100m',
+            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+                layers: 'trackpoints_single_100,
+                numZoomLevels: 22,
+                projection: this.projectionMercator,
+                type: 'png',
+                transparent: true
+            },{
+                isBaseLayer: false,
+                tileSize: new OpenLayers.Size(1024,1024)
+            }
+        );
+        this.layerTrackPointsSingle10 = new OpenLayers.Layer.WMS('10m',
+            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+                layers: 'trackpoints_single_10,
+                numZoomLevels: 22,
+                projection: this.projectionMercator,
+                type: 'png',
+                transparent: true
+            },{
+                isBaseLayer: false,
+                tileSize: new OpenLayers.Size(1024,1024)
             }
         );
         this.layerTrackPoints = new OpenLayers.Layer.WMS('100m',
@@ -214,11 +240,13 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         
         this.map.addLayers([
             this.layerBase,
+			this.layerTrackPointsSingle100,
+			this.layerTrackPointsSingle10,
             this.triangulation,
-            this.layerTrackPoints,
-            this.layerTrackPoints10,
-            this.layerTrackPoints_filter1,
-            this.layerTrackPoints_filter2,
+            //this.layerTrackPoints,
+            //this.layerTrackPoints10,
+            //this.layerTrackPoints_filter1,
+            //this.layerTrackPoints_filter2,
             this.layerContours,
             this.msl2lat
         ]);
