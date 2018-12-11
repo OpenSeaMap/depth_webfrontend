@@ -100,7 +100,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         );
         this.layerTrackPointsSingle100 = new OpenLayers.Layer.WMS('100m',
             'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
-                layers: 'trackpoints_single_100,
+                layers: 'trackpoints_single_100',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
                 type: 'png',
@@ -112,7 +112,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         );
         this.layerTrackPointsSingle10 = new OpenLayers.Layer.WMS('10m',
             'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
-                layers: 'trackpoints_single_10,
+                layers: 'trackpoints_single_10',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
                 type: 'png',
