@@ -29,6 +29,26 @@ server to this directory.
 Note: waf requires python2. On current systems you may need to use:
   > python2 waf configure
   > python2 waf build_debug && ./waf install_debug
+  
+Debugging
+-----------------------
+In order to facilitate debugging, functionality has been added that makes the whole thing work 
+without handlebars precompiler or closure compiler. Just load index_local from the file system 
+with your browser and that's it. So far has been only tested with chrome.
+
+In order to allow cross site requests without having the server send appropriate headers,
+chrome needs to be startet with disabled security. On windows do:
+
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir="C:\Projekte\Osm\ChromeProfile" C:\Projekte\Osm\WebFrontend\depth_webfrontend\src\local_index.html
+
+(of course you have to adjust the paths to user-data-dir and local_index.html accordingly.)
+
+user-data-dir is used to do browsing with disabled security with a special profile that does not contain any personal data.
+
+Furthermore, this works only with the test version of the depth api on testdepth.openseamap.org. 
+Please set "apiUrl" in js/oseam.js accordingly
+Please DO NOT push your versione of oseam.js with the changed apiUrl to the repository, as this will break automatic deployment
+
 
 Tests
 -----
