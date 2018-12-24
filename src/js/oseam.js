@@ -19,12 +19,18 @@ OSeaM = {
     container: null,
     frontend: null,
     router: null,
-//    apiUrl: 'http://192.168.0.11:8080/org.osm.depth.upload/api2/',
-    apiUrl: 'http://depth.openseamap.org/org.osm.depth.upload/api2/',
-//    apiUrl: 'http://testdepth.openseamap.org:8080/org.osm.depth.upload.stage/api2/',
-//	apiUrl: 'http://localhost:8080/org.osm.depth.upload/api2/',
+	apiUrl: 'APIURL_PLACEHOLDER',
     autoId: 0,
     init: function() {
+		if ( this.apiUrl == 'APIURL' + '_' + 'PLACEHOLDER' ) // must assemble here so jenkins does NOT replace it
+		{
+			// your debug api url goes here. You need not change it before checking in this file,
+			// because the above placeholder will be replaced by jenkins during rollout.
+			//    apiUrl: 'http://192.168.0.11:8080/org.osm.depth.upload/api2/',
+			    this.apiUrl = 'http://depth.openseamap.org/org.osm.depth.upload/api2/';
+			//    apiUrl: 'http://testdepth.openseamap.org:8080/org.osm.depth.upload.stage/api2/',
+			// apiUrl: 'http://localhost:8080/org.osm.depth.upload/api2/',
+		}
         OSeaM.configureBackboneSync();
         this.frontend = new OSeaM.models.Frontend();
         if(localStorage.language == null) {
