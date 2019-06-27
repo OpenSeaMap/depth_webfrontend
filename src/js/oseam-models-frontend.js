@@ -13,7 +13,9 @@
 
 OSeaM.models.Frontend = Backbone.Model.extend({
     actualView:null,
+    
     translations: {},
+    
     getAuth: function() {
         if (this.has('auth') === false) {
             this.set({
@@ -70,9 +72,10 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         return this.get('user');
     },
+    
     startView: function(name, settings) {
         if (this.actualView) {
-            this.actualView.close();
+//RKu            this.actualView.close();						// delete current view from html "span9 oseam-container" nein, nicht mehr
         }
         var cfg = settings || {};
         this.actualView = new OSeaM.views[name](jQuery.extend({
@@ -80,19 +83,20 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }, cfg));
         this.actualView.render();
     },
+    
     setLanguage: function(language) {
         this.set({language: language});
         if (this.translations[language] === undefined) {
             var me = this;
             jQuery.ajax({
-                url: 'translations/' + language + '.json',
+                url: 'translations/' + language + '.json',						//RKu: at pressent we have 2 languages (en and de)
                 dataType: 'json',
                 success: function(data, success, jqXHR) {
                     me.translations[language] = data;
                     me.translate($('body'));
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Unable to load language.');
+                    alert('Unable to load language.'  + errorThrown);
                 }
             });
         } else {
@@ -101,9 +105,11 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         localStorage.language = language;
     },
+    
     getLanguage: function() {
         return this.get('language');
     },
+    
     translate: function(el) {
         // Seach in children
         elements = el.find('[data-trt], [data-trt-placeholder], [title]');

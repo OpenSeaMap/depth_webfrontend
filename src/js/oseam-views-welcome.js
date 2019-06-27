@@ -11,31 +11,20 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.User = OSeaM.View.extend({
+//RKu ++ new function "welcome a user after successful login"
+
+OSeaM.views.Welcome = OSeaM.View.extend({
     initialize: function() {
         OSeaM.frontend.on('change:language', this.render, this);
-        this.listenTo(this.model, 'change', this.render);
-        this.model.fetch();
     },
     render: function() {
         var language = OSeaM.frontend.getLanguage();
-        var template = OSeaM.loadTemplate('user-' + language);			// default language is "en"
-        var content = $(template( {
-            user_name         : this.model.get('user_name'),
-            forename   : this.model.get('forname'),
-            surname   : this.model.get('surname'),
-            organisation   : this.model.get('organisation'),
-            acceptedEmailContact   : this.model.get('acceptedEmailContact')
-        }));
+        var template = OSeaM.loadTemplate('welcome-' + language);
+        var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
-        $('#countries').bfhcountries({country: this.model.get('country')});
-        $('#languages').bfhlanguages({language: this.model.get('language')});
-        if(this.model.get('phone') == null) {
-        	$('#phones').bfhphone({country: 'countries'});
-        } else {
-        	$('#phones').bfhphone({country: 'countries', phone : this.model.get('phone')});
-        }
         return this;
     }
 });
+
+//RKu --

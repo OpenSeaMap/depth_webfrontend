@@ -1,3 +1,4 @@
+// -------------------------------------------------------------------------------------------------
 // OpenSeaMap Water Depth - Web frontend for depth data handling.
 //
 // Written in 2012 by Dominik Fässler dfa@bezono.org

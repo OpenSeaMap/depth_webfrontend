@@ -1,5 +1,4 @@
 // -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
 // OpenSeaMap Water Depth - Web frontend for depth data handling.
 //
 // Written in 2012 by Dominik Fässler dfa@bezono.org
@@ -17,11 +16,11 @@ OSeaM.views.Documentation = OSeaM.View.extend({
         OSeaM.frontend.on('change:language', this.render, this);
     },
     render: function() {
-//		var language = OSeaM.frontend.getLanguage();
-        var template = OSeaM.loadTemplate('documentation-en');
-        var content = $(template());
-        OSeaM.frontend.translate(content);
-        this.$el.html(content);
+		var language = OSeaM.frontend.getLanguage();							//
+        var template = OSeaM.loadTemplate('documentation-' + language);			//RKu: defined in "oseam.js"  -  load the function, that may load the content of the file e.g. "documentation-de" to the variable template
+        var content = $(template());											//RKu: call jQuery to compile context and load the content of the whole file to the variable "content"
+        OSeaM.frontend.translate(content);										//RKu: make sure language sensitiv tags become the right language strings.
+        this.$el.html(content);													//RKu: load the "text" of content to the <div class="span9 oseam-container"> but not the attributes we need to jump to anchor inside this document
         return this;
     }
 });

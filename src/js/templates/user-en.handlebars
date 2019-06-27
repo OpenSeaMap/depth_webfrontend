@@ -1,69 +1,73 @@
-<div>
+<legend data-trt="1203:User Information"></legend>
+<h5>Manage your user data</h5>
+
+<!--<div>
 
     <div class="span8">
         <h4>User Data</h4>
-        <h5>Manage your user data</h5>
+        <h5>Manage your user data</h5> -->
         
         <form name="user">
         <div class="control-group">
-            <p><label class="tableft50">E-Mail*</label></p>
+            <p><label class="tableft50a">E-Mail*</label></p>
             <div class="input-append">
                 <input type="text" id="user" name="user_name" placeholder="jane@doe.com" value="{{user_name}}"/>
             </div>
         </div>
 
         <div class="control-group">
-            <p><label class="tableft50">Forename</label></p>
+            <p><label class="tableft50a">Forename</label></p>
             <div class="input-append">
                 <input type="text" id="forename" name="forename" placeholder="Jane" value="{{forename}}"/>
             </div>
         </div>
 
         <div class="control-group">
-            <p><label class="tableft50">Surname</label></p>
+            <p><label class="tableft50a">Surname</label></p>
             <div class="input-append">
                 <input type="text" id="surname" name="surname" placeholder="Doe" value="{{surname}}"/>
             </div>
         </div>
 
         <div class="control-group">
-            <p><label class="tableft50">Organisation</label></p>
+            <p><label class="tableft50a">Organisation</label></p>
             <div class="input-append">
                 <input type="text" id="organisation" name="organisation" placeholder="Hydrographic Institute" value="{{organisation}}"/>
             </div>
         </div>
 
         <div class="control-group">
-            <p><label class="tableft50">You may contact me via E-Mail</label></p>
+            <p><label class="tableft50a">You may contact me via E-Mail</label></p>
             <div class="input-append">
                 <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact" checked="{{acceptedEmailContact}}"/>
             </div>
         </div>
 
         <div class="control-group">
-            <p><label class="tableft50">Country</label></p>
+            <p><label class="tableft50a">Country</label></p>
             <div class="input-append">
                 <select id="countries" class="form-control bfh-countries" data-country="US"></select>
             </div>
         </div>
 
         <div class="control-group">
-            <p><label class="tableft50">Language</label></p>
+            <p><label class="tableft50a">Language</label></p>
             <div class="input-append">
                 <select id="languages" class="form-control bfh-languages" data-language="en"></select>            
             </div>
         </div>
 
         <div class="control-group">
-            <p><label class="tableft50">Phone</label></p>
+            <p><label class="tableft50a">Phone</label></p>
             <div class="input-append">
-                <input id="phones" type="text" class="form-control bfh-phone" data-country="countries">
+            <!--    <input id="phones" type="text" class="form-control bfh-phone" data-country="countries"/>  -->
+                <input name="phone" id="phone" type="text" class="form-control bfh-phone" data-country="countries"  placeholder="e.g. 0049 221 8853"/>
             </div>
         </div>
         
         </form>
-        <form name="resetpassword">
-        <!--        <div class="control-group">
+        <!--<form name="resetpassword">
+                <div class="control-group">
             <div class="controls">
                 <input type="password" id="oldPassword" data-trt-placeholder="1017:Altes Password"/>
                 <span class="help-inline"></span>
@@ -81,10 +85,10 @@
                 <input type="password" id="newPassword2" data-trt-placeholder="1017:Passwort Verifizierung"/>
                 <span class="help-inline"></span>
             </div>
-        </div>-->
+        </div>
         
-        </form>
+        </form>-->
         
-    </div>
+<!--    </div>
 
-</div>
+</div>  -->

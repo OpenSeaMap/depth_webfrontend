@@ -13,4 +13,5 @@
 
 $(function() {
     OSeaM.init();
+    OSeaM.frontend.startView('Home');				//RKu: fill for the first time the missing "Home"information into the container
 });

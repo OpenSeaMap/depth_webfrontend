@@ -11,18 +11,19 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.Login = OSeaM.View.extend({
+
+//RKu: ++
+OSeaM.views.Contact = OSeaM.View.extend({
+    initialize: function() {
+        OSeaM.frontend.on('change:language', this.render, this);
+    },
     render: function() {
-//RKu+        var template = OSeaM.loadTemplate('alert-info');
-        var template = OSeaM.loadTemplate('alert');						//RKu-        
-        this.renderParams =  {
-            title : '1009:Sign in!',
-            msg   : '1032:Please sign in proper to use this part.'
-        };
-        var content = $(template(this.renderParams));
+		var language = OSeaM.frontend.getLanguage();
+        var template = OSeaM.loadTemplate('contact-' + language);
+        var content = $(template());
         OSeaM.frontend.translate(content);
-//RKu        this.$el.html(content);
-        this.$el.find('legend').after(content);
+        this.$el.html(content);
         return this;
     }
 });
+//RKu: --

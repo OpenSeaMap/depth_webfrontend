@@ -3,28 +3,44 @@
     <h4>Warning!</h4>
     This part is under construction.
 </div>-->
-<p><img src="images/tracks_low.jpg" alt="Tracks"></p>
+<legend>
+	<p><img src="images/vessels_low.jpg" alt="Vessels"/></p>
+</legend>
 
 <form class="vesselId">
-<p>Fahrzeugkonfiguration</p>
-<select id="vesselselection" name="vesselselection">
-    <option value="" disabled selected>W&auml;hlen Sie ihre Fahrzeugkonfiguration</option>
-</select>
+	<div class="form-table">
+		<div class="form-row">
+			<div class="form-cell">
+				Fahrzeug
+			</div>
+			<div class="form-cell">
+				<select id="vesselselection" name="vesselselection" class="vesselId">
+					<option value="" disabled selected>Select your Vessel Config</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-cell">
+				<p>Track-Lizenz</p>
+			</div>
+			<div class="form-cell">
+				<select id="licenseselection" name="licenseselection" class="licenseId">
+					<option value="" disabled selected>Select the Track License</option>
+				</select>
+			</div>
+		</div>
+	</div>
 </form>
-<br/>
-<form class="licenseId">
-<p>Track Lizenz</p>
-<select id="licenseselection" name="licenseselection">
-    <option value="" disabled selected>W&auml;hlen Sie die Lizenz aus</option>
-</select>
-</form>
+
 <div>
 	<p>Uploads werden st&uuml;ndlich prozessiert. Bei Wartungen kann sich die Auswertung verz&ouml;gern.</p>
 </div>	
+
 <div class="oseam-upload-wrapper">
     <div class="btn btn-info" data-trt="1019:Upload tracks"></div>
     <input type="file" name="track[]" multiple></input>
 </div>
+
 <table class="table table-condensed table-striped table-hover">
     <thead>
         <tr>

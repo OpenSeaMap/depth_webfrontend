@@ -1,3 +1,55 @@
+/*
+div input.vesselinput
+{
+	height: 100%;
+}
+*/
+
+div.form-table
+{
+	display: table;
+}
+
+div.form-row
+{
+	display: table-row;
+}
+
+div.form-cell
+{
+	display: table-cell;
+	padding-right: 2em;
+}
+
+body div.oseam-container-fluid 
+{
+    padding-top: 20px;
+}
+
+@media(min-height:40em) {
+body.oseam-body
+{
+	padding-top: 0px;
+}	
+	
+body div.oseam-container-fluid 
+{
+    padding-top: 60px;
+    height: 100%;
+	width: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    box-sizing: border-box;
+    margin: 0;
+}
+}
+
+div.modal-body input.input-mini
+{
+	height: 100%;
+}
+
 .navbar .oseam-logo {
     float      : left;
     margin     : 4px 4px 0px 0px;
@@ -12,7 +64,7 @@
 }
 
 .navbar form input {
-    height : 16px;
+    height : 20px;				/* should be 20 px to view the full text on email and pw input */
 }
 
 .table .progress {
@@ -61,11 +113,22 @@
     display: block;
 }
 
+/*
 .oseam-modal {
-    /* new custom width */
+    / * new custom width * /
     width: 750px;
-    /* must be half of the width, minus scrollbar on the left (30px) */
+    / * must be half of the width, minus scrollbar on the left (30px) * /
     margin-left: -375px;
+}
+*/
+
+@media(min-width:768px) {
+	tr div.oseam-modal {
+		/* new custom width */
+		width: 700px;
+		/* must be half of the width, minus scrollbar on the left (30px) */
+		margin-left: -350px;
+	}
 }
 
 .tabs li {
@@ -155,6 +218,12 @@ box-shadow: 1px 2px 4px rgba(0,0,0, .2);
     float: left;
 }
 
+.tableft50a {
+        width: 20em;
+    display: block; 
+    float: left;
+}
+
 .tableft60 {
         width: 12em;
     display: block; 
@@ -209,4 +278,13 @@ body {
 
 .helpOsm {
 font-size: 14px; !important
+}
+
+.toc {
+	padding: 9.5px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+    background: #f5f5f5;
 }

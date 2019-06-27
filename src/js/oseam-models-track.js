@@ -18,6 +18,7 @@ OSeaM.models.Track = Backbone.Model.extend({
     STATUS_STARTING_UPLOAD : 97,
     STATUS_REQUESTING_ID   : 98,
     STATUS_UPLOADING       : 99,
+    STATUS_UPLOAD_INCOMPLETE : 0,
     STATUS_UPLOADED        : 1,
     STATUS_FILECORRUPT     : 2,
     STATUS_PREPROCESSED    : 3,
@@ -25,6 +26,15 @@ OSeaM.models.Track = Backbone.Model.extend({
     STATUS_DUPLICATE    : 5,
     STATUS_PROCESSED    : 6,
     STATUS_NODATA    : 7,
+	STATUS_REPROCESS : 8,
+	STATUS_CONTOURS_GENERATED : 9,
+	STATUS_REPROCESS_CONTOURS : 10,
+	STATUS_TRIANGULATED : 11,
+	STATUS_CLUSTERED : 12,
+	STATUS_NOABSOLUTETIME : 13,
+	STATUS_PROCESSING_ERROR : 14,
+	/* in addition stats xx+100 may be returned, denoting files the processing of which 
+	has been temporarily suspended */
     defaults: {
     	id : null,
         fileName   : null,
@@ -37,10 +47,12 @@ OSeaM.models.Track = Backbone.Model.extend({
         vesselconfigid : null,
         uploadDate : new Date()
     },
+    
     urlRoot: function() {
 //    	return OSeaM.apiUrl + 'track/' + this.get("id");
     	return OSeaM.apiUrl + 'track';
     },
+    
 //    url: function() {
 //    	return OSeaM.apiUrl + 'track/' + this.get("id");
 ////    	return OSeaM.apiUrl + 'track';
@@ -71,10 +83,24 @@ OSeaM.models.Track = Backbone.Model.extend({
                 return '1056:Reprocess';
             case this.STATUS_CONTOURS_GENERATED:
                 return '1057:Contours generated';
-            default:
-                return '-';
+            case this.STATUS_REPROCESS_CONTOURS:
+                return '1058:Contour reprocessing scheduled';
+            case this.STATUS_TRIANGULATED:
+                return '1059:Triangulated';
+            case this.STATUS_CLUSTERED:
+                return '1060:Clustered';
+            case this.STATUS_NOABSOLUTETIME:
+                return '1061:No Timestamps';
+            case this.STATUS_PROCESSING_ERROR:
+                return '1062:Processing Error';
+			default:
+				if ( this.get('upload_state') > 100 )
+					return '1063:processing temporarily suspended';
+				else
+					return '-';
         }
     },
+    
     getStatusTooltip: function() {
         switch (this.get('upload_state')) {
             case this.STATUS_STARTING_UPLOAD:
@@ -101,10 +127,25 @@ OSeaM.models.Track = Backbone.Model.extend({
                 return '1306:Marked for Reprocessing';
             case this.STATUS_CONTOURS_GENERATED:
                 return '1307:Contours generated';
-            default:
-                return '-';
+            case this.STATUS_REPROCESS_CONTOURS:
+                return '1058:Contour reprocessing scheduled';
+            case this.STATUS_TRIANGULATED:
+                return '1059:Triangulated';
+            case this.STATUS_CLUSTERED:
+                return '1060:Clustered';
+            case this.STATUS_NOABSOLUTETIME:
+                return '1061:No Timestamps';
+            case this.STATUS_PROCESSING_ERROR:
+                return '1062:Processing Error';
+			default:
+				if ( this.get('upload_state') > 100 )
+					return '1063:processing temporarily suspended';
+				else
+					return '-';
         }
-    },    onReaderLoad: function(evt, file, id) {
+    },
+    
+    onReaderLoad: function(evt, file, id) {
         this.set('upload_state', this.STATUS_UPLOADING);
         var fd = new FormData();
         fd.append('track', file);
@@ -112,6 +153,8 @@ OSeaM.models.Track = Backbone.Model.extend({
 
         var xmlRequest = new XMLHttpRequest();
         xmlRequest.open('PUT', OSeaM.apiUrl + 'track', true);
+		if ( OSeaM.basicCredentials )
+			xmlRequest.setRequestHeader( 'Authorization', 'Basic '.concat( OSeaM.basicCredentials ));
         xmlRequest.withCredentials = true;
         xmlRequest.responseType = 'text';
         var fnProgress = function(evt) {
@@ -124,12 +167,14 @@ OSeaM.models.Track = Backbone.Model.extend({
         xmlRequest.addEventListener('load', jQuery.proxy(fnDone, this));
         xmlRequest.send(fd);
     },
+    
     onReaderProgress:function(evt) {
         if (evt.lengthComputable) {
             var percentComplete = Math.round(evt.loaded / evt.total * 100);
             this.set('progress', percentComplete);
         }
     },
+    
     uploadFile: function(file) {
         this.set({
             fileName : file.name,
@@ -137,6 +182,7 @@ OSeaM.models.Track = Backbone.Model.extend({
         });
         this.requestNewId(file);
     },
+    
     requestNewId: function(file) {
         this.set('status', this.STATUS_REQUESTING_ID);
         var fn = function(data) {
@@ -164,6 +210,7 @@ OSeaM.models.Track = Backbone.Model.extend({
 //            success: jQuery.proxy(fn, this)
 //        });
     },
+    
     onNewId: function(file, data) {
         this.set({
             id       : data.id,
@@ -171,6 +218,7 @@ OSeaM.models.Track = Backbone.Model.extend({
         });
         this.onReaderLoad(null, file, data.id);
     },
+    
     onUploadDone:function(request, evt) {
 //    	console.log("uploadDone" + this.get('upload_state'));
         if (request.status == 200) {
@@ -181,4 +229,5 @@ OSeaM.models.Track = Backbone.Model.extend({
         }
 //    	console.log("uploadDone" + this.get('upload_state'));
     }
+    
 });

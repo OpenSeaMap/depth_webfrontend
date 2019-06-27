@@ -1,5 +1,8 @@
-<h4>Upload Instructions</h4>
-Unterstützte Formate sind
+<legend>Anleitung zum Hochladen</legend>
+
+<pre>Dieser Text wurde zunächst einmal grob übersetzt, muss jedoch noch einmal überprüft und ergänzt werden.</pre>
+
+<h5>Unterstützte Formate sind:</h5>
 <ul>
     <li>NMEA0183</li>
     <li>Actisense&#174; NMEA 2000</li>
@@ -9,64 +12,79 @@ Unterstützte Formate sind
     <li>Winprofile&#174; Sharp Files</li>
 </ul>
 
-Nicht unterstützte Formate sind
+<h5>Nicht unterstützte Formate sind:</h5>
 <ul>
     <li>Generic NMEA 2000 (CAN Recordings)</li>
     <li>Lowrance&#174; SLG Files</li>
 </ul>
 
-Supported Compressions are
+<h5>Unterstützte Kompressionsverfahren sind:</h5>
 <ul>
     <li>ZIP</li>
     <li>GZIP</li>
 </ul>
 
-Unsupported Compressions are
+<h5>Nicht unterstützte Kompressionsverfahren sind:</h5>
 <ul>
     <li>7z</li>
     <li>rar</li>
     <li>tar</li>
 </ul>
 
-<h5>File Format Notes</h5>
+<h5>Hinweise zum Dateiformat</h5>
 <ol>
     <li>NMEA0183</li>
     <ol>
         <li>
-Sentences may be prefixed with an accurate time but need not be prefixed:
-Both forms of sentences are processed as well:
-        <pre>2013-06-29 13:58:31.120664: $GPGSV,2,1,08,15,22,186,30,04,20,091,28,25,35,267,32,17,16,040,31*7A
-$GPGSV,2,1,08,15,22,186,30,04,20,091,28,25,35,267,32,17,16,040,31*7A</pre>The accurate time is not being analyzed, yet.
+		Den Sätzen kann eine genaue Zeit vorangestellt werden, sie muss jedoch nicht zwingend 
+		vorangestellt sein. Beide Formen von Daten-Sätzen werden verarbeitet:
+        <pre>2013-06-29 13:58:31.120664: $GPGSV,2,1,08,15,22,186,30,04,20,091,28,25,35,267,32,17,16,040,31*7A<br>
+$GPGSV,2,1,08,15,22,186,30,04,20,091,28,25,35,267,32,17,16,040,31*7A</pre>
+		Die genaue Zeit wird derzeit noch nicht weiter berücksichtigt.
         </li>
         <li>
-        The sentence (i.e. GLL/RMC or DPT/DBT) with the highest update rate and most measurements is chosen to be displayed.
+        Die Datensätze (z.B. GLL / RMC oder DPT / DBT) mit der höchsten Aktualisierungsrate 
+        und den meisten Messungen werden berücksichtigt und zur Anzeige ausgewählt.
         </li>
-    </ol>
+    </ol><br>
     <li>NMEA2000<br>
-    The binaray Actisense *.dat format can be read. The Rapid Position Update PGN is not being used right know as it does not have the measurement time.
-    </li>
+    	Das Binaray-Format Actisense * .dat kann gelesen werden. Das Rapid-Position-Update-PGN 
+    	wird derzeit nicht verwendet, da es keine Messzeit hat.
+    </li><br>
     <li>Raymarine&#174; FSH<br>
-The contents of these recordings miss substantial information such as the measurment time and a regular depth measurment.
-These are crucial for removing systematical errors in the measurment data.
-If you have any other option to record data like NMEA0183, use it instead of this format.
-    </li>
+		Beim Raymarine Datenformat fehlen wesentliche Informationen wie die Messzeit und 
+		eine regelmäßige Tiefenmessung. Diese Information ist entscheidend für die 
+		Beseitigung systematischer Fehler in den Messdaten. Wenn Sie eine andere Möglichkeit 
+		zum Aufzeichnen von Daten wie z.B. NMEA0183 haben, verwenden Sie bitte diese 
+		anstelle des Raymarine Datenformats.
+    </li><br>
     <li>Humminbird&#174; SON<br>
-The submitted files must be zipped for a single recording.
-The zip file must contain at least a .dat file and a folder of the first sensor that contains an .idx and a .son file.
-The data contained may have been recorded from several depth sensors like a depth sensor or a side scan image but only the depths from the regular depth measurment can be accounted for.
-Side scan imagery only conveys an idea of the sea profile but no accurate depth measurements.
+		Die übermittelten Dateien müssen für eine einzelne Aufnahme gepackt werden. Die 
+		ZIP-Datei muss mindestens eine DAT-Datei und einen Ordner des ersten Sensors 
+		enthalten, der eine IDX- und eine .son-Datei enthält. Die enthaltenen Daten können 
+		möglicherweise von mehreren Tiefensensoren wie einem Tiefensensor oder einem 
+		Side-Scan-Bild aufgezeichnet sein. Jedoch können nur die Tiefenangaben aus der 
+		regulären Tiefenmessung berücksichtigt werden. Side-Scan-Bilder vermitteln nur eine 
+		Vorstellung vom Bodenprofil, aber keine genauen Tiefenmessungen.
     </li>
 </ol>
 
-<h5>Packing Notes</h5>
+<h5>Paketierungshinweise</h5>
 <ul>
-    <li>Provide data files only ONCE in a format that is supported. Providing data files in multiple formats will degrade the overall quality.</li>
-    <li>If you miss a format supply a git ticket with an example file, so we may add the processing facilities.</li>
-    <li>You may pack a single file into a zip or multiple files into a zip with the exception of Humminbird&#174; SON files.</li>
-    <li>Although we try to handle zip files with different format contents, we do not actively support it. Create zip files for every format you have.</li>
+    <li>Stellen Sie Datendateien nur EINMAL in einem unterstützten Format bereit. Durch 
+    	das Bereitstellen von Datendateien in mehreren Formaten wird die Gesamtqualität 
+    	beeinträchtigt.</li>
+    <li>Wenn Sie ein Format vermissen, öffnen Sie bitte auf Github ein Ticket mit einer 
+    	Beispieldatei, sodass wir die Verarbeitungsmöglichkeiten hinzufügen können.</li>
+    <li>Sie können eine einzelne Datei in eine ZIP-Datei oder mehrere Dateien in eine 
+    	ZIP-Datei packen, mit Ausnahme von Humminbird® SON-Dateien.</li>
+    <li>Obwohl wir versuchen, ZIP-Dateien mit unterschiedlichen Formatinhalten zu 
+    	verarbeiten, unterstützen wir dies nicht aktiv. Bitte erstellen Sie für jedes 
+    	Dateiformat, das Sie haben, eine separate ZIP-Dateien.</li>
 </ul>
 
-<h5>Processing Notes</h5>
+<h5>Bearbeitungshinweis</h5>
 <ul>
-    <li>The Kalman Filter is currently disabled. It is planned to supply a second layer where Kalman filtered data will be displayed.</li>
+    <li>Der Kalman-Filter ist derzeit deaktiviert. Es ist geplant, eine zweite Schicht 
+    	bereitzustellen, in der die von Kalman gefilterte Daten angezeigt werden.</li>
 </ul>
