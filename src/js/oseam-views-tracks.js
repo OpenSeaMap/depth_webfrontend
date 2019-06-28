@@ -31,12 +31,10 @@ OSeaM.views.Tracks = OSeaM.View.extend({
       this.candidateTrack = new OSeaM.models.Track();
 
       var that = this;
-      this.collection.fetch().done(function() {
-        that.addAndRenderViews();
-      });
       this.listenTo(this.collection, 'remove', this.onRemoveItem);
       //			   this.listenTo(this.collection, "sort", this.render);
 
+	  /*
       this.vessels = new OSeaM.models.Vessels();
       this.vessels.fetch().done(function() {
         that.renderVesselSelection();
@@ -47,6 +45,24 @@ OSeaM.views.Tracks = OSeaM.View.extend({
         that.renderLicenceSelection();
       });
 
+      this.collection.fetch().done(function() {
+        that.addAndRenderViews();
+      });
+	  */
+
+      this.vessels = new OSeaM.models.Vessels();
+      this.licenses = new OSeaM.models.Licenses();
+
+      this.vessels.fetch().done(function() {
+        that.renderVesselSelection();
+		that.licenses.fetch().done(function() {
+			that.renderLicenceSelection();
+		    that.collection.fetch().done(function() {
+			  that.addAndRenderViews();
+			});
+		});
+      });
+	  
     },
     addAndRenderViews: function() {
       this.addViews();
