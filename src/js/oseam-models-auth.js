@@ -103,6 +103,8 @@ OSeaM.models.Auth = Backbone.Model.extend({
             xhrFields: {
                 withCredentials: true
             },
+			password: params.password,
+			username: params.username,
             success: this.onLoginSuccess,
             error: this.onLoginError			// Original Zeile
         });
