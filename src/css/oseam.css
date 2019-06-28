@@ -5,9 +5,18 @@ div input.vesselinput
 }
 */
 
+div.track-dialog
+{
+	position:sticky;
+	top: 0;
+	z-index: 10;
+	background-color: rgb(255,255,255);
+}
+
 div.form-table
 {
 	display: table;
+	padding-bottom: 1em;
 }
 
 div.form-row
@@ -19,6 +28,7 @@ div.form-cell
 {
 	display: table-cell;
 	padding-right: 2em;
+	vertical-align: middle;
 }
 
 body div.oseam-container-fluid 
@@ -26,23 +36,36 @@ body div.oseam-container-fluid
     padding-top: 20px;
 }
 
-@media(min-height:40em) {
 body.oseam-body
 {
 	padding-top: 0px;
 }	
-	
+
+body div.navbar
+{
+	position: fixed;
+	top: 0;
+	z-index: 20;
+}
+
 body div.oseam-container-fluid 
 {
-    padding-top: 60px;
-    height: 100%;
-	width: 100%;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    box-sizing: border-box;
-    margin: 0;
+	padding-top: 60px;
 }
+
+@media(min-height:40em) and (min-width:768px) {
+		
+	body div.oseam-container-fluid 
+	{
+		padding-top: 60px;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		position: fixed;
+		top: 0;
+		box-sizing: border-box;
+		margin: 0;
+	}
 }
 
 div.modal-body input.input-mini
@@ -77,7 +100,7 @@ div.modal-body input.input-mini
     width:176px;
     height:30px;
     cursor:pointer;
-    margin-bottom:10px;
+    /*margin-bottom:10px;*/
 }
 
 .oseam-upload-wrapper div {

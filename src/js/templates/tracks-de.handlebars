@@ -7,38 +7,40 @@
 	<p><img src="images/vessels_low.jpg" alt="Vessels"/></p>
 </legend>
 
-<form class="vesselId">
-	<div class="form-table">
-		<div class="form-row">
-			<div class="form-cell">
-				Fahrzeug
+<div class="track-dialog">
+	<form class="vesselId">
+		<div class="form-table">
+			<div class="form-row">
+				<div class="form-cell">
+					Fahrzeug
+				</div>
+				<div class="form-cell">
+					<select id="vesselselection" name="vesselselection" class="vesselId">
+						<option value="" disabled selected>Select your Vessel Config</option>
+					</select>
+				</div>
 			</div>
-			<div class="form-cell">
-				<select id="vesselselection" name="vesselselection" class="vesselId">
-					<option value="" disabled selected>Select your Vessel Config</option>
-				</select>
+			<div class="form-row">
+				<div class="form-cell">
+					<p>Track-Lizenz</p>
+				</div>
+				<div class="form-cell">
+					<select id="licenseselection" name="licenseselection" class="licenseId">
+						<option value="" disabled selected>Select the Track License</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-cell">
+					<div class="oseam-upload-wrapper">
+						<div class="btn btn-info" data-trt="1019:Upload tracks"></div>
+						<input type="file" name="track[]" multiple></input>
+					</div> 
+				</div>
+				<div class="form-cell">Uploads werden st&uuml;ndlich prozessiert. Bei Wartungen kann sich die Auswertung verz&ouml;gern.</div>
 			</div>
 		</div>
-		<div class="form-row">
-			<div class="form-cell">
-				<p>Track-Lizenz</p>
-			</div>
-			<div class="form-cell">
-				<select id="licenseselection" name="licenseselection" class="licenseId">
-					<option value="" disabled selected>Select the Track License</option>
-				</select>
-			</div>
-		</div>
-	</div>
-</form>
-
-<div>
-	<p>Uploads werden st&uuml;ndlich prozessiert. Bei Wartungen kann sich die Auswertung verz&ouml;gern.</p>
-</div>	
-
-<div class="oseam-upload-wrapper">
-    <div class="btn btn-info" data-trt="1019:Upload tracks"></div>
-    <input type="file" name="track[]" multiple></input>
+	</form>
 </div>
 
 <table class="table table-condensed table-striped table-hover">

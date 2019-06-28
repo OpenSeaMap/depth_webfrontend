@@ -7,50 +7,79 @@
 	<p><img src="images/vessels_low.jpg" alt="Vessels"/></p>
 </legend>
 
-<form class="vesselId">
-	<div class="form-table">
-		<div class="form-row">
-			<div class="form-cell">
-				Vessel Configuration
+<div class="track-dialog">
+	<form>
+		<div class="form-table">
+			<div class="form-row">
+				<div class="form-cell">
+					Vessel Configuration
+				</div>
+				<div class="form-cell">
+					<select id="vesselselection" name="vesselselection" class="vesselId">
+						<option value="" disabled selected>Select your Vessel Config</option>
+					</select>
+				</div>
 			</div>
-			<div class="form-cell">
-				<select id="vesselselection" name="vesselselection" class="vesselId">
-					<option value="" disabled selected>Select your Vessel Config</option>
-				</select>
+			<div class="form-row">
+				<div class="form-cell">
+					<p>Track License</p>
+				</div>
+				<div class="form-cell">
+					<select id="licenseselection" name="licenseselection" class="licenseId">
+						<option value="" disabled selected>Select the Track License</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-cell">
+					<div class="oseam-upload-wrapper">
+						<div class="btn btn-info" data-trt="1019:Upload tracks"></div>
+						<input type="file" name="track[]" multiple></input>
+					</div> 
+				</div>
+				<div class="form-cell">Uploads are processed on a hourly basis. During maintenance processing can be delayed.</div>
 			</div>
 		</div>
-		<div class="form-row">
-			<div class="form-cell">
-				<p>Track License</p>
-			</div>
-			<div class="form-cell">
-				<select id="licenseselection" name="licenseselection" class="licenseId">
-					<option value="" disabled selected>Select the Track License</option>
-				</select>
-			</div>
-		</div>
-	</div>
-</form>
+	</form>
 
-<!--
-<br/>
-<form class="licenseId">
-<p>Track License</p>
-<select id="licenseselection" name="licenseselection">
-    <option value="" disabled selected>Select the Track License</option>
-</select>
-</form>
--->
+	<!--
+	<br/>
+	<form class="licenseId">
+	<p>Track License</p>
+	<select id="licenseselection" name="licenseselection">
+		<option value="" disabled selected>Select the Track License</option>
+	</select>
+	</form>
+	-->
 
-<div>
-	<p>Uploads are processed on a hourly basis. During maintenance processing can be delayed.</p>
-</div>	
-<div class="oseam-upload-wrapper">
-    <div class="btn btn-info" data-trt="1019:Upload tracks"></div>
-    <input type="file" name="track[]" multiple></input>
+	<!--
+	<div>
+		<p>Uploads are processed on a hourly basis. During maintenance processing can be delayed.</p>
+	</div>	
+	<div class="oseam-upload-wrapper">
+		<div class="btn btn-info" data-trt="1019:Upload tracks"></div>
+		<input type="file" name="track[]" multiple></input>
+	</div> 
+	-->
+
 </div>
+
+<style>
+div.track-table-wrapper
+{
+	display: block;
+}
+thead.track-table
+{
+	position: sticky;
+	top: 100px;
+	background-color: rgb(255,255,255);
+}
+</style>
+
+<!--<div class="track-table-wrapper">-->
 <table class="table table-condensed table-striped table-hover">
-    <thead>
+    <thead class="track-table">
         <tr>
             <th column="id">ID</th>
             <th column="fileName">File Name<span class="icon-none"></span></th>
@@ -67,6 +96,9 @@
     <tbody>
     </tbody>
 </table>
+<!--</div>-->
+
+<!--
 <div>
 	<p>Uploads are processed on a hourly basis. During maintenance processing can be delayed.</p>
 </div>	
@@ -74,3 +106,4 @@
     <div class="btn btn-info" data-trt="1019:Upload tracks"></div>
     <input type="file" name="track[]" multiple></input>
 </div>
+-->
