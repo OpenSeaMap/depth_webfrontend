@@ -11,7 +11,7 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-//RKu ++ new function "welcome a user after successful login"
+//RKu ++ new function "say goodbye to a user after successful logout"
 
 OSeaM.views.Goodby = OSeaM.View.extend({
     initialize: function() {
