@@ -94,3 +94,5 @@ def build(ctx):
 
     if ctx.env.NAME == 'debug':
         ctx.install_files('${PREFIX}/js', ctx.path.ant_glob('*.js'))
+
+		
