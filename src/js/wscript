@@ -59,7 +59,7 @@ def configure(ctx):
         'oseam-views-vessels.js',
         'oseam-views-wizard.js',
         'oseam-views-welcome.js',
-        'oseam-views-godby.js',
+        'oseam-views-goodby.js',
         'oseam-views-contact.js',
     ]
     ctx.env.JSSTAGE1NAME = 'all-stage1.js'
