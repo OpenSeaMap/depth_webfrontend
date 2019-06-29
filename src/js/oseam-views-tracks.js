@@ -85,10 +85,13 @@ OSeaM.views.Tracks = OSeaM.View.extend({
     
     renderContent: function() {
 	  var dlg = this.$el.find('.track-dialog');
-	  var tHead = this.$el.find('thead');
+	  var tHead = this.$el.find('th');
 	  
-	  if ( dlg && tHead && dlg.length == 1 && tHead.length == 1 )
-		  tHead[0].style.top = dlg[0].offsetHeight;
+	  if ( dlg && tHead && dlg.length == 1 && tHead.length > 0 )
+	  {
+		  for( var i = 0; i<tHead.length; i++ )
+			tHead[i].style.top = dlg[0].offsetHeight;
+	  }
 	  
       this.listEl = this.$el.find('tbody');			// find the root of "tbody" in the html (for example "tracks-de.handlebars")
       this.listEl.empty();							// make sure the list is empty

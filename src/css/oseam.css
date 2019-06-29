@@ -13,15 +13,20 @@ div.track-dialog
 	background-color: rgb(255,255,255);
 }
 
+div.track-dialog form
+{
+	margin: 0;
+}
+
 div.track-table-wrapper
 {
 	display: block;
 }
 
-thead.track-table
+thead.track-table th
 {
 	position: sticky;
-	top: 100px;
+	top: 150px;
 	background-color: rgb(255,255,255);
 }
 
