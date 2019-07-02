@@ -48,11 +48,6 @@ div.form-cell
 	vertical-align: middle;
 }
 
-body div.oseam-container-fluid 
-{
-    padding-top: 20px;
-}
-
 body.oseam-body
 {
 	padding-top: 0px;
@@ -70,15 +65,18 @@ body div.oseam-container-fluid
 	padding-top: 60px;
 }
 
-@media(min-height:40em) and (min-width:768px) {
-		
+@media(min-height:38em) and (min-width:768px) {
+
 	body div.oseam-container-fluid 
 	{
 		padding-top: 60px;
 		height: 100%;
 		width: 100%;
 		overflow: hidden;
+		position: absolute;
+/*
 		position: fixed;
+*/
 		top: 0;
 		box-sizing: border-box;
 		margin: 0;
