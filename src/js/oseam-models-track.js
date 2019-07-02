@@ -45,7 +45,13 @@ OSeaM.models.Track = Backbone.Model.extend({
         progress   : null,
         upload_state     : null,
         vesselconfigid : null,
-        uploadDate : new Date()
+        uploadDate : new Date(),
+		num_points : null,
+		track_info : null,
+		left: null,
+		right: null,
+		top: null,
+		bottom: null
     },
     
     urlRoot: function() {

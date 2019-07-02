@@ -125,23 +125,27 @@ OSeaM.models.Frontend = Backbone.Model.extend({
     translateEl: function(el) {
         var jEl = $(el);
         var dataTrt = jEl.data('trt') || '0000:Unknown';
-        dataTrt = dataTrt.split(':', 2);
-        jEl.html(this.getPhrase(dataTrt[0]));
+//        dataTrt = dataTrt.split(':', 2);
+//        jEl.html(this.getPhrase(dataTrt[0]));
+        jEl.html(this.getPhrase(dataTrt));
         if(el.title) {
-            var dataTrt2 = el.title.split(':', 2);
-            jEl.attr('title',this.getPhrase(dataTrt2[0]));
+//            var dataTrt2 = el.title.split(':', 2);
+//            jEl.attr('title',this.getPhrase(dataTrt2[0]));
+            jEl.attr('title',this.getPhrase(el.title));
         }
         var dataTrt = jEl.data('trt-placeholder') || null;
         if (dataTrt) {
-            dataTrt = dataTrt.split(':', 2);
-            jEl.attr('placeholder', this.getPhrase(dataTrt[0]));
+//            dataTrt = dataTrt.split(':', 2);
+//            jEl.attr('placeholder', this.getPhrase(dataTrt[0]));
+            jEl.attr('placeholder', this.getPhrase(dataTrt));
         }
     },
     translateAttr: function(jEl, attr, text) {
-        dataTrt = text.split(':', 2);
-        jEl.attr(attr, this.getPhrase(dataTrt[0]));
+//        dataTrt = text.split(':', 2);
+//        jEl.attr('placeholder', this.getPhrase(dataTrt[0]));
+        jEl.attr(attr, this.getPhrase(text));
     },
-    getPhrase: function(id) {
+    getPhraseInt: function(id) {
         var language = this.getLanguage();
         if (this.translations[language] === undefined) {
             return '';
@@ -150,5 +154,15 @@ OSeaM.models.Frontend = Backbone.Model.extend({
             return '::unknown::';
         }
         return this.translations[language][id];
-    }
+    },
+    getPhrase: function(text) {
+		if ( !text )
+			text = '0000:Unknown';
+        var dataTrt = text.split(':', 2);
+		
+		if ( dataTrt[0] == "non-nls" )
+			return text.substring( 8 );
+		else
+			return this.getPhraseInt( dataTrt[0] );
+	}
 });

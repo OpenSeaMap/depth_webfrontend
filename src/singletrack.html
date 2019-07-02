@@ -1,0 +1,34 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>OpenSeaMap single track viewer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/oseam.css" rel="stylesheet">
+        <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="css/bootstrap-formhelpers.css" rel="stylesheet">
+        <script type="text/javascript" src="lib/jquery.js"></script>
+        <script type="text/javascript" src="lib/jquery-sha1.js"></script>
+		<script type="text/javascript" src="lib/jquery-ui.js"></script>
+        <script type="text/javascript" src="lib/underscore.js"></script>
+        <script type="text/javascript" src="lib/backbone.js"></script>
+        <script type="text/javascript" src="lib/raphael-min.js"></script>
+        <script type="text/javascript" src="lib/handlebars-runtime.js"></script>
+        <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="lib/bootstrap-formhelpers/bootstrap-formhelpers.js"></script>
+        <script type="text/javascript" src="lib/openlayers/OpenLayers.js"></script>
+        <script type="text/javascript" src="js/oseam-views-singltrack.js"></script>
+		<script>
+		var controller = new SingleTrackController();
+		function init()
+		{
+			controller.initOpenLayers();
+		}		
+		</script>
+    </head>
+    <body onload = "init()">
+	<div id="map" class="oseam-map-tracks">
+	</div>
+    </body>
+</html>
+
