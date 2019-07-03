@@ -188,7 +188,7 @@ OSeaM.views.Tracks = OSeaM.View.extend({
               console.log(xhr);										//RKu: I need to simulate this case first in order to develop a proper error message
             },
             // on success start the progress of upload
-            success: jQuery.proxy(fn, self, evt.target.files[i])
+            success: jQuery.proxy(fn, self, files[i])
           });
         }
         storeTrack(new OSeaM.models.Track(), this);
