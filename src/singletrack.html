@@ -17,21 +17,7 @@
         <meta charset="utf-8">
         <title>OpenSeaMap single track viewer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/oseam.css" rel="stylesheet">
-        <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="css/bootstrap-formhelpers.css" rel="stylesheet">
-        <script type="text/javascript" src="lib/jquery.js"></script>
-        <script type="text/javascript" src="lib/jquery-sha1.js"></script>
-		<script type="text/javascript" src="lib/jquery-ui.js"></script>
-        <script type="text/javascript" src="lib/underscore.js"></script>
-        <script type="text/javascript" src="lib/backbone.js"></script>
-        <script type="text/javascript" src="lib/raphael-min.js"></script>
-        <script type="text/javascript" src="lib/handlebars-runtime.js"></script>
-        <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="lib/bootstrap-formhelpers/bootstrap-formhelpers.js"></script>
         <script type="text/javascript" src="lib/openlayers/OpenLayers.js"></script>
-        <script type="text/javascript" src="js/oseam-views-singltrack.js"></script>
 		<script>
 
 		class SingleTrackController
@@ -76,13 +62,14 @@
 				{
 		//            this.attributionControl.updateAttribution();
 					this.layerBase.attribution = 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',
-					this.layerTrackPointsSingle10.attribution = data;
-					this.layerTrackPointsSingle100.attribution = data;
+					//this.layerTrackPointsSingle10.attribution = data;
+					//this.layerTrackPointsSingle100.attribution = data;
 					this.attributionControl.draw();
 		//            this.attributionControl = new OpenLayers.Control.Attribution();
 					this.attributionControl.updateAttribution();
 				};
 				
+				this.fn( null );
 				/*
 				if( this.map != null ) 
 				{
