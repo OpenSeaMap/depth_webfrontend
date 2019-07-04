@@ -70,7 +70,7 @@ OSeaM.views.Track = OSeaM.View.extend({
 			var dExtBottom = 10800.0 / 60.0 / Math.PI * Math.log( Math.tan( ( 45 + dBottom / 2 ) / 180 * Math.PI ) );
 			var dFactorX = ( dRight-dLeft ) / 360.0 * 512.0 / 1024.0;
 			var dFactorY = ( dExtTop - dExtBottom )/ 160.0 * 512.0 / 768.0;
-			var iZoom = Math.ceil( Math.log2( 1.0 / Math.max( dFactorX, dFactorY ) ) );
+			var iZoom = Math.min( 21, Math.ceil( Math.log2( 1.0 / Math.max( dFactorX, dFactorY ) ) ) );
 			strLinkParams= "track_id=" + this.model.get('id') + "&zoom=" + iZoom + "&lat=" + dLat + "&lon=" + dLon;
 			console.log( "extTop %f extBottom %f fX %f fY %f zoom %i", dExtTop, dExtBottom, dFactorX, dFactorY, iZoom );
 		}
