@@ -33,9 +33,11 @@ OSeaM.routers.Router = Backbone.Router.extend({
         'contact'			: 'contact',									//RKu: add this new function
         'welcome'			: 'welcome',									//RKu: add this new function
         'goodby'			: 'goodby',										//RKu: add this new function
+        'login'  			: 'login',										
         '*default'			: 'nix'											//RKu: just do nothing has replaced home to allow that "table of contens" will work
     },
     renderTopAndNavBar: function(activeItem) {
+		this.requestedView = null;
         if (this.toolBar === null) {
             this.toolBar = new OSeaM.views.ToolBar({
                 el    : $('body'),
@@ -57,23 +59,46 @@ OSeaM.routers.Router = Backbone.Router.extend({
         if (OSeaM.frontend.getAuth().isAuthenticated() === true) {
             return true;
         } else {
-//            OSeaM.frontend.startView('Login');					//RKu: View 'Login' == show error message !!! needed as soon we have a proper login procedure
+			alert( "please log in to use this function!" );
+			this.renderTopAndNavBar('introduction');
+			this.navigate( 'introduction' );
+            OSeaM.frontend.startView('Login', {
+				model: OSeaM.frontend.getAuth()
+			});					//RKu: View 'Login' == show error message !!! needed as soon we have a proper login procedure
 			return false;
         }
     },
-	activateRestricted: function()
+	activateRestricted: function( view )
 	{
         if (this.checkAuthenticated() === true) 
 		{
+			this.requestedView = null;
 			return true;
         }														//RKu: das auch
 		else
 		{
-			alert( "please log in to use this function!" );
-			history.back();
+			this.requestedView = view;
+			//OSeaM.frontend.startView('Login')
+			//history.back();
 			return false;
 		}
 	},
+	loginSuccess: function()
+	{
+		if ( this.requestedView )
+		{
+			var v = this.requestedView;
+			this.requestedView = null;
+			this.navigate( v );
+			this[v]();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	},
+	
     nix: function() {											//RKu: do nothing function will to allow that "table of contens" will work
         this.renderTopAndNavBar('home');
     },
@@ -87,7 +112,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
     },
     
     user: function() {
-        if (this.activateRestricted() === true) {				//RKu: muss mit Login wieder aktiviert werden
+        if (this.activateRestricted( 'user' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
 			this.renderTopAndNavBar('user');						//RKu: mit Login  zus. Abfrage und Änderungen speichern einbauen
 			OSeaM.frontend.startView('User', {
 				model: OSeaM.frontend.getUser()
@@ -113,7 +138,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
     },
     
     tracks: function() {
-        if (this.activateRestricted() === true) {				//RKu: muss mit Login wieder aktiviert werden
+        if (this.activateRestricted( 'tracks' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
 			this.renderTopAndNavBar('tracks');
             OSeaM.frontend.startView('Tracks', {
                 collection : OSeaM.frontend.getTracks(),
@@ -124,7 +149,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
 	},
 	
     vessels: function() {
-        if (this.activateRestricted() === true) {				//RKu: muss mit Login wieder aktiviert werden
+        if (this.activateRestricted( 'vessels' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
 			this.renderTopAndNavBar('vessels');
 			OSeaM.frontend.startView('Vessels', {
 					collection : OSeaM.frontend.getVessels()

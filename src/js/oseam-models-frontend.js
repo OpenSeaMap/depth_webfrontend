@@ -75,7 +75,8 @@ OSeaM.models.Frontend = Backbone.Model.extend({
     
     startView: function(name, settings) {
         if (this.actualView) {
-//RKu            this.actualView.close();						// delete current view from html "span9 oseam-container" nein, nicht mehr
+            this.actualView.close();						// delete current view from html "span9 oseam-container" nein, nicht mehr
+			// TG doch!!!
         }
         var cfg = settings || {};
         this.actualView = new OSeaM.views[name](jQuery.extend({

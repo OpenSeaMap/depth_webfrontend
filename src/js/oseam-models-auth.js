@@ -13,12 +13,36 @@
 
 function addCredsToRequest( xhr )
 {
-	if ( OSeaM.basicCredentials )
-		xhr.setRequestHeader( 'Authorization', 'Basic '.concat( OSeaM.basicCredentials ));
+	var sessionUser = sessionStorage.getItem( "oseam_username" );
+	var sessionPassword = sessionStorage.getItem( "oseam_password" );
+	if ( sessionUser && sessionPassword )
+		xhr.setRequestHeader( 'Authorization', 'Basic '.concat( btoa( sessionUser + ":" + sessionPassword ) ) );
+	/*
+	var basicCredentials = sessionStorage.getItem( "basicCredentials" );
+	if ( basicCredentials )
+		xhr.setRequestHeader( 'Authorization', 'Basic '.concat( basicCredentials ));
+	*/
 }
 
 OSeaM.models.Auth = Backbone.Model.extend({
-
+	/*
+	constructor: function ( options )
+	{
+		console.log( 'constructor' );
+		Backbone.Model.prototype.constructor.call(this, options);
+	},
+	*/
+	initialize : function()
+	{
+		console.log( 'init' );
+		var sessionUser = sessionStorage.getItem( "oseam_username" );
+		if ( sessionUser )
+		{
+			this.set({username : sessionUser});
+			this.set({authenticated : true});
+		}
+	},
+	
     setAuthenticated: function(value) {
         this.set({
             authenticated : value
@@ -89,7 +113,8 @@ OSeaM.models.Auth = Backbone.Model.extend({
     login: function(params) {												//RKu: um zu sehen warum der Server nicht positiv antwortet
         this.set({username : params.username});								//RKu: muss das zusammen mit dem TomCat debugged werden
 
-		OSeaM.basicCredentials = btoa( params.username + ":" + params.password );
+		sessionStorage.setItem( "oseam_username", params.username );
+		sessionStorage.setItem( "oseam_password", params.password );
 		$.ajaxSetup({ beforeSend: addCredsToRequest })		
 		
         jQuery.ajax({
@@ -106,31 +131,41 @@ OSeaM.models.Auth = Backbone.Model.extend({
 			password: params.password,
 			username: params.username,
             success: this.onLoginSuccess,
-            error: this.onLoginError			// Original Zeile
+            error: this.onLoginError
         });
     },
     
     onLoginSuccess: function(data, success, jqXHR) {
         this.trigger('loginSuccess', data);								//RKu: the corresponding event handler does not jet exist
         this.setAuthenticated(true);
-        OSeaM.frontend.startView('Welcome');								//RKu: call OSeaM.views.Contact (new .js)
+		if ( !OSeaM.router.loginSuccess() )
+			OSeaM.frontend.startView('Welcome');						//RKu: call OSeaM.views.Contact (new .js)
     },
     
     onLoginError: function(jqXHR, textStatus, errorThrown) {
         this.trigger('loginFailure', jqXHR);							//RKu: the corresponding event handler does not jet exist
+		sessionStorage.removeItem( 'oseam_username' );
+		sessionStorage.removeItem( 'oseam_password' );
+		/*
         var elements = document.getElementById("oseam-1");					//RKu: {{idUsername}}
         elements.style.backgroundColor = '#FF4500';							//RKu:
         var elements = document.getElementById("oseam-2");					//RKu: {{idPassword}}
         elements.style.backgroundColor = '#FF4500';							//RKu:
+		*/
         alert("Login error: " +jqXHR.status + " " + errorThrown + "\nPlease check username and password.");	//RKu: vorübergehend
-        window.location.reload();											//RKu: reload the frontend from the beginning
+//        window.location.reload();											//RKu: reload the frontend from the beginning
+            OSeaM.frontend.startView('Login', {
+				model: OSeaM.frontend.getAuth()
+			});					//RKu: View 'Login' == show error message !!! needed as soon we have a proper login procedure
     },
     
     logout: function() {
 		/*  4 the time being, there is no logout url on the server. 
 			Since the server does not hold sessions anyway, this is not necessary.
 			so simply invalidate the cached credentials and re-load the page */
-		OSeaM.basicCredentials = null;
+		sessionStorage.removeItem( 'oseam_username' );
+		sessionStorage.removeItem( 'oseam_password' );
+		
 		this.onLogoutSuccess();
 		/*
         jQuery.ajax({

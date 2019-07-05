@@ -8,6 +8,7 @@ def configure(ctx):
         'oseam-routers-router.js',
         'oseam-models-auth.js',
         'oseam-models-frontend.js',
+        'oseam-views-logindlg.js',
         'oseam-views-toolbar.js',
         'oseam-views-navbar.js',
         'oseam-views-home.js',
