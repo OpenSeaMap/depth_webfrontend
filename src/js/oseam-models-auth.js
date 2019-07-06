@@ -154,6 +154,7 @@ OSeaM.models.Auth = Backbone.Model.extend({
 		*/
         alert("Login error: " +jqXHR.status + " " + errorThrown + "\nPlease check username and password.");	//RKu: vorübergehend
 //        window.location.reload();											//RKu: reload the frontend from the beginning
+			$( "#dropdown_login" ).removeClass( "open" );
             OSeaM.frontend.startView('Login', {
 				model: OSeaM.frontend.getAuth()
 			});					//RKu: View 'Login' == show error message !!! needed as soon we have a proper login procedure
