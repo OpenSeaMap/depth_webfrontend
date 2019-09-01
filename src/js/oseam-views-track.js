@@ -60,7 +60,7 @@ OSeaM.views.Track = OSeaM.View.extend({
 		var dLeft = this.model.get( 'left' );
 		var dRight = this.model.get( 'right' );
 		
-		console.log( "top %f bottom %f left %f right %f", dTop, dBottom, dLeft, dRight );
+		//console.log( "top %f bottom %f left %f right %f", dTop, dBottom, dLeft, dRight );
 		
 		if ( dTop != null && dBottom != null && dLeft != null && dRight != null && dTop > dBottom && dRight > dLeft )
 		{
@@ -72,7 +72,7 @@ OSeaM.views.Track = OSeaM.View.extend({
 			var dFactorY = ( dExtTop - dExtBottom )/ 160.0 * 512.0 / 768.0;
 			var iZoom = Math.min( 21, Math.ceil( Math.log2( 1.0 / Math.max( dFactorX, dFactorY ) ) ) );
 			strLinkParams= "track_id=" + this.model.get('id') + "&zoom=" + iZoom + "&lat=" + dLat + "&lon=" + dLon;
-			console.log( "extTop %f extBottom %f fX %f fY %f zoom %i", dExtTop, dExtBottom, dFactorX, dFactorY, iZoom );
+			//console.log( "extTop %f extBottom %f fX %f fY %f zoom %i", dExtTop, dExtBottom, dFactorX, dFactorY, iZoom );
 		}
 		
         var content = $(template({
