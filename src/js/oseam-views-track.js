@@ -54,6 +54,7 @@ OSeaM.views.Track = OSeaM.View.extend({
 
 		// prepare metrics for single track viewer link
 		var strLinkParams = "";
+		var bTrackLink = false;
 
 		var dTop = this.model.get( 'top' );
 		var dBottom = this.model.get( 'bottom' );
@@ -73,6 +74,7 @@ OSeaM.views.Track = OSeaM.View.extend({
 			var iZoom = Math.min( 21, Math.ceil( Math.log2( 1.0 / Math.max( dFactorX, dFactorY ) ) ) );
 			strLinkParams= "track_id=" + this.model.get('id') + "&zoom=" + iZoom + "&lat=" + dLat + "&lon=" + dLon;
 			//console.log( "extTop %f extBottom %f fX %f fY %f zoom %i", dExtTop, dExtBottom, dFactorX, dFactorY, iZoom );
+			bTrackLink = true;
 		}
 		
         var content = $(template({
@@ -90,7 +92,8 @@ OSeaM.views.Track = OSeaM.View.extend({
             status     : this.model.getStatusText(),
 			numPoints: this.model.get( 'num_points' ),
             statustooltip     : tooltip,
-			tracklinkparams : strLinkParams
+			tracklinkparams : strLinkParams,
+			tracklink: bTrackLink
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
