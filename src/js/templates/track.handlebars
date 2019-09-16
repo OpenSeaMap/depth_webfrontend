@@ -1,8 +1,10 @@
+<td>
 {{#if tracklink}}
-	<td><a href="/singletrack.html?{{tracklinkparams}}" target="_new">{{id}}</a></td>
+	<a href="/singletrack.html?{{tracklinkparams}}" target="_new">{{id}}</a>
 {{else}}
-	<td>{{id}}</td>
+	{{id}}
 {{/if}}
+</td>
 <td>{{fileName}}</td>
 <td>
 {{#if progress}}
