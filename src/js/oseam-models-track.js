@@ -159,8 +159,12 @@ OSeaM.models.Track = Backbone.Model.extend({
 
         var xmlRequest = new XMLHttpRequest();
         xmlRequest.open('PUT', OSeaM.apiUrl + 'track', true);
-		if ( OSeaM.basicCredentials )
-			xmlRequest.setRequestHeader( 'Authorization', 'Basic '.concat( OSeaM.basicCredentials ));
+//		if ( OSeaM.basicCredentials )
+//			xmlRequest.setRequestHeader( 'Authorization', 'Basic '.concat( OSeaM.basicCredentials ));
+		var sessionUser = sessionStorage.getItem( "oseam_username" );
+		var sessionPassword = sessionStorage.getItem( "oseam_password" );
+		if ( sessionUser && sessionPassword )
+			xmlRequest.setRequestHeader( 'Authorization', 'Basic '.concat( btoa( sessionUser + ":" + sessionPassword ) ) );
         xmlRequest.withCredentials = true;
         xmlRequest.responseType = 'text';
         var fnProgress = function(evt) {

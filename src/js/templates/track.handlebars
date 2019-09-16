@@ -1,4 +1,8 @@
+{{#if tracklinkparams}}
 <td><a href="/singletrack.html?{{tracklinkparams}}" target="_new">{{id}}</a></td>
+{{else}}
+<td>{{id}}</td>
+{{/if}}
 <!--<td>{{id}}</td>-->
 <td>{{fileName}}</td>
 <td>
