@@ -13,4 +13,8 @@
 
 $(function() {
     OSeaM.init();
+	if ( OSeaM.router.requestedView )
+		console.log( OSeaM.router.requestedView );
+	if ( !OSeaM.router.requestedView )
+		OSeaM.frontend.startView('Home');				//RKu: fill for the first time the missing "Home"information into the container
 });

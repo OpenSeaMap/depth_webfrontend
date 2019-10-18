@@ -17,7 +17,8 @@ OSeaM.utils.Validation = {
 	},
 
 	email : function(value) {
-		var reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//		var reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		var reg = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9_\-\+])+\.)+([a-zA-Z0-9]{2,4})+$/;		RKu:
 		return reg.test(value);
 	},
 

@@ -11,16 +11,19 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.Contribute = OSeaM.View.extend({
+
+//RKu: ++
+OSeaM.views.Contact = OSeaM.View.extend({
     initialize: function() {
         OSeaM.frontend.on('change:language', this.render, this);
     },
     render: function() {
 		var language = OSeaM.frontend.getLanguage();
-        var template = OSeaM.loadTemplate('contribute-' + language);
+        var template = OSeaM.loadTemplate('contact-' + language);
         var content = $(template());
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         return this;
     }
 });
+//RKu: --

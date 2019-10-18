@@ -15,24 +15,29 @@ OSeaM.routers.Router = Backbone.Router.extend({
     toolBar: null,
     navBar: null,
     routes: {
-        'home'         : 'home',
-        'about'        : 'about',
-        'register'     : 'register',
-        'reset-password'     : 'resetPassword',
-        'introduction' : 'introduction',
-        'tracks'       : 'tracks',
-        'vessels'      : 'vessels',
-        'gauges'      : 'gauges',
-        'user'      : 'user',
-        'maptracks'    : 'maptracks',
-        'license'      : 'license',
-        'instructions' : 'instructions',
-        'attributions' : 'attributions',
-        'contribute'   : 'contribute',
-        'documentation'   : 'documentation',
-        '*default'     : 'home'
+        'home'				: 'home',
+        'about'				: 'about',
+        'register'			: 'register',
+        'reset-password'	: 'resetPassword',
+        'introduction'		: 'introduction',
+        'tracks'			: 'tracks',
+        'vessels'			: 'vessels',
+        'gauges'			: 'gauges',
+        'user'				: 'user',
+        'maptracks'			: 'maptracks',
+        'instructions'		: 'instructions',
+        'license'			: 'license',
+        'contribute'		: 'contribute',
+        'documentation'		: 'documentation',
+        'attributions'		: 'attributions',
+        'contact'			: 'contact',									//RKu: add this new function
+        'welcome'			: 'welcome',									//RKu: add this new function
+        'goodby'			: 'goodby',										//RKu: add this new function
+        'login'  			: 'login',										
+        '*default'			: 'nix'											//RKu: just do nothing has replaced home to allow that "table of contens" will work
     },
     renderTopAndNavBar: function(activeItem) {
+		this.requestedView = null;
         if (this.toolBar === null) {
             this.toolBar = new OSeaM.views.ToolBar({
                 el    : $('body'),
@@ -54,8 +59,48 @@ OSeaM.routers.Router = Backbone.Router.extend({
         if (OSeaM.frontend.getAuth().isAuthenticated() === true) {
             return true;
         } else {
-            OSeaM.frontend.startView('Login');
+			alert( "please log in to use this function!" );
+			this.renderTopAndNavBar('introduction');
+			this.navigate( 'introduction' );
+            OSeaM.frontend.startView('Login', {
+				model: OSeaM.frontend.getAuth()
+			});					//RKu: View 'Login' == show error message !!! needed as soon we have a proper login procedure
+			return false;
         }
+    },
+	activateRestricted: function( view )
+	{
+        if (this.checkAuthenticated() === true) 
+		{
+			this.requestedView = null;
+			return true;
+        }														//RKu: das auch
+		else
+		{
+			this.requestedView = view;
+			//OSeaM.frontend.startView('Login')
+			//history.back();
+			return false;
+		}
+	},
+	loginSuccess: function()
+	{
+		if ( this.requestedView )
+		{
+			var v = this.requestedView;
+			this.requestedView = null;
+			this.navigate( v );
+			this[v]();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	},
+	
+    nix: function() {											//RKu: do nothing function will to allow that "table of contens" will work
+        this.renderTopAndNavBar('home');
     },
     home: function() {
         this.renderTopAndNavBar('home');
@@ -65,12 +110,16 @@ OSeaM.routers.Router = Backbone.Router.extend({
         this.renderTopAndNavBar('about');
         OSeaM.frontend.startView('About');
     },
+    
     user: function() {
-        this.renderTopAndNavBar('user');
-        OSeaM.frontend.startView('User', {
-            model: OSeaM.frontend.getUser()
-        });
+        if (this.activateRestricted( 'user' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
+			this.renderTopAndNavBar('user');						//RKu: mit Login  zus. Abfrage und Änderungen speichern einbauen
+			OSeaM.frontend.startView('User', {
+				model: OSeaM.frontend.getUser()
+			});
+		}
     },
+    
     register: function() {
         this.renderTopAndNavBar('register');
         OSeaM.frontend.startView('Register', {
@@ -78,7 +127,7 @@ OSeaM.routers.Router = Backbone.Router.extend({
         });
     },
     resetPassword: function() {
-        this.renderTopAndNavBar('ResetPassword');
+        this.renderTopAndNavBar('resetPassword');				//RKu: Eintrag war falsch: 'ResetPassword' => 'resetPassword'
         OSeaM.frontend.startView('ResetPassword', {
             model: OSeaM.frontend.getAuth()
         });
@@ -87,31 +136,33 @@ OSeaM.routers.Router = Backbone.Router.extend({
         this.renderTopAndNavBar('introduction');
         OSeaM.frontend.startView('Introduction');
     },
+    
     tracks: function() {
-        this.renderTopAndNavBar('tracks');
-//        if (this.checkAuthenticated() === true) {
+        if (this.activateRestricted( 'tracks' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
+			this.renderTopAndNavBar('tracks');
             OSeaM.frontend.startView('Tracks', {
                 collection : OSeaM.frontend.getTracks(),
                 vessels: OSeaM.frontend.getVessels(),
                 licenses: OSeaM.frontend.getLicenses()
             });
-//        }
-    },
+        }														//RKu: das auch
+	},
+	
     vessels: function() {
-    	this.renderTopAndNavBar('vessels');
-//    	if (this.checkAuthenticated() === true) {
-    	OSeaM.frontend.startView('Vessels', {
-    			collection : OSeaM.frontend.getVessels()
-    			});
-//    	}
+        if (this.activateRestricted( 'vessels' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
+			this.renderTopAndNavBar('vessels');
+			OSeaM.frontend.startView('Vessels', {
+					collection : OSeaM.frontend.getVessels()
+					});
+    	}														//RKu: das auch
     },
     gauges: function() {
-    	this.renderTopAndNavBar('gauges');
-//    	if (this.checkAuthenticated() === true) {
-    	OSeaM.frontend.startView('Gauges', {
-			collection : OSeaM.frontend.getGauges()
-		});
-//    	}
+//        if (this.activateRestricted() === true) {				//RKu: muss mit Login wieder aktiviert werden
+			this.renderTopAndNavBar('gauges');
+			OSeaM.frontend.startView('Gauges', {
+				collection : OSeaM.frontend.getGauges()
+			});
+//    	}														//RKu: das auch
     },
     maptracks: function() {
         this.renderTopAndNavBar('maptracks');
@@ -136,5 +187,17 @@ OSeaM.routers.Router = Backbone.Router.extend({
     attributions: function() {
         this.renderTopAndNavBar('attributions');
         OSeaM.frontend.startView('Attributions');
+    },
+    contact: function() {										//RKu: add this new function
+        this.renderTopAndNavBar('contact');
+        OSeaM.frontend.startView('Contact');					//RKu: call OSeaM.views.Contact (new .js)
+    },
+    welcome: function() {										//RKu: add this new function
+        this.renderTopAndNavBar('welcome');
+        OSeaM.frontend.startView('Welcome');					//RKu: call OSeaM.views.Contact (new .js)
+    },
+    goodby: function() {										//RKu: add this new function
+        this.renderTopAndNavBar('goodby');
+        OSeaM.frontend.startView('Goodby');						//RKu: call OSeaM.views.Contact (new .js)
     }
 });

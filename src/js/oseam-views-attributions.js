@@ -12,8 +12,14 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Attributions = OSeaM.View.extend({
+
+    initialize: function() {
+        OSeaM.frontend.on('change:language', this.render, this);
+    },
+    
     render: function() {
-        var template = OSeaM.loadTemplate('attributions');
+		var language = OSeaM.frontend.getLanguage();						//RKu: add language diversification
+		var template = OSeaM.loadTemplate('attributions-' + language);		//RKu: add language selection
         var content = $(template({
             javascript:[{
                 name:'Bootstrap',

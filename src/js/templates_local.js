@@ -23,6 +23,8 @@ function fetchClientSideInclude( url )
 
   if (req) {
     // Synchronous request, wait till we have it all
+	// req.overrideMimeType( "text/plain; charset=x-user-defined" );
+	req.overrideMimeType( "text/plain" );
     req.open('GET', url, false);
     req.send(null);
     return req.responseText;
@@ -38,20 +40,28 @@ function loadTemplates()
 	// all snippets that normally are packed by the handlebars precompiler must be mentioned here
 	var hbdivs = [		
 		"about-en",
+		"about-de",
 		"alert-info",
 		"alert-success",
 		"alert",
-		"attributions",
+		"attributions-de",
+		"attributions-en",
+		"contact-de",
+		"contact-en",
 		"contribute-en",
+		"contribute-de",
 		"depthsensoroffset-de",
 		"depthsensoroffset-en",
 		"Disabledcontribute-de",
+		"documentation-de",
 		"documentation-en",
 		"gauge",
 		"gaugedialog-en",
 		"gaugemeasurement",
 		"gauges-de",
 		"gauges-en",
+		"goodby-de",
+		"goodby-en",
 		"gpsoffset-de",
 		"gpsoffset-en",
 		"home-de",
@@ -62,6 +72,7 @@ function loadTemplates()
 		"introduction-en",
 		"license-de",
 		"license-en",
+		"login",
 		"maptracks",
 		"meta1-de",
 		"meta1-en",
@@ -84,6 +95,8 @@ function loadTemplates()
 		"vesselitem",
 		"vessels-de",
 		"vessels-en",
+		"welcome-de",
+		"welcome-en",
 		"wizard" ];
 
 	for ( t of hbdivs )

@@ -28,6 +28,9 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             this.layerTrackPoints.attribution = data;
             this.layerTrackPointsSingle10.attribution = data;
             this.layerTrackPointsSingle100.attribution = data;
+            this.layerTrackPointsMerged10.attribution = data;
+            this.layerTrackPointsMerged100.attribution = data;
+            this.layerTrackPointsTemp100.attribution = data;
             this.attributionControl.draw();
 //            this.attributionControl = new OpenLayers.Control.Attribution();
             this.attributionControl.updateAttribution();
@@ -83,7 +86,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                     305.74811309814453, 152.87405654907226, 76.43702827453613,
                     38.218514137268066, 19.109257068634033, 9.554628534317017,
                     4.777314267158508, 2.388657133579254, 1.194328566789627,
-                    0.5971642833948135, 0.25, 0.1, 0.05
+                    0.5971642833948135, 0.2985821416974060, 0.1492910708487030, 0.0746455354243516
                 ],
                 serverResolutions: [
                     156543.03390625, 78271.516953125, 39135.7584765625,
@@ -96,6 +99,44 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 ],
                 transitionEffect: 'resize',
                 sphericalMercator: true
+            }
+        );
+        this.layerTrackPointsTemp100 = new OpenLayers.Layer.WMS('100m temp',
+            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+                layers: 'trackpoints_temp_100',
+                numZoomLevels: 22,
+                projection: this.projectionMercator,
+                type: 'png',
+                transparent: true
+            },{
+                isBaseLayer: false,
+                tileSize: new OpenLayers.Size(1024,1024),
+                visibility : false
+            }
+        );
+        this.layerTrackPointsMerged100 = new OpenLayers.Layer.WMS('100m merged',
+            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+                layers: 'trackpoints_merged_100',
+                numZoomLevels: 22,
+                projection: this.projectionMercator,
+                type: 'png',
+                transparent: true
+            },{
+                isBaseLayer: false,
+                tileSize: new OpenLayers.Size(1024,1024),
+                visibility : false
+            }
+        );
+        this.layerTrackPointsMerged10 = new OpenLayers.Layer.WMS('10m merged',
+            'http:///osm.franken.de/cgi-bin/mapserv.fcgi?', {
+                layers: 'trackpoints_merged_10',
+                numZoomLevels: 22,
+                projection: this.projectionMercator,
+                type: 'png',
+                transparent: true
+            },{
+                isBaseLayer: false,
+                tileSize: new OpenLayers.Size(1024,1024)
             }
         );
         this.layerTrackPointsSingle100 = new OpenLayers.Layer.WMS('100m',
@@ -120,7 +161,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 transparent: true
             },{
                 isBaseLayer: false,
-                tileSize: new OpenLayers.Size(1024,1024)
+                tileSize: new OpenLayers.Size(1024,1024),
+                visibility : false
             }
         );
         this.layerTrackPoints = new OpenLayers.Layer.WMS('100m',
@@ -132,7 +174,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 transparent: true
             },{
                 isBaseLayer: false,
-                tileSize: new OpenLayers.Size(1024,1024)
+                tileSize: new OpenLayers.Size(1024,1024),
+                visibility : false
             }
         );
         this.layerTrackPoints10 = new OpenLayers.Layer.WMS('10m',
@@ -241,8 +284,11 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         
         this.map.addLayers([
             this.layerBase,
+			this.layerTrackPointsTemp100,
 			this.layerTrackPointsSingle100,
 			this.layerTrackPointsSingle10,
+			this.layerTrackPointsMerged100,
+			this.layerTrackPointsMerged10,
             this.triangulation,
             //this.layerTrackPoints,
             //this.layerTrackPoints10,
@@ -256,7 +302,9 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             this.attributionControl,
             new OpenLayers.Control.KeyboardDefaults(),
             new OpenLayers.Control.LayerSwitcher(),
-            new OpenLayers.Control.MousePosition()
+            new OpenLayers.Control.MousePosition(),
+            new OpenLayers.Control.Scale(),
+            new OpenLayers.Control.Permalink()
         ]);
         this.map.setCenter(new OpenLayers.LonLat(0.0, 40.0).transform(
             this.projectionWGS84,

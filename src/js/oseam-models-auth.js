@@ -11,7 +11,40 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
+/*
+function addCredsToRequest( xhr )
+{
+	var sessionUser = sessionStorage.getItem( "oseam_username" );
+	var sessionPassword = sessionStorage.getItem( "oseam_password" );
+	if ( sessionUser && sessionPassword )
+		xhr.setRequestHeader( 'Authorization', 'Basic '.concat( btoa( sessionUser + ":" + sessionPassword ) ) );
+	/ *
+	var basicCredentials = sessionStorage.getItem( "basicCredentials" );
+	if ( basicCredentials )
+		xhr.setRequestHeader( 'Authorization', 'Basic '.concat( basicCredentials ));
+	* /
+}
+*/
+
 OSeaM.models.Auth = Backbone.Model.extend({
+	/*
+	constructor: function ( options )
+	{
+		console.log( 'constructor' );
+		Backbone.Model.prototype.constructor.call(this, options);
+	},
+	*/
+	initialize : function()
+	{
+		console.log( 'init' );
+		var sessionUser = sessionStorage.getItem( "oseam_username" );
+		if ( sessionUser )
+		{
+			this.set({username : sessionUser});
+			this.set({authenticated : true});
+		}
+	},
+	
     setAuthenticated: function(value) {
         this.set({
             authenticated : value
@@ -22,6 +55,7 @@ OSeaM.models.Auth = Backbone.Model.extend({
             this.trigger('loggedOut');
         }
     },
+    
     isAuthenticated: function() {
         if (this.has('authenticated') && this.get('authenticated') === true) {
             return true;
@@ -29,12 +63,15 @@ OSeaM.models.Auth = Backbone.Model.extend({
             return false;
         }
     },
+    
     getUsername: function() {
         return this.get('username');
     },
+    
     getCaptchaUrl: function() {
         return OSeaM.apiUrl + 'users/captcha';
     },
+    
     create: function(params) {
         this.set({username : params.username});
         jQuery.ajax({
@@ -50,13 +87,16 @@ OSeaM.models.Auth = Backbone.Model.extend({
             error: this.onCreateError
         });
     },
+    
     onCreateSuccess: function(data, success, jqXHR) {
         this.trigger('createSuccess', data);
 //        this.setAuthenticated(true);
     },
+    
     onCreateError: function(jqXHR, textStatus, errorThrown) {
         this.trigger('createFailure', jqXHR);
     },
+    
     requestNewPassword: function(params) {
         jQuery.ajax({
             type: 'POST',
@@ -71,46 +111,153 @@ OSeaM.models.Auth = Backbone.Model.extend({
             error: function(data){ this.trigger('passwordResetFailure', data); },
         });
     },
-    login: function(params) {
-        this.set({username : params.username});
+	
+	
+	
+	
+    logon: function(params) {
+		
+        var params2 = {																//RKu: Parameter für den POST an TomCat setzen
+            j_username : params.username,
+            j_password : params.password
+        };
+
+		var self=this;
+		
         jQuery.ajax({
             type: 'POST',
-            url: OSeaM.apiUrl + '/auth/login',
-            dataType: 'json',
-            data: params,
+            url: OSeaM.apiUrl + 'j_security_check',
+            contentType: "application/x-www-form-urlencoded",
+            data: params2,
             context: this,
             xhrFields: {
                 withCredentials: true
             },
+            success: function(data, success, jqXHR)
+			{ 	
+				if ( data == "ok" )
+				{
+					self.onLoginSuccess(); 
+					sessionStorage.setItem( "oseam_username", params.username );
+				}
+				else
+					self.onLoginError( jqXHR, "error", "error" ); 
+			},
+            error: function(jqXHR, textStatus, errorThrown)
+			{ 
+				self.onLoginError(jqXHR, textStatus, errorThrown); 
+			},
+        });
+    },
+
+    login: function(params) {
+		
+        var params2 = 
+		{																//RKu: Parameter für den POST an TomCat setzen
+        };
+		
+		var self=this;
+		
+        jQuery.ajax({
+            type: 'GET',
+            url: OSeaM.apiUrl + 'auth/logindummy',
+//            data: params2,
+            context: this,
+//            xhrFields: {
+//                withCredentials: true
+//            },
+            success: function(data){ self.logon( params ) },
+            error: function(data){ this.trigger('passwordResetFailure', data); },
+        });
+    },
+	
+    
+    oldloginlogin: function(params) {												//RKu: um zu sehen warum der Server nicht positiv antwortet
+        this.set({username : params.username});								//RKu: muss das zusammen mit dem TomCat debugged werden
+
+		/*
+		sessionStorage.setItem( "oseam_username", params.username );
+		sessionStorage.setItem( "oseam_password", params.password );
+		$.ajaxSetup({ beforeSend: addCredsToRequest })		
+		*/
+		
+        jQuery.ajax({
+            type: 'GET',
+			
+//			url: OSeaM.apiUrl + 'auth/login',								//RKu: apiUrl: 'http://depth.openseamap.org/org.osm.depth.upload/api2/'
+			url: OSeaM.apiUrl + 'vesselconfig',											// TG call any dummy url just to login
+            dataType: 'json',												//RKu: Datatyp expected back from the server
+//            data: params,													//RKu: enthält username: "xxx.yyy@zzz.de" + password: "converted to MD5"
+            context: this,
+            xhrFields: {
+                withCredentials: true
+            },
+			password: params.password,
+			username: params.username,
             success: this.onLoginSuccess,
             error: this.onLoginError
         });
     },
+    
     onLoginSuccess: function(data, success, jqXHR) {
-        this.trigger('loginSuccess', data);
+        this.trigger('loginSuccess', data);								//RKu: the corresponding event handler does not jet exist
         this.setAuthenticated(true);
+		if ( !OSeaM.router.loginSuccess() )
+			OSeaM.frontend.startView('Welcome');						//RKu: call OSeaM.views.Contact (new .js)
     },
+    
     onLoginError: function(jqXHR, textStatus, errorThrown) {
-        this.trigger('loginFailure', jqXHR);
+        this.trigger('loginFailure', jqXHR);							//RKu: the corresponding event handler does not jet exist
+		sessionStorage.removeItem( 'oseam_username' );
+		sessionStorage.removeItem( 'oseam_password' );
+		/*
+        var elements = document.getElementById("oseam-1");					//RKu: {{idUsername}}
+        elements.style.backgroundColor = '#FF4500';							//RKu:
+        var elements = document.getElementById("oseam-2");					//RKu: {{idPassword}}
+        elements.style.backgroundColor = '#FF4500';							//RKu:
+		*/
+        alert("Login error: " +jqXHR.status + " " + errorThrown + "\nPlease check username and password.");	//RKu: vorübergehend
+//        window.location.reload();											//RKu: reload the frontend from the beginning
+			$( "#dropdown_login" ).removeClass( "open" );
+            OSeaM.frontend.startView('Login', {
+				model: OSeaM.frontend.getAuth()
+			});					//RKu: View 'Login' == show error message !!! needed as soon we have a proper login procedure
     },
+    
     logout: function() {
+		/*  4 the time being, there is no logout url on the server. 
+			Since the server does not hold sessions anyway, this is not necessary.
+			so simply invalidate the cached credentials and re-load the page */
+		/*
+		sessionStorage.removeItem( 'oseam_username' );
+		sessionStorage.removeItem( 'oseam_password' );
+		
+		this.onLogoutSuccess();
+		*/
+		
         jQuery.ajax({
             type: 'POST',
-            url: OSeaM.apiUrl + '/auth/logout',
-            dataType: 'json',
+            url: OSeaM.apiUrl + 'auth/logout',
+//            dataType: 'json',
             context: this,
             xhrFields: {
                 withCredentials: true
             },
             success: this.onLogoutSuccess,
-            error: this.onLogoutError
+            error: this.onLogoutError			// Original Zeile
         });
     },
+    
     onLogoutSuccess: function(data, success, jqXHR) {
+		sessionStorage.removeItem( 'oseam_username' );
         this.trigger('logoutSuccess', data);
         this.setAuthenticated(false);
+        OSeaM.frontend.startView('Goodby');									//RKu: call OSeaM.views.Contact (new .js)
     },
+    
     onLogoutError: function(jqXHR, textStatus, errorThrown) {
         this.trigger('logoutFailure', jqXHR);
+        alert("Fehlermeldung von TomCat nach Logout: "   +jqXHR.status + " " + errorThrown + "\nZur Sicherheit starte bitte Deinen Browser neu.");	//RKu: vorübergehend
+        window.location.reload();											//RKu: reload the frontend from the beginning
     }
 });

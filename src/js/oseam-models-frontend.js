@@ -13,7 +13,9 @@
 
 OSeaM.models.Frontend = Backbone.Model.extend({
     actualView:null,
+    
     translations: {},
+    
     getAuth: function() {
         if (this.has('auth') === false) {
             this.set({
@@ -70,9 +72,11 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         return this.get('user');
     },
+    
     startView: function(name, settings) {
         if (this.actualView) {
-            this.actualView.close();
+            this.actualView.close();						// delete current view from html "span9 oseam-container" nein, nicht mehr
+			// TG doch!!!
         }
         var cfg = settings || {};
         this.actualView = new OSeaM.views[name](jQuery.extend({
@@ -80,19 +84,20 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }, cfg));
         this.actualView.render();
     },
+    
     setLanguage: function(language) {
         this.set({language: language});
         if (this.translations[language] === undefined) {
             var me = this;
             jQuery.ajax({
-                url: 'translations/' + language + '.json',
+                url: 'translations/' + language + '.json',						//RKu: at pressent we have 2 languages (en and de)
                 dataType: 'json',
                 success: function(data, success, jqXHR) {
                     me.translations[language] = data;
                     me.translate($('body'));
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Unable to load language.');
+                    alert('Unable to load language.'  + errorThrown);
                 }
             });
         } else {
@@ -101,9 +106,11 @@ OSeaM.models.Frontend = Backbone.Model.extend({
         }
         localStorage.language = language;
     },
+    
     getLanguage: function() {
         return this.get('language');
     },
+    
     translate: function(el) {
         // Seach in children
         elements = el.find('[data-trt], [data-trt-placeholder], [title]');
@@ -119,23 +126,27 @@ OSeaM.models.Frontend = Backbone.Model.extend({
     translateEl: function(el) {
         var jEl = $(el);
         var dataTrt = jEl.data('trt') || '0000:Unknown';
-        dataTrt = dataTrt.split(':', 2);
-        jEl.html(this.getPhrase(dataTrt[0]));
+//        dataTrt = dataTrt.split(':', 2);
+//        jEl.html(this.getPhrase(dataTrt[0]));
+        jEl.html(this.getPhrase(dataTrt));
         if(el.title) {
-            var dataTrt2 = el.title.split(':', 2);
-            jEl.attr('title',this.getPhrase(dataTrt2[0]));
+//            var dataTrt2 = el.title.split(':', 2);
+//            jEl.attr('title',this.getPhrase(dataTrt2[0]));
+            jEl.attr('title',this.getPhrase(el.title));
         }
         var dataTrt = jEl.data('trt-placeholder') || null;
         if (dataTrt) {
-            dataTrt = dataTrt.split(':', 2);
-            jEl.attr('placeholder', this.getPhrase(dataTrt[0]));
+//            dataTrt = dataTrt.split(':', 2);
+//            jEl.attr('placeholder', this.getPhrase(dataTrt[0]));
+            jEl.attr('placeholder', this.getPhrase(dataTrt));
         }
     },
     translateAttr: function(jEl, attr, text) {
-        dataTrt = text.split(':', 2);
-        jEl.attr(attr, this.getPhrase(dataTrt[0]));
+//        dataTrt = text.split(':', 2);
+//        jEl.attr('placeholder', this.getPhrase(dataTrt[0]));
+        jEl.attr(attr, this.getPhrase(text));
     },
-    getPhrase: function(id) {
+    getPhraseInt: function(id) {
         var language = this.getLanguage();
         if (this.translations[language] === undefined) {
             return '';
@@ -144,5 +155,15 @@ OSeaM.models.Frontend = Backbone.Model.extend({
             return '::unknown::';
         }
         return this.translations[language][id];
-    }
+    },
+    getPhrase: function(text) {
+		if ( !text )
+			text = '0000:Unknown';
+        var dataTrt = text.split(':', 2);
+		
+		if ( dataTrt[0] == "non-nls" )
+			return text.substring( 8 );
+		else
+			return this.getPhraseInt( dataTrt[0] );
+	}
 });

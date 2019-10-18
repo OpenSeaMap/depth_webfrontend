@@ -13,8 +13,7 @@
 
 
 // this view lists the tracks
-OSeaM.views.Tracks = OSeaM.View
-  .extend({
+OSeaM.views.Tracks = OSeaM.View.extend({
     events: {
       'change .oseam-upload-wrapper input': 'onFileSelected',
       'change .licenseId': 'onChangeLicenseConfigId',
@@ -32,12 +31,10 @@ OSeaM.views.Tracks = OSeaM.View
       this.candidateTrack = new OSeaM.models.Track();
 
       var that = this;
-      this.collection.fetch().done(function() {
-        that.addAndRenderViews();
-      });
       this.listenTo(this.collection, 'remove', this.onRemoveItem);
       //			   this.listenTo(this.collection, "sort", this.render);
 
+	  /*
       this.vessels = new OSeaM.models.Vessels();
       this.vessels.fetch().done(function() {
         that.renderVesselSelection();
@@ -48,33 +45,65 @@ OSeaM.views.Tracks = OSeaM.View
         that.renderLicenceSelection();
       });
 
+      this.collection.fetch().done(function() {
+        that.addAndRenderViews();
+      });
+	  */
+
+      this.vessels = new OSeaM.models.Vessels();
+      this.licenses = new OSeaM.models.Licenses();
+
+      this.vessels.fetch().done(function() {
+        that.renderVesselSelection();
+		that.licenses.fetch().done(function() {
+			that.renderLicenceSelection();
+		    that.collection.fetch().done(function() {
+			  that.addAndRenderViews();
+			});
+		});
+      });
+	  
     },
     addAndRenderViews: function() {
       this.addViews();
       this.render();
     },
+    
+    //RKu: this function does add each track-entry, already stored on the servers database, to the current view
     addViews: function() {
       this.listEl.empty();
       this._views = [];
       var self = this;
-      this.collection.each(function(model) {
-        self._views.push(new OSeaM.views.Track({
+      this.collection.each(function(model) {		// loop until "collection.length" has reached
+        self._views.push(new OSeaM.views.Track({	// .push: add the next track entry to the array "_views" 
           model: model,
           vessels: self.vessels,
           licenses: self.licenses
         }));
       });
     },
+    
     renderContent: function() {
-      this.listEl = this.$el.find('tbody');
-      this.listEl.empty();
+	  var dlg = this.$el.find('.track-dialog');
+	  var tHead = this.$el.find('th');
+	  
+	  if ( dlg && tHead && dlg.length == 1 && tHead.length > 0 )
+	  {
+		  for( var i = 0; i<tHead.length; i++ )
+			tHead[i].style.top = dlg[0].offsetHeight;
+	  }
+	  
+      this.listEl = this.$el.find('tbody');			// find the root of "tbody" in the html (for example "tracks-de.handlebars")
+      this.listEl.empty();							// make sure the list is empty
       var container = document.createDocumentFragment();
 
-      _.each(this._views, function(subview) {
+      _.each(this._views, function(subview) {		// fill in each table element
         container.appendChild(subview.render().el)
       });
-      this.listEl.append(container);
+      this.listEl.append(container);				// append the final table to html "tbody" 
     },
+    
+    // update the vessel config
     renderVesselSelection: function() {
       this.vesselviews = new OSeaM.views.Selection({
         el: $("#vesselselection"),
@@ -83,6 +112,8 @@ OSeaM.views.Tracks = OSeaM.View
       $("#vesselselection option[value=" + localStorage.lastvessel + "]").attr("selected", "selected");
       this.candidateTrack.set('vesselconfigid', localStorage.lastvessel);
     },
+    
+    // update the track licences
     renderLicenceSelection: function() {
       this.licenseviews = new OSeaM.views.Selection({
         el: $("#licenseselection"),
@@ -91,6 +122,7 @@ OSeaM.views.Tracks = OSeaM.View
       $("#licenseselection option[value=" + localStorage.lastlicense + "]").attr("selected", "selected");
       this.candidateTrack.set('license', localStorage.lastlicense);
     },
+    
     render: function() {
       var self = this;
       var wait = '';
@@ -99,28 +131,46 @@ OSeaM.views.Tracks = OSeaM.View
       var singleConf = '';
       this.$el.empty();
       var language = OSeaM.frontend.getLanguage();
-      var template = OSeaM.loadTemplate('tracks-' + language);
+      var template = OSeaM.loadTemplate('tracks-' + language);		// load for example "tracks-de.handlebars" ( html tabel)
       var content = $(template());
-      OSeaM.frontend.translate(content);
+      OSeaM.frontend.translate(content);							// 1. view the static html "tracks-de.handlebars"
       this.$el.html(content);
-      this.renderContent();
+      this.renderContent();											// 2. view the table of already stored tracks
       //		        this.collection.forEach(this.onAddItem, this);
       if (this.vessels)
-        this.renderVesselSelection();
+        this.renderVesselSelection();								// 3. view vessel config
 
       if (this.licenses)
-        this.renderLicenceSelection();
+        this.renderLicenceSelection();								// 4. view vessel Licence
     },
+    
+    
     onFileSelected: function(evt) {
       if (typeof this.candidateTrack.get('vesselconfigid') === "undefined" || typeof this.candidateTrack.get('license') === "undefined") {
-        alert('You have to select a vessel configuration and a license in order to upload tracks');
+//        alert('You have to select a vessel configuration and a license in order to upload tracks');
+//RKu:+ 
+        this.removeAlerts();										//RKu: clear alerts if there are any
+        var template = OSeaM.loadTemplate('alert');					//RKu: set up a proper error message if vessel and license not valid      
+        this.renderParams =  {
+            title : '1027:Validation error occured!',
+            msg   : '1308:You have to select a vessel configuration and a license in order to upload tracks.'
+        };
+        var content = $(template(this.renderParams));
+        OSeaM.frontend.translate(content);
+        this.$el.find('legend').after(content);
+//RKu:-        
         return;
       }
-      for (var i = 0; i < evt.target.files.length; i++) {
+	  console.log( evt.target.files );
+	  var files = $.extend( true,{},evt.target.files );
+	  console.log( files );
+	  evt.target.value = "";
+	  console.log( files );
+      for (var i = 0; i < files.length; i++) {
         var storeTrack = function(newTrack, self) {
           // get vesselconfig from somewhere
           newTrack.set({
-            fileName: evt.target.files[i].name,
+            fileName: files[i].name,
             status: self.STATUS_STARTING_UPLOAD,
             license: self.candidateTrack.get('license'),
             progress: 1,
@@ -135,10 +185,10 @@ OSeaM.views.Tracks = OSeaM.View
             // TODO: do something with the error
             error: function(newTrack, xhr, options) {
               self.collection.remove(newTrack);
-              console.log(xhr);
+              console.log(xhr);										//RKu: I need to simulate this case first in order to develop a proper error message
             },
             // on success start the progress of upload
-            success: jQuery.proxy(fn, self, evt.target.files[i])
+            success: jQuery.proxy(fn, self, files[i])
           });
         }
         storeTrack(new OSeaM.models.Track(), this);

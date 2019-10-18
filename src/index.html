@@ -3,10 +3,10 @@
         <meta charset="utf-8">
         <title>OpenSeaMap&nbsp;&ndash;&nbsp;Water Depths</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/oseam.css" rel="stylesheet">
         <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
         <link href="css/bootstrap-formhelpers.css" rel="stylesheet">
+        <link href="css/oseam.css" rel="stylesheet">
         <script type="text/javascript" src="lib/jquery.js"></script>
         <script type="text/javascript" src="lib/jquery-sha1.js"></script>
 		<script type="text/javascript" src="lib/jquery-ui.js"></script>
@@ -20,12 +20,12 @@
         <script type="text/javascript" src="js/templates.js"></script>
         {{stage1}}
     </head>
-    <body>
-        <div class="container-fluid">
+    <body class="oseam-body">
+        <div class="oseam-container-fluid container-fluid">
             <div class="row-fluid">
                 <div class="span3 oseam-navbar">
                 </div>
-                <div class="span9 oseam-container">
+                <div class="span9 oseam-container" style="height:99%;  overflow:auto;">		<!-- RKu: let only this container scroll -->
                 </div>
             </div>
         </div>
@@ -33,3 +33,4 @@
         {{stage2}}
     </body>
 </html>
+

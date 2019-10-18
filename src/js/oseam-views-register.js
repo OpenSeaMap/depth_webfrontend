@@ -20,11 +20,14 @@ OSeaM.views.Register = OSeaM.View.extend({
     initialize: function() {
         this.model.bind('createSuccess', this.onCreateSuccess, this);
         this.model.bind('createFailure', this.onCreateFailure, this);
-    },
+        OSeaM.frontend.once('change:language', this.render, this);					//RKu: this line was missing, as no refresh happend after language change ... however
+        },																			//RKu: "once" is why it continues to fire change Language, even we work on different tabs
+        																			//RKu: so we see a posible alert only once on a different working tab on language change. Did not jet find a better solution to solve this
+
     render: function() {
 		var language = OSeaM.frontend.getLanguage();
 		var template = OSeaM.loadTemplate('register-' + language);
-        //var template = OSeaM.loadTemplate('register');
+        //var template = OSeaM.loadTemplate('register');							//RKu: we have more than one language
         this.renderParams =  {
             captchaUrl  : this.model.getCaptchaUrl(),
             idUsername  : OSeaM.id(),
@@ -37,6 +40,7 @@ OSeaM.views.Register = OSeaM.View.extend({
         var content = $(template(this.renderParams));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
+        
         this.fieldUsername  = this.$el.find('#' + this.renderParams.idUsername);
         this.fieldPassword1 = this.$el.find('#' + this.renderParams.idPassword1);
         this.fieldPassword2 = this.$el.find('#' + this.renderParams.idPassword2);
@@ -46,7 +50,9 @@ OSeaM.views.Register = OSeaM.View.extend({
         var fn = function(data) {
             this.replaceCaptcha(data);
         };
-        jQuery.ajax({
+        
+        var that = this;														//RKu: save me the right context
+        jQuery.ajax({															//RKu: request a captcha from server
             type: 'POST',
             url: OSeaM.apiUrl + 'users/captcha',
             contentType: "application/json",
@@ -54,21 +60,50 @@ OSeaM.views.Register = OSeaM.View.extend({
 //            xhrFields: {
 //                withCredentials: true
 //            },
-            success: jQuery.proxy(fn, this)
+            success:	jQuery.proxy(fn, this),
+            error:		function(xhr, textStatus, error){						//RKu: implement error handling
+            				xhr.status;
+            				xhr.responseText;
+							that.NoCaptchaError(xhr); }
         });
+        
         $('#countries').bfhcountries({country: this.model.get('country')});
         $('#languages').bfhlanguages({language: this.model.get('language')});
-        if(this.model.get('phone') == null) {
-        	$('#phones').bfhphone({country: 'countries'});
-        } else {
-        	$('#phones').bfhphone({country: 'countries', phone : this.model.get('phone')});
-        }
-
+//        if(this.model.get('phone') == null) {									//RKu: this does not work correct after language change ????
+//       	$('#phones').bfhphone({country: 'countries'});
+//	      } else {
+//        	$('#phones').bfhphone({country: 'countries', phone : this.model.get('phone')});
+//        }
         return this;
     },
+    
+    NoCaptchaError: function(xhr) {												//RKu: ++ this error message handler was missing
+        this.removeAlerts();
+        var errors = [];
+
+        if ((xhr.status) == 0) {errors.push('2000:Could not find a server with the given host name')}
+        if ((xhr.status) == 400) {errors.push('2400:Status 0 Server understood the request, but request content was invalid.')}
+        if ((xhr.status) == 401) {errors.push('2401:Status 401 Unauthorized access.')}
+        if ((xhr.status) == 403) {errors.push('2403:Status 403 Forbidden resource cannot be accessed.')}
+        if ((xhr.status) == 404) {errors.push('2404:Status 404 This service is unavailable.')}
+        if ((xhr.status) == 500) {errors.push('2500:Status 500 Internal server error.')}
+        if ((xhr.status) == 503) {errors.push('2503:Status 503 This service is unavailable.')}
+//		wenn nicht dann {errors.push('2510: Unknown error.')}
+        errors.push('1410:no Captcha received from Server');
+			
+        var template = OSeaM.loadTemplate('alert');
+        var content  = $(template({
+            title:'1030:Server error occured.',
+            errors:errors
+        }));
+        OSeaM.frontend.translate(content);
+        this.$el.find('legend').after(content);
+    },																			//RKu: -- this error message handler was missing
+    
     replaceCaptcha: function(data) {
     	this.$el.find('#captcha').removeClass('loading').append('<img id="captcha" src="data:image/png;base64,' + data.imageBase64 + '"/>')
-    },    
+    },
+        
     validateForm: function() {
         this.removeAlerts();
         var errors = [];
@@ -108,12 +143,14 @@ OSeaM.views.Register = OSeaM.View.extend({
         }
         return this.isValid;
     },
+    
     markInvalid: function(field, text) {
         field.parents('.control-group').addClass('error');
         field.next('.help-inline').attr('data-trt', text);
         OSeaM.frontend.translate(this.$el);
         this.isValid = false;
     },
+    
     removeAlerts: function() {
         this.$el.find('.alert').remove();
         this.$el.find('.control-group').removeClass('error');
@@ -121,6 +158,7 @@ OSeaM.views.Register = OSeaM.View.extend({
         this.$el.find('.help-inline').html('');
         this.isValid = true;
     },
+    
     onFormSubmit: function(evt) {
         evt.preventDefault();
         this.buttonSubmit.button('loading');
@@ -140,11 +178,12 @@ OSeaM.views.Register = OSeaM.View.extend({
 	        language : this.$el.find('#languages').val(),
         	phone : this.$el.find('#phones').val()
         };
-        params.password = jQuery.encoding.digests.hexSha1Str(params.password).toLowerCase();
+        params.password = jQuery.encoding.digests.hexSha1Str(params.password).toLowerCase();		// password encryption
         // TODO : license accept
         this.model.create(params);
         return false;
     },
+    
     onCreateSuccess: function(data) {
         var template = OSeaM.loadTemplate('alert-success');
         var content = $(template({
@@ -155,6 +194,7 @@ OSeaM.views.Register = OSeaM.View.extend({
         this.$el.find('form').remove();
         this.$el.find('legend').after(content);
     },
+    
     onCreateFailure: function(jqXHR) {
         var template = OSeaM.loadTemplate('alert');
         var msg = '';
@@ -175,7 +215,9 @@ OSeaM.views.Register = OSeaM.View.extend({
         this.$el.find('legend').after(content);
         this.buttonSubmit.button('reset');
     },
+    
     renewCaptcha: function(evt) {
         this.$el.find('img').attr('src', this.model.getCaptchaUrl())
     }
+    
 });

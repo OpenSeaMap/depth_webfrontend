@@ -1,4 +1,10 @@
-<td>{{id}}</td>
+<td>
+{{#if tracklink}}
+	<a href="/singletrack.html?{{tracklinkparams}}" target="_new">{{id}}</a>
+{{else}}
+	{{id}}
+{{/if}}
+</td>
 <td>{{fileName}}</td>
 <td>
 {{#if progress}}
@@ -13,11 +19,12 @@
 <object type="image/png" data="images/{{fileType}}.png">
 </object>
 </td>
-<td>{{compression}}</td>
-<td>{{containertrack}}</td>
+<td style="text-align:center">{{compression}}</td>
+<td style="text-align:right">{{containertrack}}</td>
 <td>{{vesselconfigid}}</td>
 <td>{{license}}</td>
 <td>{{uploadDate}}</td>
+<td style="text-align:right">{{numPoints}}</td>
 <td>
     <i class="icon-trash"></i>
 </td>
