@@ -11,16 +11,34 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
-OSeaM.views.Login = OSeaM.View.extend({
-    render: function() {
-        var template = OSeaM.loadTemplate('alert-info');
+OSeaM.views.Login = OSeaM.views.Logindlg.extend({
+    events: {
+        'submit form'           : 'onFormSubmit'									//RKu: event triggered from submit button in toolbar.handlebares
+    },
+    render: function() 
+	{
+        var template = OSeaM.loadTemplate('login');						  
+		/*
         this.renderParams =  {
-            title : '1009:Login',
-            msg   : '1032:Please sign in to use this part.'
+            title : '1009:Sign in!',
+            msg   : '1032:Please sign in proper to use this part.'
         };
-        var content = $(template(this.renderParams));
+		*/
+        var renderParams = {
+            idUsername         : OSeaM.id(),										//RKu: transfer Handlebars "{{idUsername}}" from file toolbar.handlebares to a variable
+            idPassword         : OSeaM.id(),										//RKu: transfer Handlebars "{{idPassword}}" from file toolbar.handlebares to a variable
+            idSubmit           : OSeaM.id(),										//RKu: transfer Handlebars "{{idSubmit}}" from file toolbar.handlebares to a variable
+        };
+
+        var content = $(template(renderParams));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
+
+        this.fieldUsername        = this.$el.find('#' + renderParams.idUsername);
+        this.fieldPassword        = this.$el.find('#' + renderParams.idPassword);
+        this.buttonSubmit         = this.$el.find('#' + renderParams.idSubmit);
+		
+//        this.$el.find('legend').after(content);
         return this;
     }
 });

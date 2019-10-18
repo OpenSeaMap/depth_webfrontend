@@ -16,6 +16,7 @@ OSeaM.views.Gauges = OSeaM.View.extend({
         'click .oseam-add' : 'addNewGauge',
     },
 	initialize: function() {
+        OSeaM.frontend.on('change:language', this.render, this);			//RKu: added, as this function was simply missing
 		this.listenTo(this.collection, 'reset', this.refreshGauges);
 		this.render();
 		this.collection.fetch();

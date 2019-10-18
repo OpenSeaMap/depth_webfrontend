@@ -3,10 +3,10 @@
         <meta charset="utf-8">
         <title>OpenSeaMap&nbsp;&ndash;&nbsp;Water Depths</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/oseam.css" rel="stylesheet">
         <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
         <link href="css/bootstrap-formhelpers.css" rel="stylesheet">
+        <link href="css/oseam.css" rel="stylesheet">
         <script type="text/javascript" src="lib/jquery.js"></script>
         <script type="text/javascript" src="lib/jquery-sha1.js"></script>
 		<script type="text/javascript" src="lib/jquery-ui.js"></script>
@@ -14,7 +14,7 @@
         <script type="text/javascript" src="lib/backbone.js"></script>
         <script type="text/javascript" src="lib/raphael-min.js"></script>
         <script type="text/javascript" src="lib/handlebars.js"></script>
-        <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="lib/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript" src="lib/bootstrap-formhelpers/bootstrap-formhelpers.js"></script>
         <script type="text/javascript" src="lib/openlayers/OpenLayers.js"></script>
         <script type="text/javascript" src="js/oseam.js"></script>
@@ -24,6 +24,7 @@
 		<script id = "router" type="text/javascript" src="js/oseam-routers-router.js"></script>
 		<script id = "auth" type="text/javascript" src="js/oseam-models-auth.js"></script>
 		<script id = "frontend" type="text/javascript" src="js/oseam-models-frontend.js"></script>
+		<script id = "logindlg" type="text/javascript" src="js/oseam-views-logindlg.js"></script>
 		<script id = "toolbar" type="text/javascript" src="js/oseam-views-toolbar.js"></script>
 		<script id = "navbar" type="text/javascript" src="js/oseam-views-navbar.js"></script>
 		<script id = "home" type="text/javascript" src="js/oseam-views-home.js"></script>
@@ -34,16 +35,30 @@
         <script type="text/javascript" src="js/templates_local.js"></script>
 
     </head>
-    <body>
-        <div class="container-fluid">
+	<!--
+    <body class="oseam-body">
+        <div class="oseam-container-fluid container-fluid">
             <div class="row-fluid">
                 <div class="span3 oseam-navbar">
                 </div>
-                <div class="span9 oseam-container">
+                <div class="span9 oseam-container" style="height:99%;  overflow:auto;">
                 </div>
             </div>
         </div>
         <hr>
+-->
+
+    <body  class="oseam-body">
+        <div class="container-fluid oseam-container-fluid">
+            <div class="row-fluid">
+                <div class="span3 oseam-navbar">
+                </div>
+                <div class="span9 oseam-container" style="height:99%;  overflow:auto;">
+                </div>
+            </div>
+        </div>
+        <hr>
+
 
 		<!-- these scripts are normally added by the handlebbars precompiler. We add them here for easier debugging--> 
         <script type="text/javascript" src="js/oseam-models-license.js"></script>
@@ -61,6 +76,7 @@
 		<script type="text/javascript" src="js/oseam-views-about.js"></script>
 		<script type="text/javascript" src="js/oseam-views-attributions.js"></script>
 		<script type="text/javascript" src="js/oseam-views-documentation.js"></script>
+		<script type="text/javascript" src="js/oseam-views-contact.js"></script>			<!-- RKu: new function -->
 		<script type="text/javascript" src="js/oseam-views-contribute.js"></script>
 		<script type="text/javascript" src="js/oseam-views-depthsensorpage.js"></script>
 		<script type="text/javascript" src="js/oseam-views-gpspage.js"></script>
@@ -68,6 +84,7 @@
 		<script type="text/javascript" src="js/oseam-views-gaugedialog.js"></script>
 		<script type="text/javascript" src="js/oseam-views-gauge.js"></script>
 		<script type="text/javascript" src="js/oseam-views-gauges.js"></script>
+		<script type="text/javascript" src="js/oseam-views-goodby.js"></script>				<!-- RKu: new function -->
 		<script type="text/javascript" src="js/oseam-views-license.js"></script>
 		<script type="text/javascript" src="js/oseam-views-login.js"></script>
 		<script type="text/javascript" src="js/oseam-views-maptracks.js"></script>
@@ -89,7 +106,8 @@
 		<script type="text/javascript" src="js/oseam-views-vesselitem.js"></script>
 		<script type="text/javascript" src="js/oseam-views-vesselpage.js"></script>
 		<script type="text/javascript" src="js/oseam-views-vessels.js"></script>
+		<script type="text/javascript" src="js/oseam-views-welcome.js"></script>			<!-- RKu: new function -->
 		<script type="text/javascript" src="js/oseam-views-wizard.js"></script>
-		
+
     </body>
 </html>

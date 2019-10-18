@@ -1,4 +1,5 @@
 <legend data-trt="1020:Register"></legend>
+
 <form class="form-horizontal">
     <div class="control-group">
         <label class="control-label" for="{{idUsername}}" data-trt="1004:Email">*</label>
@@ -43,7 +44,7 @@
     </div>
         <div class="control-group">
             <label class="control-label">Vorname</label>
-        <div class="controls">
+        	<div class="controls">
                 <input type="text" id="forename" name="forename" placeholder="Max"/>
             </div>
         </div>
@@ -57,7 +58,7 @@
 
         <div class="control-group">
             <p><label class="control-label">Organisation</label></p>
-        <div class="controls">
+        	<div class="controls">
                 <input type="text" id="organisation" name="organisation" placeholder="Deine Organisation, falls vorhanden" />
             </div>
         </div>
@@ -65,33 +66,35 @@
         <div class="control-group">
             <p><label class="control-label">Ich stimme einem Kontakt via Mail zu</label></p> 
           <!--  <div class="input-append"> -->
-		  <div class="controls">
+		  	<div class="controls">
                 <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact"/>
             </div>
         </div>
 
         <div class="control-group">
             <p><label class="control-label">Wohnsitz</label></p>
-        <div class="controls">
+        	<div class="controls">
                 <select name="country" id="countries" class="form-control bfh-countries" data-country="US"></select>
             </div>
         </div>
 
         <div class="control-group">
             <p><label class="control-label">Korrespondenzsprache</label></p>
-        <div class="controls">
+        	<div class="controls">
                 <select name="language" id="languages" class="form-control bfh-languages" data-language="en"></select>            
             </div>
         </div>
 
         <div class="control-group">
             <p><label class="control-label">Telefon</label></p>
-        <div class="controls">
-                <input name="phone" id="phones" type="text" class="form-control bfh-phone" data-country="countries"  placeholder="e.g. 0049 221 8853">
+        	<div class="controls">
+                <input name="phone" id="phones" type="text" class="form-control bfh-phone" data-country="countries"  placeholder="e.g. 0049 221 8853"/>
             </div>
-        </div>    <div class="control-group">
-        <div class="controls">
-            <button type="submit" id="{{idSubmit}}" class="btn btn-primary" data-loading-text="Loading..." data-trt="1018:Register"></button>
         </div>
-    </div>
+        
+        <div class="control-group">
+        	<div class="controls">
+            	<button type="submit" id="{{idSubmit}}" class="btn btn-primary" data-loading-text="Loading..." data-trt="1018:Register"></button>
+        	</div>
+    	</div>
 </form>

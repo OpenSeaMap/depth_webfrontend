@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="UTF-8">
+	</head>
+<body>
+
+<legend>Beitragen</legend>
+
+<pre>Dieser Text wurde zunächst einmal grob übersetzt, muss jedoch noch einmal überprüft und ergänzt werden.</pre>
+
+<div class="toc">
+<ol type="1">
+	<li><a href="#anchor-c-de-1.">Fehlerverfolgung und offene Aufgaben</a></li>
+    <li><a href="#anchor-c-de-2.">Server Hintergrundverarbeitung</a></li>
+  	<ol>
+    	<li><a href="#anchor-c-de-2.1">Postgres Datenbank installieren</a></li>
+    	<ol>
+	    	<li><a href="#anchor-c-de-2.1.1">Linux</a></li>
+	    	<li><a href="#anchor-c-de-2.1.2">Windows</a></li>
+		</ol>
+    	<li><a href="#anchor-c-de-2.2">Konfiguration</a></li>
+    	<ol>
+	    	<li><a href="#anchor-c-de-2.2.1">Datenbank Anfragen</a></li>
+	    	<li><a href="#anchor-c-de-2.2.2">Inhaltserkennung</a></li>
+	    	<li><a href="#anchor-c-de-2.2.3">Filterung</a></li>
+	    	<li><a href="#anchor-c-de-2.2.4">Tiefenprofil erzeugen</a></li>
+    	</ol>
+  	</ol>
+  	<li><a href="#anchor-c-de-3.">Quellen</a></li>
+  	<ol>
+    	<li><a href="#anchor-c-de-3.1">IDE Entwicklungsumgebung</a></li>
+    	<li><a href="#anchor-c-de-3.2">Verarbeitung starten</a></li>
+    	<li><a href="#anchor-c-de-3.3">Analyse einzelner Formate</a></li>
+    	<li><a href="#anchor-c-de-3.4">Aufbau</a></li>
+    </ol>
+  	<li><a href="#anchor-c-de-4.">Ressourcen</a></li>
+ </ol> 
+</div>
+
+<h3 id="anchor-c-de-1.">1. Fehlerverfolgung und offene Aufgaben</h3>
+Bekannte Aufgaben und Fehler können <a href="https://github.com/OpenSeaMap/depth_webfrontend/issues/">hier</a> gefunden werden.<br>
+Fehlfunktionen der Webseite können dort gemeldet werden.
+Auch können dort Fehler gemeldet werden, die möglicherweise von den Serverteilen stammen.<br>
+Wenn Sie der Meinung sind, dass Ihre Tracks nicht korrekt verarbeitet wurden, erstellen 
+Sie bitte eine Fehlermeldung und geben Sie die Track-ID der Datei an, die den Fehler enthält.
+
+<h3 id="anchor-c-de-2.">2. Server Hintergrundverarbeitung</h3>
+Bei der Hintergrundverarbeitung werden die Rohdaten, die OpenSeaMap empfängt, in 
+filterlesbare Datenpunkte umgewandelt, die auf einer Sea-Karte angezeigt werden können.
+Es wurde früh daran gearbeitet, aus diesen Daten Konturlinien zu erstellen.
+Die neuesten Binärdateien finden Sie hier.
+<ul>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86_64.zip" download>Windows x86_64</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86.zip" download>Windows x86_32</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86_64.zip" download>Linux x86_64</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86.zip" download>Linux x86_32</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-macosx.cocoa.x86_64.zip" download>MacOSX</a></li>
+</ul>
+
+<h4 id="anchor-c-de-2.1">2.1 Postgres Datenbank installieren</h4>
+Um die Rohdaten zu verarbeiten, müssen Sie zwei Datenbanken erstellen <a href="https://www.postgresql.org/download/">postgres</a> mit dem zusätzlichen <a href="http://postgis.net/install/">postgis</a> Paket.
+Jede Postgres-Version über 9.0 sollte den Zweck erfüllen. Postgis-Version sollte 2.0 oder höher sein.
+
+<h4 id="anchor-c-de-2.1.1">2.1.1 Linux</h4>
+Führe die folgenden Befehle als postgres "super user" aus (dies ist erforderlich, um die postgis-Erweiterung zu erstellen)
+<pre>psql -d postgres -c "CREATE USER osm WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD 'changeme';"
+psql -d postgres -c "CREATE DATABASE osmapi WITH OWNER = osm ENCODING = 'UTF8'";
+psql -d postgres -c "CREATE DATABASE depth WITH OWNER = osm ENCODING = 'UTF8'";
+psql -d osmapi -c "CREATE EXTENSION postgis;"
+psql -d depth -c "CREATE EXTENSION postgis;"</pre>
+Ein Skript <pre>postgres.sql</pre> das die beiden Datenbanken erstellt, befindet sich im
+Stammordner der Anwendung.
+
+<h4 id="anchor-c-de-2.1.2">2.1.2 Windows</h4>
+Herunterladen und installieren von <a href="https://www.pgadmin.org/download/">PGAdmin</a>. Anmelden als "super user".
+Erstellen Sie ein Benutzer "osm" mit dem Kennwort "changeme" und aktivieren Sie die Anmelderechte im Dialog.<br>
+<img src="images/NewUser.png"/><br/>
+Erstellen Sie eine neue Datenbank, die dem Benutzer "osm" gehört
+<img src="images/CreateDatabase.png"/><br/>
+Erstellen Sie zwei Datenbanken "osmapi" und "depth"
+<img src="images/CreateDatabaseOSMAPI.png"/><br/>
+Installieren Sie die Postgis-Erweiterung für jede Datenbank
+<img src="images/CreateExtension.png"/><br/>
+
+<ul>
+	<li>Optional: Für die Aktualisierung von Pegelständen (dies ist standardmäßig nicht 
+	erforderlich) benötigen Sie eine vollständige openstreetmap-Datenbank. Anweisungen zum 
+	Einrichten einer solchen Datenbank finden Sie hier 
+	<a href="http://wiki.openstreetmap.org/wiki/Setting_up_a_local_copy_of_the_OpenStreetMap_database,_kept_up_to_date_with_minutely_diffs">.</a></li>
+</ul>
+
+<h4 id="anchor-c-de-2.2">2.2 Konfiguration</h4>
+Die Hintergrundverarbeitung basiert auf einer höchst modularen Komponentenarchitektur, 
+die auf OSGi basiert und über OSGi konfiguriert ist.
+Jeder der <a href=#documentation>dokumentierten</a> Schritte kann aktiviert oder deaktiviert werden.
+In den Konfigurationsdateien finden Sie detaillierte Optionen. Löschen Sie eine 
+Konfigurationsdatei, oder benennen Sie sie um, wenn Sie eine bestimmte Systemkomponente 
+deaktivieren möchten.
+
+<h4 id="anchor-c-de-2.2.1">2.2.1 Datenbank Anfragen</h4>
+Sie benötigen zwei Datenbanken. Eine davon enthält die aufgezeichneten Rohdaten der Benutzer. Die andere Databank enthält Metainformationen, z. B. den ursprünglichen Dateinamen.<br>
+
+Es gibt zwei Möglichkeiten, die Rohdaten abzurufen (derzeit sind das ~150GB).
+<ul>
+	<li>Laden Sie die Rohdaten über <a href="/torrent/torrents.zip">bittorrent</a> herunter, 
+		entpacken Sie diese Datei und fügen Sie sie Ihrem bevorzugten Torrent-Client hinzu. 
+		Bitte teilen Sie die Daten mit anderen Entwicklern, da unsere Bandbreite sehr 
+		begrenzt ist. Laden Sie die <a href="/dump">Metadaten</a> per Web-Download herunter.</a></li>
+	<li>Werden Sie auf Anfrage ein Mitwirkender am Projekt und laden Sie die Rohdaten und 
+		SQL-Schema-Dumps direkt herunter</li>
+</ul>
+<br>
+
+Wenn Sie eine frühe Auswertung der Backend-Verarbeitung durchführen möchten, laden Sie 
+einen Torrent mittlerer Größe herunter und den dazugehörigen vollständigen Metadaten-Dump. 
+Ändern Sie den basedir -Parameter in 
+net.sf.seesea.track.persistence.database.DatabaseTrackPersistence.cfg und 
+net.sf.seesea.content.impl.ContentDetector.cfg in Ihren Torrent-Download-Speicherort.
+Die Software verarbeitet die verfügbaren Daten und generiert dafür Datenpunkte.
+<br>
+
+Um das Herunterladen von Dateien zu konfigurieren, konfigurieren Sie direkt die Datei 
+<pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
+<pre>user=youruser
+password=yourpassword
+checkSSLCertificate=false
+apiURL=https://depth.openseamap.org:8443/org.osm.depth.upload/api2/track
+storageLocation=data
+trackRange=1000,2000
+</pre>
+
+Sie müssen Ihren API-Benutzernamen und Ihr Kennwort angeben, das Sie auch für die Website 
+depth.openseamap.org verwenden. Anfangs ist die Synchronisierung so konfiguriert, dass die 
+Track-Datei-ID von 1000 bis 2000 heruntergeladen wird, um die Auswirkungen auf die 
+Bandbreite zu begrenzen.
+Kommentieren Sie den Track-Range-Parameter, um alle Tracks abzurufen. Die SQL-Daten werden 
+immer vollständig heruntergeladen. Die SQL-Daten enthalten die gesamte Datenbank ausgenommen
+Datenschutz relevanter Informationen. Der Server aktualisiert diese Datei täglich, sodass 
+sie möglicherweise nicht die neuesten Informationen enthält.
+
+<h4 id="anchor-c-de-2.2.2">2.2.2 Inhaltserkennung</h4>
+Die Inhaltserkennung bestimmt die Inhaltstypen und die Komprimierung von Dateien und 
+speichert das Erkennungsergebnis wiederum permanent ab. Da der Speichermechanismus wählbar 
+ist, muss der Speichermechanismus ebenfalls konfiguriert werden.
+
+Falls Sie das Kennwort der Datenbank so geändert haben, dass es sich von 'changeme' 
+unterscheidet, konfigurieren Sie die
+<pre>net.sf.seesea.data.io.postgis.PostgresDatasourceConfiguration-*</pre> 
+Dateien und stellen Sie das Kennwort entsprechend ein.
+
+<h4 id="anchor-c-de-2.2.3">2.2.3 Filterung</h4>
+Standardmäßig ist die ungefilterte Verarbeitung aktiviert, so dass keine Korrektur der 
+Bootssensorfunktion, Tieden-Korrektur oder ausgefeilte Filterung erfolgt. Um ein schnelles 
+Ergebnis auf einer GUI zu erhalten, werden die Daten in vier Datenbanktabellen geschrieben, 
+in denen nur "trackpoints_raw_filter_16" alle Daten speichert. Die anderen abgetastete Daten 
+werden entsprechend der Zoomstufe der Karte speichern.
+Dies ist konfiguriert in <pre>net.sf.seesea.data.io.postgis.PostInsertGISWriter.cfg</pre>
+<pre># Konfiguriert die Tabellen, in die geschrieben werden soll. Mehrere Tabellen
+ermöglichen das schnelle Rendern abgetasteter Datenpunkte
+outputTables=trackpoints_raw_filter_16,trackpoints_raw_filter_12,trackpoints_raw_filter_10,trackpoints_raw_filter_8
+# Gibt die permanente Ausgabe an, die von der Filter-Engine verwendet wird
+id=filter1
+</pre>
+Die ungefilterte Verarbeitung selbst ist konfiguriert in 
+<pre>net.sf.seesea.data.postprocessing.filter.UnfilteredMeasurementProcessor.cfg</pre>
+Es deaktiviert die Korrektur des Schiffssensors und konfiguriert die permanente Ausgabenkennung, 
+in der der Filter seine Ausgangsdaten speichert.
+
+<h4 id="anchor-c-de-2.2.4">2.2.4 Tiefenprofil erzeugen</h4>
+Die Konturengenerierung ist derzeit deaktiviert. Wenn Sie sich die Quellen ansehen, gibt 
+es einige auf Basis der Triangulation erzeugte Konturlinien. 
+
+Die Bearbeitung dauert mehrere Stunden. Wenn Sie Filterergebnisse sehen möchten, 
+empfehlen wir das kostenlose <a href="http://www.qgis.org/">Quantum GIS</a> Werkzeug, um 
+einige Visualisierungen zu erhalten. 
+
+<h3 id="anchor-c-de-3.">3. Quellen</h3>
+Die <a href="https://github.com/OpenSeaMap/depth_webfrontend.git">Web-Seite</a> wird bei Github bereitgestellt<br>
+Die Quellen für den <a href="http://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/">Server</a> 
+können bei SourceForge gefunden werden.<br>
+
+Die Konfiguration wird in der IDE Entwicklungsumgebung im Projektordner 
+net.sf.seesea.data.processing.feature/rootfiles/config gespeichert.
+
+<h4 id="anchor-c-de-3.1">3.1 IDE Entwicklungsumgebung</h4>
+Die Hintergrund-Verarbeitung kann mit der Eclipse-IDE entwickelt werden. Führen Sie die 
+folgenden Schritte aus, um die IDE einzurichten:
+<ul>
+	<li><a href="http://www.oracle.com/technetwork/java/javase/overview/index.html"> Java herunterladen</a></li>
+	<li><a href="https://www.eclipse.org/downloads/index.php?show_instructions=TRUE"> Eclipse herunter laden und das Installations-Skript</a></li>
+	<li>Starte das Installations-Skript</li>
+	<li>Wähle "Advanced Mode" aus</li>
+	<li>Aus dem Zweig "Eclipse.org" wählen Sie entweder die "Java EE Developers" oder die "Eclipse Committers" Version aus und drücken "Next"</li>
+	<li><a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.installers.depth/OpenSeaMapDepthBackendprocessing.setup">Laden</a> Sie die Setup-Datei herunter und legen Sie diese im Projektordner ab.</li>
+	<li>Beenden Sie den Assistenten und warten Sie, bis die Installation abgeschlossen ist</li>
+	<li><a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.installers.depth/projectSet.psf">Importieren</a> Sie das gewünschte Teilprojekt</a></li>
+</ul>
+<br>
+
+<h4 id="anchor-c-de-3.2">3.2 Verarbeitung starten</h4>
+<ul>
+	<li>Navigieren Sie zum Projekt net.sf.seesea.postprocess.product</li>
+	<li>Doppelklicken Sie auf net.sf.seesea.postprocess.product</li>
+	<li>Ändern Sie den Befehlszeilenparameter in -Dfelix.fileinstall.dir=${workspace_loc}\net.sf.seesea.data.processing.feature\rootfiles\config</li>
+	<li>Starten Sie eine Eclipse-Anwendung oder Starten Sie eine Eclipse-Anwendung im Debug-Modus</li>
+</ul>
+
+<h4 id="anchor-c-de-3.3">3.3 Analyse einzelner Formate</h4>
+Sie können sich einzelne Dateien schnell ansehen, um deren Inhalt zu analysieren oder die 
+darin gespeicherten Daten zu decodieren. Sie möchten beispielsweise analysieren, warum 
+eine bestimmte Datei nicht verarbeitet wurde, und die gespeicherten Daten anzeigen. 
+Ein anderes Beispiel könnte sein, dass einige der Dateien 1D-Tiefendaten oder 
+Meeresboden-Scandaten enthalten, die derzeit nicht von OpenSeaMap verwendet werden. 
+Oder Sie möchten eine beeindruckendes Karten-Overlay mit diesen Daten erstellen. 
+Windgeschwindigkeiten können sogar für wetterbezogene Analysen interessant sein.<br>
+
+Die verschiedenen Dateiformate wie ADM, FSH, GPX, SON, NMEA und SL2 werden in den 
+entsprechenden net.sf.seesea.provider Paketen analysiert. Jedem Paket ist ein Test-Plugin 
+zugeordnet. Es enthält Testmethoden und einen Ordner res, in dem einige Dateien für 
+Referenztests gespeichert werden. Sie können die Testmethode leicht ändern, um auf eine 
+andere Datei zu verweisen und somit eine weitere Analyse durchzuführen.
+Führen Sie diesen Test aus über: "right click -> Run as Junit - Test". 
+Auf diese Weise müssen Sie keinen vollständigen Durchlauf durchführen, um einige Details zu analysieren.
+
+<h4 id="anchor-c-de-3.4">3.4 Aufbau</h4>
+Laden Sie den Quellcode:
+<pre>svn co http://svn.code.sf.net/p/seesea/code/trunk</pre>
+Wechseln Sie das Verzeichnis zum Aggregator:
+<pre>cd net.sf.seesea.aggregator</pre>
+Führen Sie den "maven based build" aus
+<pre>mvn clean verify</pre>
+
+<h3 id="anchor-c-de-4">4. Ressourcen</h3>
+Die Entwicklerkommunikation erfolgt über die <a href="mailto:openseamap-develop@lists.sourceforge.net">E-Mail Liste</a>.<br>
+Die Dokumentation finden Sie im <a href="http://wiki.openseamap.org/wiki/OpenSeaMap-dev:Portal">OpenSeaMap Developer Wiki</a>.
+Einige Dateiformate werden im <a href="http://wiki.openstreetmap.org/wiki/SL2">OpenStreetMap Wiki</a> beschrieben.
+
+</body>
+</html>
