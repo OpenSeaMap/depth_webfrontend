@@ -39,7 +39,7 @@ OSeaM = {
     
     init: function() {
 		// alert ( "apiUrl: " + this.apiUrl );
-		$.ajaxSetup({ beforeSend: addCredsToRequest })							// function in oseam-models-auth
+//		$.ajaxSetup({ beforeSend: addCredsToRequest })							// function in oseam-models-auth
         OSeaM.configureBackboneSync();											//RKu: set up the server communication defaults
         this.frontend = new OSeaM.models.Frontend();							//RKu: define the business logic of the initial frontend functions (oseam-models-frontend.js)
         if(localStorage.language == null) {

@@ -18,9 +18,11 @@ OSeaM.views.Welcome = OSeaM.View.extend({
         OSeaM.frontend.on('change:language', this.render, this);
     },
     render: function() {
+		var usermodel = OSeaM.frontend.getUser();
         var language = OSeaM.frontend.getLanguage();
         var template = OSeaM.loadTemplate('welcome-' + language);
-        var content = $(template());
+        var content = $(template({
+			firstname: usermodel.attributes.forname }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
         return this;

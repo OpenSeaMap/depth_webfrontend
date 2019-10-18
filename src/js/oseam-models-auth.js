@@ -11,18 +11,20 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
 
+/*
 function addCredsToRequest( xhr )
 {
 	var sessionUser = sessionStorage.getItem( "oseam_username" );
 	var sessionPassword = sessionStorage.getItem( "oseam_password" );
 	if ( sessionUser && sessionPassword )
 		xhr.setRequestHeader( 'Authorization', 'Basic '.concat( btoa( sessionUser + ":" + sessionPassword ) ) );
-	/*
+	/ *
 	var basicCredentials = sessionStorage.getItem( "basicCredentials" );
 	if ( basicCredentials )
 		xhr.setRequestHeader( 'Authorization', 'Basic '.concat( basicCredentials ));
-	*/
+	* /
 }
+*/
 
 OSeaM.models.Auth = Backbone.Model.extend({
 	/*
@@ -109,13 +111,75 @@ OSeaM.models.Auth = Backbone.Model.extend({
             error: function(data){ this.trigger('passwordResetFailure', data); },
         });
     },
+	
+	
+	
+	
+    logon: function(params) {
+		
+        var params2 = {																//RKu: Parameter für den POST an TomCat setzen
+            j_username : params.username,
+            j_password : params.password
+        };
+
+		var self=this;
+		
+        jQuery.ajax({
+            type: 'POST',
+            url: OSeaM.apiUrl + 'j_security_check',
+            contentType: "application/x-www-form-urlencoded",
+            data: params2,
+            context: this,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(data, success, jqXHR)
+			{ 	
+				if ( data == "ok" )
+				{
+					self.onLoginSuccess(); 
+					sessionStorage.setItem( "oseam_username", params.username );
+				}
+				else
+					self.onLoginError( jqXHR, "error", "error" ); 
+			},
+            error: function(jqXHR, textStatus, errorThrown)
+			{ 
+				self.onLoginError(jqXHR, textStatus, errorThrown); 
+			},
+        });
+    },
+
+    login: function(params) {
+		
+        var params2 = 
+		{																//RKu: Parameter für den POST an TomCat setzen
+        };
+		
+		var self=this;
+		
+        jQuery.ajax({
+            type: 'GET',
+            url: OSeaM.apiUrl + 'auth/logindummy',
+//            data: params2,
+            context: this,
+//            xhrFields: {
+//                withCredentials: true
+//            },
+            success: function(data){ self.logon( params ) },
+            error: function(data){ this.trigger('passwordResetFailure', data); },
+        });
+    },
+	
     
-    login: function(params) {												//RKu: um zu sehen warum der Server nicht positiv antwortet
+    oldloginlogin: function(params) {												//RKu: um zu sehen warum der Server nicht positiv antwortet
         this.set({username : params.username});								//RKu: muss das zusammen mit dem TomCat debugged werden
 
+		/*
 		sessionStorage.setItem( "oseam_username", params.username );
 		sessionStorage.setItem( "oseam_password", params.password );
 		$.ajaxSetup({ beforeSend: addCredsToRequest })		
+		*/
 		
         jQuery.ajax({
             type: 'GET',
@@ -164,27 +228,28 @@ OSeaM.models.Auth = Backbone.Model.extend({
 		/*  4 the time being, there is no logout url on the server. 
 			Since the server does not hold sessions anyway, this is not necessary.
 			so simply invalidate the cached credentials and re-load the page */
+		/*
 		sessionStorage.removeItem( 'oseam_username' );
 		sessionStorage.removeItem( 'oseam_password' );
 		
 		this.onLogoutSuccess();
-		/*
+		*/
+		
         jQuery.ajax({
             type: 'POST',
             url: OSeaM.apiUrl + 'auth/logout',
-            dataType: 'json',
+//            dataType: 'json',
             context: this,
             xhrFields: {
                 withCredentials: true
             },
             success: this.onLogoutSuccess,
             error: this.onLogoutError			// Original Zeile
-//            error: this.onLogoutSuccess			// RKu: nur zum Test: diese Zeile muss wieder raus.
         });
-		*/
     },
     
     onLogoutSuccess: function(data, success, jqXHR) {
+		sessionStorage.removeItem( 'oseam_username' );
         this.trigger('logoutSuccess', data);
         this.setAuthenticated(false);
         OSeaM.frontend.startView('Goodby');									//RKu: call OSeaM.views.Contact (new .js)
