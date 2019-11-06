@@ -24,19 +24,35 @@ OSeaM.views.User = OSeaM.View.extend({
     },
     render: function() {
         var language = OSeaM.frontend.getLanguage();
-        var template = OSeaM.loadTemplate('user-' + language);					//RKu: default language is "en"
-        var checked = this.model.get('acceptedEmailContact');                   //RKu: look at the model if the user wants to get eMails
-        if (checked == true){checked = 'checked'}else{checked = 'null'}         //RKu: update the view according the user expectation
+        var template = OSeaM.loadTemplate('user-' + language);					// default language is "en"
         var content = $(template( {
             user_name      : this.model.get('user_name'),						//RKu:
             forename       : this.model.get('forname'),
             surname        : this.model.get('surname'),
             organisation   : this.model.get('organisation'),
             phone          : this.model.get('phone'),							//RKu: this is just a temporary solution as long bfhphone is not really working
-            acceptedEmailContact   : checked                                    //RKu: set 'checked' or 'null' at the handlebars template to show the status of the tickbox 
+            acceptedEmailContact   : this.model.get('acceptedEmailContact')
         }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
+        
+        // RKu: das Captcha soll nur einmal abgefragt werde ... durch die verschiedenen Events kommt es vor, dass es mehrfach erscheint
+        // RKu: das muss ic noch besser machen bzw ganz weg lassen, da der PW Change ohnehin nur in eingeloggten Zustand möglich ist
+        var that = this;														//RKu: save me the right context
+        jQuery.ajax({															//RKu: request a captcha from server
+            type: 'POST',
+            url: OSeaM.apiUrl + 'users/captcha',
+            contentType: "application/json",
+            dataType: 'json',
+
+            success:	function(data){											//RKu: show requested Captcha
+                            that.removeCaptcha(data);
+                            that.replaceCaptcha(data) },
+            error:		function(xhr, textStatus, error){						//RKu: implement error handling
+            				xhr.status;
+            				xhr.responseText;
+							that.NoCaptchaError(xhr); }
+        });
         
         $('#countries').bfhcountries({country: this.model.get('country')});
         $('#languages').bfhlanguages({language: this.model.get('language')});
@@ -58,8 +74,7 @@ OSeaM.views.User = OSeaM.View.extend({
             organisation:document.getElementById("organisation").value,
             country     :document.getElementById("countries").value,
             language    :document.getElementById("languages").value,
-            phone       :document.getElementById("phones").value,
-            acceptedEmailContact :document.getElementById("acceptedEmailContact").checked
+            phone       :document.getElementById("phones").value
             });
             
         var params = this.model.attributes;
@@ -74,73 +89,44 @@ OSeaM.views.User = OSeaM.View.extend({
         console.log('Profile update ' +											//RKu: only for testing purpes
                '\nVorname : '  + this.model.attributes.forname +
                '\nNachname : ' + this.model.attributes.surname +
-               '\nacceptEmail : ' + this.model.attributes.acceptedEmailContact +
                '\nTelefon : '  + this.model.attributes.phone);
     },
     
     onPasswordUpdate: function () {												//RKu neu:
+        this.removeCaptcha();
         console.log('Password update ' +
                '\n... aber soweit sind wir noch nicht ...');
-        
-        var params ={
-                    oldPassword  : document.getElementById("oldPassword").value,
-                    neuPassword1 : document.getElementById("newPassword").value,
-                    neuPassword2 : document.getElementById("newPassword2").value
-                    };
-
-        this.checkPassword(params);
-        
-        if (this.isValid){
-            console.log('Password valid');
-
-            params.oldPassword  = jQuery.encoding.digests.hexSha1Str(params.oldPassword).toLowerCase();		    // password encryption
-            params.neuPassword1 = jQuery.encoding.digests.hexSha1Str(params.neuPassword1).toLowerCase();		// password encryption
-            params.neuPassword2 = jQuery.encoding.digests.hexSha1Str(params.neuPassword2).toLowerCase();		// password encryption
-            
-            console.log('Old Password : ' + params.oldPassword +
-                     '\nNew Password1 : ' + params.neuPassword1 +
-                     '\nNew Password2 : ' + params.neuPassword2);
-
-            var data = {oldPassword:params.oldPassword, newPassword:params.neuPassword1};
-//            var data = [params.oldPassword, params.neuPassword1];
-            jQuery.ajax({
-                type: 'POST',
-                url: OSeaM.apiUrl + 'users/changepass',
-                contentType: "application/x-www-form-urlencoded",
-                data: data,
-                datatype: 'json',
-                context: this,
-//                xhrFields: {
-//                    withCredentials: true
-//                },
-                success: function(data){ this.trigger('passwordResetSuccess', data); },
-                error: function(data){ this.trigger('passwordResetFailure', data); }
-            });
-        };
     },
     
-    checkPassword: function(params){
+    NoCaptchaError: function(xhr) {												//RKu: ++ this error message handler was missing
         this.removeAlerts();
         var errors = [];
-        if (params.neuPassword1 !== params.neuPassword2){
-            errors.push('1017:Password verification');
-            this.isValid = false;
-            };
 
-        if ((params.neuPassword1.length < 8) || (params.neuPassword2.length < 8)){
-            errors.push('1012:At least 8 characters');
-            this.isValid = false;
-            };
-            
-        if (this.isValid !== true) {
-            var template = OSeaM.loadTemplate('alert');
-            var content  = $(template({
-                title:'1027:Validation error occured',
-                errors:errors
-            }));
-            OSeaM.frontend.translate(content);
-            this.$el.find('legend').after(content);
-            };
+        if ((xhr.status) == 0) {errors.push('2000:Could not find a server with the given host name')}
+        if ((xhr.status) == 400) {errors.push('2400:Status 0 Server understood the request, but request content was invalid.')}
+        if ((xhr.status) == 401) {errors.push('2401:Status 401 Unauthorized access.')}
+        if ((xhr.status) == 403) {errors.push('2403:Status 403 Forbidden resource cannot be accessed.')}
+        if ((xhr.status) == 404) {errors.push('2404:Status 404 This service is unavailable.')}
+        if ((xhr.status) == 500) {errors.push('2500:Status 500 Internal server error.')}
+        if ((xhr.status) == 503) {errors.push('2503:Status 503 This service is unavailable.')}
+//		wenn nicht dann {errors.push('2510: Unknown error.')}
+        errors.push('1410:no Captcha received from Server');
+			
+        var template = OSeaM.loadTemplate('alert');
+        var content  = $(template({
+            title:'1030:Server error occured.',
+            errors:errors
+        }));
+        OSeaM.frontend.translate(content);
+        this.$el.find('legend').after(content);
+    },																			//RKu: -- this error message handler was missing
+    
+    replaceCaptcha: function(data) {
+    	this.$el.find('#captcha').removeClass('loading').append('<img id="captcha" src="data:image/png;base64,' + data.imageBase64 + '"/>')
+    },
+    
+    removeCaptcha: function() {
+    	this.$el.find('#captcha').removeClass('loading')
     },
     
     removeAlerts: function() {
@@ -151,6 +137,5 @@ OSeaM.views.User = OSeaM.View.extend({
         this.isValid = true;
     }
 
+
 });
-
-

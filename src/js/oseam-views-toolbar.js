@@ -16,10 +16,10 @@ OSeaM.views.ToolBar = OSeaM.views.Logindlg.extend({
     events: {
         'click .oseam-language' : 'onLanguageSelect',
         'click .oseam-profile'  : 'onProfileSelect',								//RKu: event triggered from dropdown Logout button in toolbar.handlebares
-        'submit form.oseam-profile'           : 'onFormSubmit'									//RKu: event triggered from submit button in toolbar.handlebares
+        'submit form.oseam-profile' : 'onFormSubmit'								//RKu: event triggered from submit button in toolbar.handlebares
     },
     initialize: function() {														//RKu: bind trigger events to function
-        this.model.bind('loggedIn', this.onLoggedIn, this);
+        this.model.bind('loggedIn', this.onLoggedIn, this);							//RKu: trigger set by function "setAuthenticated"
         this.model.bind('loggedOut', this.onLoggedOut, this);
     },
     render: function() {
@@ -113,7 +113,10 @@ OSeaM.views.ToolBar = OSeaM.views.Logindlg.extend({
     },
     */
     onLoggedIn: function(username) {												//RKu: toolbar umbauen => alle Felder und Buttons weg; nur noch username anzeigen
-        this.displayFieldUsername.html(this.model.getUsername());
+//        this.displayFieldUsername.html(this.model.getUsername());					//???
+//        this.displayFieldUsername.html(usermodel.attributes.user_name);
+        var elements = document.getElementById("oseam-4");							//RKu: {{idUsernameReadOnly}} Field to be filled
+        elements.innerHTML = document.getElementById("oseam-1").value;				//RKu: field where to get user_name at this point in time, as the model is not symced jet
         this.formAuthenticated.show();												//RKu: toggel visability: see toolbar.handlebars line 23 and 31
         this.formNotAuthenticated.hide();
     },

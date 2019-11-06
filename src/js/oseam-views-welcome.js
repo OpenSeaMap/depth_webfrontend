@@ -25,6 +25,8 @@ OSeaM.views.Welcome = OSeaM.View.extend({
 			firstname: usermodel.attributes.forname }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);
+//        var elements = document.getElementById("oseam-4");					//RKu: {{idUsernameReadOnly}}
+//        elements.innerHTML = usermodel.attributes.user_name;				//RKu:
         return this;
     }
 });

@@ -8,7 +8,7 @@
         <h5>Verwalten Sie Ihre Benutzerdaten</h5> -->
         
 <!--        <form name="user" class="form-horizontal">  -->
-        <form name="user">
+<!--        <form name="user">  -->
         <div class="control-group">
             <p><label class="tableft50a">E-Mail*</label></p>
             <div class="input-append">
@@ -40,7 +40,8 @@
         <div class="control-group">
             <p><label class="tableft50a">Sie dürfen mich per E-Mail kontaktieren</label></p>
             <div class="input-append">
-                <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact" checked="{{acceptedEmailContact}}"/>&nbsp;
+<!--                <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact" checked="{{acceptedEmailContact}}"/>&nbsp;  -->
+                <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact" {{acceptedEmailContact}} />&nbsp;
             </div>
         </div>
 
@@ -62,33 +63,53 @@
             <p><label class="tableft50a">Telefon</label></p>
             <div class="input-append">
         <!--    <input name="phone" id="phones" type="text" class="form-control bfh-phone" data-country="countries"/>  -->
-                <input name="phone" id="phone" type="text" class="form-control bfh-phone" data-country="countries"  placeholder="z.B. 0049 221 8853"/>
+        <!--    <input name="phone" id="phones" type="text" class="form-control bfh-phone" data-country="countries"  placeholder="z.B. 0049 221 8853"/>  -->
+                <input name="phone" id="phones" type="text" value="{{phone}}"  placeholder="z.B. 0049 221 8853-xxx"/>
             </div>
         </div>
         
-        </form>
-        <!--		<form name="resetpassword">
-                <div class="control-group">
-            <div class="controls">
-                <input type="password" id="oldPassword" data-trt-placeholder="1017:Altes Password"/>
-                <span class="help-inline"></span>
-            </div>
-        </div>
-        <div class="control-group" style="margin-bottom:5px">
-            <label class="control-label" for="{{idPassword1}}" data-trt="1005:Passwort">*</label>
-            <div class="controls">
-                <input type="password" id="newPassword" name="newPassword" data-trt-placeholder="1005:Password"/>
-                <span class="help-inline"></span>
-            </div>
-        </div>
         <div class="control-group">
-            <div class="controls">
-                <input type="password" id="newPassword2" data-trt-placeholder="1017:Passwort Verifizierung"/>
-                <span class="help-inline"></span>
-            </div>
+            <br>
+            <button class="btn btn-primary" id="profile-update">Profile Änderung übernehmen</button>
+            <br>
+        </div>
+<!--        </form>  RKu: die form als solche brauchen wir nicht-->
+        
+        
+<!--        <form name="resetpassword">  RKu: die form als solche brauchen wir nicht-->
+        <div class="control-group"><br><br>
+            <p><label class="tableft50a">Altes Passwort</label></p>
+                <div class="controls">
+                    <input type="password" id="oldPassword" data-trt-placeholder="1005:Altes Password"/>
+                    <span class="help-inline"></span>
+                </div>
         </div>
         
-        </form>-->
+        <div class="control-group" style="margin-bottom:5px">
+            <p><label class="tableft50a">Neues Passwort</label></p>
+                <label class="control-label" for="{{idPassword1}}"></label>
+                <div class="controls">
+                    <input type="password" id="newPassword" name="newPassword" data-trt-placeholder="1005:Password"/>
+                    <span class="help-inline"></span>
+                </div>
+        </div>
+        
+        <div class="control-group">
+            <p><label class="tableft50a">Neues Passwort wiederholen</label></p>
+                <div class="controls">
+                    <input type="password" id="newPassword2" data-trt-placeholder="1017:Passwort Verifizierung"/>
+                    <span class="help-inline"></span>
+                </div>
+        </div>
+        
+        <div class="control-group">
+            <br>
+            <button class="btn btn-primary" id="password-update">Passwort Änderung übernehmen</button>
+            <br>
+        </div>
+
+<!--        </form>  -->
+        
 <!--    </div>
 
 </div> -->

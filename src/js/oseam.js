@@ -33,7 +33,7 @@ OSeaM = {
     container: null,
     frontend: null,
     router: null,
-//	apiUrl: /org.osm.depth.upload/api2/,
+//	apiUrl: 'http://localhost:8080/org.osm.depth.upload/api2/',
 	apiUrl: GetApiUrl(),
     autoId: 0,
     
