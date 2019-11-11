@@ -68,10 +68,16 @@ OSeaM.views.User = OSeaM.View.extend({
             url: OSeaM.apiUrl + 'users/update',
             type: 'PUT',														//RKu: PUT means update data at an existing server model
             success: function (model,response){console.log('Profile erfolgreich gespeichert')},
-            error:   function (model,error){console.log('look at error.responseText');
+            error:   function (model,error){
+                if (error.status == 200){
+                    console.log('Profile erfolgreich gespeichert');
                     var element1 = document.getElementById("profile-update");
                     element1.innerHTML = 'erledigt';
                     element1.style.backgroundColor = '#01DF01';
+                }else{
+                    console.log('look at error.responseText');
+                    }
+
                 }
             });																	//RKu: ... so we can send the new Data to the server Database
             
