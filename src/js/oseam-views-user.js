@@ -68,7 +68,11 @@ OSeaM.views.User = OSeaM.View.extend({
             url: OSeaM.apiUrl + 'users/update',
             type: 'PUT',														//RKu: PUT means update data at an existing server model
             success: function (model,response){console.log('Profile erfolgreich gespeichert')},
-            error:   function (model,error){console.log('look at error.responseText')}
+            error:   function (model,error){console.log('look at error.responseText');
+                    var element1 = document.getElementById("profile-update");
+                    element1.innerHTML = 'erledigt';
+                    element1.style.backgroundColor = '#01DF01';
+                }
             });																	//RKu: ... so we can send the new Data to the server Database
             
         console.log('Profile update ' +											//RKu: only for testing purpes
@@ -76,6 +80,7 @@ OSeaM.views.User = OSeaM.View.extend({
                '\nNachname : ' + this.model.attributes.surname +
                '\nacceptEmail : ' + this.model.attributes.acceptedEmailContact +
                '\nTelefon : '  + this.model.attributes.phone);
+               
     },
     
     onPasswordUpdate: function () {												//RKu neu:
@@ -113,7 +118,11 @@ OSeaM.views.User = OSeaM.View.extend({
 //                xhrFields: {
 //                    withCredentials: true
 //                },
-                success: function(data){ this.trigger('passwordResetSuccess', data); },
+                success: function(data){ this.trigger('passwordResetSuccess', data);
+                        var element2 = document.getElementById("password-update");
+                        element2.innerHTML = 'erledigt';
+                        element2.style.backgroundColor = '#01DF01';
+                },
                 error: function(data){ this.trigger('passwordResetFailure', data); }
             });
         };
