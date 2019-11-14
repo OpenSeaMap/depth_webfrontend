@@ -10,6 +10,9 @@
 // You should have received a copy of the CC0 Public Domain Dedication along
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 // -------------------------------------------------------------------------------------------------
+//
+// With major rework plus addons from Richard Kunzmann
+//
 
 OSeaM.views.User = OSeaM.View.extend({
     events : {																	//RKu neu:
@@ -21,6 +24,8 @@ OSeaM.views.User = OSeaM.View.extend({
         OSeaM.frontend.on('change:language', this.render, this);
         this.listenTo(this.model, 'change', this.render);
         this.model.fetch();
+        this.flagProfile = false;
+        this.flagPasswd = false;
     },
     render: function() {
         var language = OSeaM.frontend.getLanguage();
@@ -51,87 +56,110 @@ OSeaM.views.User = OSeaM.View.extend({
     },
     
     onProfileUpdate: function () {												//RKu neu:
-        
-        this.model.set({														//RKu: set the new Data into the current user profile model
-            forname: document.getElementById("forename").value,
-            surname: document.getElementById("surname").value,
-            organisation:document.getElementById("organisation").value,
-            country     :document.getElementById("countries").value,
-            language    :document.getElementById("languages").value,
-            phone       :document.getElementById("phones").value,
-            acceptedEmailContact :document.getElementById("acceptedEmailContact").checked
-            });
+        if (this.flagProfile == false){
+            this.model.set({														//RKu: set the new Data into the current user profile model
+                forname: document.getElementById("forename").value,
+                surname: document.getElementById("surname").value,
+                organisation:document.getElementById("organisation").value,
+                country     :document.getElementById("countries").value,
+                language    :document.getElementById("languages").value,
+                phone       :document.getElementById("phones").value,
+                acceptedEmailContact :document.getElementById("acceptedEmailContact").checked
+                });
             
-        var params = this.model.attributes;
+            var params = this.model.attributes;
         
-        this.model.save(params,{
-            url: OSeaM.apiUrl + 'users/update',
-            type: 'PUT',														//RKu: PUT means update data at an existing server model
-            success: function (model,response){console.log('Profile erfolgreich gespeichert')},
-            error:   function (model,error){
-                if (error.status == 200){
-                    console.log('Profile erfolgreich gespeichert');
-                    var element1 = document.getElementById("profile-update");
-                    element1.innerHTML = 'erledigt';
-                    element1.style.backgroundColor = '#01DF01';
-                }else{
-                    console.log('look at error.responseText');
+            this.model.save(params,{
+                url: OSeaM.apiUrl + 'users/update',
+                type: 'PUT',														//RKu: PUT means update data at an existing server model
+                success: function (model,response){console.log('Profile erfolgreich gespeichert')},
+                error:   function (model,error){
+                    if (error.status == 200){
+//                        console.log('Profile erfolgreich gespeichert');
+                        var element1 = document.getElementById("profile-update");
+                        element1.innerHTML = OSeaM.frontend.getPhrase('1205:Benutzer Profil erfolgreich abgeändert');
+                        element1.className = 'btn btn-success';
+                    }else{
+                        console.log('look at error.responseText');
+                        }
                     }
-
-                }
             });																	//RKu: ... so we can send the new Data to the server Database
-            
+
+        this.flagProfile = true;
+
         console.log('Profile update ' +											//RKu: only for testing purpes
                '\nVorname : '  + this.model.attributes.forname +
                '\nNachname : ' + this.model.attributes.surname +
                '\nacceptEmail : ' + this.model.attributes.acceptedEmailContact +
                '\nTelefon : '  + this.model.attributes.phone);
-               
+        }else{
+//                console.log('Die Funktion geht einmal pro Aufruf des UserProfiles');
+                this.removeAlerts();
+                var template = OSeaM.loadTemplate('alert');
+                var content  = $(template({
+                    title:'1210:Hinweis:',
+                    msg:'1211:Der Profile update kann nur einmal pro Aufruf des UserProfiles durchgeführt werden'
+                }));
+                OSeaM.frontend.translate(content);
+                this.$el.find('legend').after(content);
+             }
     },
     
     onPasswordUpdate: function () {												//RKu neu:
-        console.log('Password update ' +
-               '\n... aber soweit sind wir noch nicht ...');
-        
-        var params ={
-                    oldPassword  : document.getElementById("oldPassword").value,
-                    neuPassword1 : document.getElementById("newPassword").value,
-                    neuPassword2 : document.getElementById("newPassword2").value
-                    };
+        if (this.flagPasswd == false){
+//            console.log('Password update ' +
+//                   '\n... aber soweit sind wir noch nicht ...');
 
-        this.checkPassword(params);
-        
-        if (this.isValid){
-            console.log('Password valid');
+            var params ={
+                        oldPassword  : document.getElementById("oldPassword").value,
+                        neuPassword1 : document.getElementById("newPassword").value,
+                        neuPassword2 : document.getElementById("newPassword2").value
+                        };
 
-            params.oldPassword  = jQuery.encoding.digests.hexSha1Str(params.oldPassword).toLowerCase();		    // password encryption
-            params.neuPassword1 = jQuery.encoding.digests.hexSha1Str(params.neuPassword1).toLowerCase();		// password encryption
-            params.neuPassword2 = jQuery.encoding.digests.hexSha1Str(params.neuPassword2).toLowerCase();		// password encryption
-            
-            console.log('Old Password : ' + params.oldPassword +
-                     '\nNew Password1 : ' + params.neuPassword1 +
-                     '\nNew Password2 : ' + params.neuPassword2);
+            this.checkPassword(params);
 
-            var data = {oldPassword:params.oldPassword, newPassword:params.neuPassword1};
-//            var data = [params.oldPassword, params.neuPassword1];
-            jQuery.ajax({
-                type: 'POST',
-                url: OSeaM.apiUrl + 'users/changepass',
-                contentType: "application/x-www-form-urlencoded",
-                data: data,
-                datatype: 'json',
-                context: this,
-//                xhrFields: {
-//                    withCredentials: true
-//                },
-                success: function(data){ this.trigger('passwordResetSuccess', data);
-                        var element2 = document.getElementById("password-update");
-                        element2.innerHTML = 'erledigt';
-                        element2.style.backgroundColor = '#01DF01';
-                },
-                error: function(data){ this.trigger('passwordResetFailure', data); }
-            });
-        };
+            if (this.isValid){
+//                console.log('Password valid');
+
+                params.oldPassword  = jQuery.encoding.digests.hexSha1Str(params.oldPassword).toLowerCase();		    // password encryption
+                params.neuPassword1 = jQuery.encoding.digests.hexSha1Str(params.neuPassword1).toLowerCase();		// password encryption
+                params.neuPassword2 = jQuery.encoding.digests.hexSha1Str(params.neuPassword2).toLowerCase();		// password encryption
+
+//                console.log('Old Password : ' + params.oldPassword +
+//                         '\nNew Password1 : ' + params.neuPassword1 +
+//                         '\nNew Password2 : ' + params.neuPassword2);
+
+                var data = {oldPassword:params.oldPassword, newPassword:params.neuPassword1};
+                jQuery.ajax({
+                    type: 'POST',
+                    url: OSeaM.apiUrl + 'users/changepass',
+                    contentType: "application/x-www-form-urlencoded",
+                    data: data,
+                    datatype: 'json',
+                    context: this,
+//                    xhrFields: {
+//                        withCredentials: true
+//                    },
+                    success: function(data){ this.trigger('passwordResetSuccess', data);
+                            var element2 = document.getElementById("password-update");
+                            element2.innerHTML = OSeaM.frontend.getPhrase('1207:Benutzer Profil erfolgreich abgeändert');
+                            element2.className = 'btn btn-success';
+                    },
+                    error: function(data){ this.trigger('passwordResetFailure', data); }
+                });
+            };
+        this.flagPasswd = true;
+        }else{
+//                console.log('Die Funktion geht einmal pro Aufruf des UserProfiles');
+                this.removeAlerts();
+                var template = OSeaM.loadTemplate('alert');
+                var content  = $(template({
+                    title:'1210:Hinweis:',
+                    msg:'1212:Die Password Änderung kann nur einmal pro Aufruf des UserProfiles durchgeführt werden'
+                }));
+                OSeaM.frontend.translate(content);
+                this.$el.find('legend').after(content);
+             }
     },
     
     checkPassword: function(params){
@@ -157,7 +185,7 @@ OSeaM.views.User = OSeaM.View.extend({
             this.$el.find('legend').after(content);
             };
     },
-    
+
     removeAlerts: function() {
         this.$el.find('.alert').remove();
         this.$el.find('.control-group').removeClass('error');
