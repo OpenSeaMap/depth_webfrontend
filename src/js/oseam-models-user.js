@@ -13,11 +13,14 @@
 
 OSeaM.models.User = Backbone.Model.extend({
     defaults: {
-        user_Name   : null,
+        user_name   : null,
         forname     : null,
         surname     : null,
+        acceptedEmailContact: null,
+        organisation: null,
         country     : null,
-        language    : null
+        language    : null,
+        phone       : null
     },
     urlRoot: function() {
     	return OSeaM.apiUrl + 'users/current';

@@ -112,7 +112,29 @@ OSeaM.models.Auth = Backbone.Model.extend({
         });
     },
 	
+	//RKu: this is the first step of a "form based authentication" login procedure as described at Java EE tutorial
+	//request of a protected server resource
 	
+    login: function(params) {
+		
+        var params2 = 
+		{																//RKu: Parameter für den POST an TomCat setzen
+        };
+		
+		var self=this;
+		
+        jQuery.ajax({
+            type: 'GET',
+            url: OSeaM.apiUrl + 'auth/logindummy',
+//            data: params2,
+            context: this,
+//            xhrFields: {
+//                withCredentials: true
+//            },
+            success: function(data){ self.logon( params ) },
+            error: function(data){ this.trigger('passwordResetFailure', data); },
+        });
+    },
 	
 	
     logon: function(params) {
@@ -150,27 +172,6 @@ OSeaM.models.Auth = Backbone.Model.extend({
         });
     },
 
-    login: function(params) {
-		
-        var params2 = 
-		{																//RKu: Parameter für den POST an TomCat setzen
-        };
-		
-		var self=this;
-		
-        jQuery.ajax({
-            type: 'GET',
-            url: OSeaM.apiUrl + 'auth/logindummy',
-//            data: params2,
-            context: this,
-//            xhrFields: {
-//                withCredentials: true
-//            },
-            success: function(data){ self.logon( params ) },
-            error: function(data){ this.trigger('passwordResetFailure', data); },
-        });
-    },
-	
     
     oldloginlogin: function(params) {												//RKu: um zu sehen warum der Server nicht positiv antwortet
         this.set({username : params.username});								//RKu: muss das zusammen mit dem TomCat debugged werden
@@ -200,14 +201,18 @@ OSeaM.models.Auth = Backbone.Model.extend({
     },
     
     onLoginSuccess: function(data, success, jqXHR) {
-        this.trigger('loginSuccess', data);								//RKu: the corresponding event handler does not jet exist
-        this.setAuthenticated(true);
-		if ( !OSeaM.router.loginSuccess() )
-			OSeaM.frontend.startView('Welcome');						//RKu: call OSeaM.views.Contact (new .js)
+        var usermodel = OSeaM.frontend.getUser();							//RKu: get the Data of the user profile
+        var r1 = usermodel.fetch();											//RKu: ... so we can get the forname
+        jQuery.when(r1).done(function(){									//RKu: ... as fetch only work async. --> we need to wait a short while until the fetch has completed
+            if ( !OSeaM.router.loginSuccess() )								//RKu: ... now we should have a forname 
+                OSeaM.frontend.startView('Welcome');						//RKu: ... and can call a 'nice welcome'
+        });
+        this.setAuthenticated(true);										//RKu: we have to make sure that all UserData are loaded to the model bevor we can "setAuth=true" and trigger "loggedIN"
+        this.trigger('loginSuccess', data);									//RKu: the corresponding event handler can be fount at "oseam-routers-router"
     },
     
     onLoginError: function(jqXHR, textStatus, errorThrown) {
-        this.trigger('loginFailure', jqXHR);							//RKu: the corresponding event handler does not jet exist
+        this.trigger('loginFailure', jqXHR);								//RKu: the corresponding event handler does not jet exist
 		sessionStorage.removeItem( 'oseam_username' );
 		sessionStorage.removeItem( 'oseam_password' );
 		/*
