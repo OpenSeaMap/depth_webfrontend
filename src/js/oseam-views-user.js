@@ -24,8 +24,8 @@ OSeaM.views.User = OSeaM.View.extend({
         OSeaM.frontend.on('change:language', this.render, this);
         this.listenTo(this.model, 'change', this.render);
         this.model.fetch();
-        this.flagProfile = false;
-        this.flagPasswd = false;
+        this.countProfile = 0;
+        this.countPasswd = 0;
     },
     render: function() {
         var language = OSeaM.frontend.getLanguage();
@@ -56,7 +56,7 @@ OSeaM.views.User = OSeaM.View.extend({
     },
     
     onProfileUpdate: function () {												//RKu neu:
-        if (this.flagProfile == false){
+        if (this.countProfile <= 2){											//RKu for security reason only three profile updates per use of the 'user profile' function
             this.model.set({														//RKu: set the new Data into the current user profile model
                 forname: document.getElementById("forename").value,
                 surname: document.getElementById("surname").value,
@@ -85,7 +85,7 @@ OSeaM.views.User = OSeaM.View.extend({
                     }
             });																	//RKu: ... so we can send the new Data to the server Database
 
-        this.flagProfile = true;
+        this.countProfile += 1;
 
         console.log('Profile update ' +											//RKu: only for testing purpes
                '\nVorname : '  + this.model.attributes.forname +
@@ -98,7 +98,7 @@ OSeaM.views.User = OSeaM.View.extend({
                 var template = OSeaM.loadTemplate('alert');
                 var content  = $(template({
                     title:'1210:Hinweis:',
-                    msg:'1211:Der Profile update kann nur einmal pro Aufruf des UserProfiles durchgeführt werden'
+                    msg:'1211:Der Profile update kann nur dreimal pro Aufruf des UserProfiles durchgeführt werden'
                 }));
                 OSeaM.frontend.translate(content);
                 this.$el.find('legend').after(content);
@@ -106,7 +106,7 @@ OSeaM.views.User = OSeaM.View.extend({
     },
     
     onPasswordUpdate: function () {												//RKu neu:
-        if (this.flagPasswd == false){
+        if (this.countPasswd <= 1){											//RKu for security reason only two password updates per use of the 'user profile' function
 //            console.log('Password update ' +
 //                   '\n... aber soweit sind wir noch nicht ...');
 
@@ -125,9 +125,9 @@ OSeaM.views.User = OSeaM.View.extend({
                 params.neuPassword1 = jQuery.encoding.digests.hexSha1Str(params.neuPassword1).toLowerCase();		// password encryption
                 params.neuPassword2 = jQuery.encoding.digests.hexSha1Str(params.neuPassword2).toLowerCase();		// password encryption
 
-//                console.log('Old Password : ' + params.oldPassword +
-//                         '\nNew Password1 : ' + params.neuPassword1 +
-//                         '\nNew Password2 : ' + params.neuPassword2);
+                console.log('Old Password : ' + params.oldPassword +
+                         '\nNew Password1 : ' + params.neuPassword1 +
+                         '\nNew Password2 : ' + params.neuPassword2);
 
                 var data = {oldPassword:params.oldPassword, newPassword:params.neuPassword1};
                 jQuery.ajax({
@@ -142,20 +142,32 @@ OSeaM.views.User = OSeaM.View.extend({
 //                    },
                     success: function(data){ this.trigger('passwordResetSuccess', data);
                             var element2 = document.getElementById("password-update");
-                            element2.innerHTML = OSeaM.frontend.getPhrase('1207:Benutzer Profil erfolgreich abgeändert');
+                            element2.innerHTML = OSeaM.frontend.getPhrase('1207:Benutzer Password erfolgreich abgeändert');
                             element2.className = 'btn btn-success';
                     },
-                    error: function(data){ this.trigger('passwordResetFailure', data); }
+                    error: function(xhr, data, error){ this.trigger('passwordResetFailure', data);
+							console.log('PW reset Fehler:', xhr.getResponseHeader('Error') );
+							if ( xhr.getResponseHeader('Error') == '102:Old Password mismatch'){
+								this.removeAlerts();
+								var template = OSeaM.loadTemplate('alert');
+								var content  = $(template({
+									title:'1210:Hinweis:',
+									msg:'1208:Das alte Passwort stimmt nicht !'
+								}));
+								OSeaM.frontend.translate(content);
+								this.$el.find('legend').after(content);
+							}
+					}
                 });
             };
-        this.flagPasswd = true;
+        this.countPasswd += 1;
         }else{
 //                console.log('Die Funktion geht einmal pro Aufruf des UserProfiles');
                 this.removeAlerts();
                 var template = OSeaM.loadTemplate('alert');
                 var content  = $(template({
                     title:'1210:Hinweis:',
-                    msg:'1212:Die Password Änderung kann nur einmal pro Aufruf des UserProfiles durchgeführt werden'
+                    msg:'1212:Die Password Änderung kann nur zweimal pro Aufruf des UserProfiles durchgeführt werden'
                 }));
                 OSeaM.frontend.translate(content);
                 this.$el.find('legend').after(content);
