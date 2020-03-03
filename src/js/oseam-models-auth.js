@@ -258,7 +258,9 @@ OSeaM.models.Auth = Backbone.Model.extend({
         this.trigger('logoutSuccess', data);
         this.setAuthenticated(false);
 		elem = document.getElementsByClassName('active');					//RKu: identify the last active navBar Element
-		elem[0].classList.value = "";										//RKu: ... and set it from "active" to "" = EMPTY
+		if (elem.length > 0){												//RKu: test if there is any active item ...
+			elem[0].classList.value = "";									//RKu: ... and set it from "active" to "" = EMPTY
+			}
 		OSeaM.router.navigate( 'home' );									//RKu: set selection list to a newtral starting point
         OSeaM.frontend.startView('Goodby');									//RKu: call OSeaM.views.Contact (new .js)
     },
