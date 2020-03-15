@@ -101,6 +101,8 @@
     "1210":"Security Information:",
     "1211":"This Profile update is possible only tree times per use of the UserProfile page",
     "1212":"The Password change is possible only two times per use of the UserProfile page",
+	"1213":"The correspondence language you selected is currently not supported. Please maintain your User Profile accordingly",
+
     "1300":"The file has been successfully uploaded. It will be processed within an hour.",
     "1301":"The file content could not be detected. This may fail if a compressed file contains errors or if we are unable to detect the file format. See the supported file formats for reference.",
     "1302":"The file format has been detected. For non-container tracks, the contents have not been processed yet.",
