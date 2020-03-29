@@ -100,7 +100,9 @@
     "1210":"Sicherheitshinweis:",
     "1211":"Der Profile update kann nur dreimal pro Aufruf des UserProfiles durchgeführt werden",
     "1212":"Die Password Änderung kann nur zweimal pro Aufruf des UserProfiles durchgeführt werden",
-	"1213":"Deine gewählte Korrespondenz-Sprache wird nicht unterstützt. Bitte pass Dein Benutzer Profile entsprechend an",
+	"1213":"Du hast keine bzw. eine nicht unterstützte Korrespondenz-Sprache gewählt. Bitte pass Dein Benutzer Profile entsprechend an und wähle zwischen Deutsch oder Englisch",
+	"1214":"Deine Session ist nun 15 min. inaktiv. Falls keine weiter Aktion erfolgt, wird Deine Session in 60 sec. ausgelogged !",
+	"1215":"Deine Session ist nun aus Sicherheitsgründen ausgelogged worden !",
 	
     "1300":"Die Datei wurde erfolgreich hochgeladen. Sie wird innerhalb einer Stunde prozessiert.",
     "1301":"Der Dateiinhalt wurde nicht erkannt. Das kann fehlschalgen, wenn eine komprimierte Datei Fehler enthält oder das Dateiformat nicht erkannt werden konnte. Bitte bei den unterstützten Formaten prüfen, ob es unterstützt wird.",

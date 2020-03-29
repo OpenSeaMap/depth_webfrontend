@@ -101,7 +101,9 @@
     "1210":"Security Information:",
     "1211":"This Profile update is possible only tree times per use of the UserProfile page",
     "1212":"The Password change is possible only two times per use of the UserProfile page",
-	"1213":"The correspondence language you selected is currently not supported. Please maintain your User Profile accordingly",
+	"1213":"You have none or an unsupported correspondence language selected. Please maintain your User Profile and select as language German or English",
+	"1214":"Your Session is now for 15 min inactive. If there are no further action, your session will be terminated within the next minute !",
+	"1215":"For security reason your session has been terminated !",
 
     "1300":"The file has been successfully uploaded. It will be processed within an hour.",
     "1301":"The file content could not be detected. This may fail if a compressed file contains errors or if we are unable to detect the file format. See the supported file formats for reference.",
