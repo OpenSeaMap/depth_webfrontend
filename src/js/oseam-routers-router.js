@@ -112,8 +112,9 @@ OSeaM.routers.Router = Backbone.Router.extend({
     },
     
     user: function() {
-        if (this.activateRestricted( 'user' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
-			this.renderTopAndNavBar('user');						//RKu: mit Login  zus. Abfrage und Änderungen speichern einbauen
+//        if (this.activateRestricted( 'user' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
+        if (this.activateRestricted() === true) {						//RKu: muss mit Login wieder aktiviert werden (beide Login-Varianten laufen damit syncron)
+			this.renderTopAndNavBar('user');							//RKu: mit Login  zus. Abfrage und Änderungen speichern einbauen
 			OSeaM.frontend.startView('User', {
 				model: OSeaM.frontend.getUser()
 			});
@@ -138,7 +139,8 @@ OSeaM.routers.Router = Backbone.Router.extend({
     },
     
     tracks: function() {
-        if (this.activateRestricted( 'tracks' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
+//        if (this.activateRestricted( 'tracks' ) === true) {			//RKu: muss mit Login wieder aktiviert werden
+        if (this.activateRestricted() === true) {						//RKu: muss mit Login wieder aktiviert werden
 			this.renderTopAndNavBar('tracks');
             OSeaM.frontend.startView('Tracks', {
                 collection : OSeaM.frontend.getTracks(),
@@ -149,7 +151,8 @@ OSeaM.routers.Router = Backbone.Router.extend({
 	},
 	
     vessels: function() {
-        if (this.activateRestricted( 'vessels' ) === true) {				//RKu: muss mit Login wieder aktiviert werden
+//        if (this.activateRestricted( 'vessels' ) === true) {			//RKu: muss mit Login wieder aktiviert werden
+        if (this.activateRestricted() === true) {						//RKu: muss mit Login wieder aktiviert werden (beide Login-Varianten laufen damit syncron)
 			this.renderTopAndNavBar('vessels');
 			OSeaM.frontend.startView('Vessels', {
 					collection : OSeaM.frontend.getVessels()
@@ -157,12 +160,13 @@ OSeaM.routers.Router = Backbone.Router.extend({
     	}														//RKu: das auch
     },
     gauges: function() {
-//        if (this.activateRestricted() === true) {				//RKu: muss mit Login wieder aktiviert werden
+    //    if (this.activateRestricted( 'gauges' ) === true) {			//RKu: muss mit Login wieder aktiviert werden
+	    if (this.activateRestricted() === true) {						//RKu: muss mit Login wieder aktiviert werden (beide Login-Varianten laufen damit syncron)
 			this.renderTopAndNavBar('gauges');
 			OSeaM.frontend.startView('Gauges', {
 				collection : OSeaM.frontend.getGauges()
 			});
-//    	}														//RKu: das auch
+    	}														//RKu: das auch
     },
     maptracks: function() {
         this.renderTopAndNavBar('maptracks');
