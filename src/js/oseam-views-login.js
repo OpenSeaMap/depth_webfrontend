@@ -12,12 +12,18 @@
 // -------------------------------------------------------------------------------------------------
 
 OSeaM.views.Login = OSeaM.views.Logindlg.extend({
+	
+   initialize: function() {
+	    OSeaM.frontend.on('change:language', this.render, this);					//RKu: refresh view if user changes language
+	},
+
     events: {
         'submit form'           : 'onFormSubmit'									//RKu: event triggered from submit button in toolbar.handlebares
     },
     render: function() 
 	{
-        var template = OSeaM.loadTemplate('login');						  
+        var language = OSeaM.frontend.getLanguage();								//RKu: get current display language
+        var template = OSeaM.loadTemplate('login-' + language);						//RKu: load the right handlebar language template						  
 		/*
         this.renderParams =  {
             title : '1009:Sign in!',
