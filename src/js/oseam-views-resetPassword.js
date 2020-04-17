@@ -151,6 +151,7 @@ OSeaM.views.ResetPassword = OSeaM.View.extend({
     this.$el.find('legend').after(content);
   },
   onPasswordResetFailure: function(jqXHR) {
+	this.removeAlerts();														// RKu: remove old alerts fron the list
     var template = OSeaM.loadTemplate('alert');
     var msg = '';
     if (jqXHR.status === 404) {
@@ -159,9 +160,13 @@ OSeaM.views.ResetPassword = OSeaM.View.extend({
     } else if (jqXHR.status === 200 && response.code === 400) {
       this.markInvalid(this.fieldCaptcha, '1013:Invalid captcha.');
       this.fieldCaptcha.val('').focus();
+	  
+    } else if (jqXHR.status ===500){											// RKu: user_name not found at DB user_profiles
+			var respHeader = jqXHR.getResponseHeader("Error");					// RKu: get response header text
+			msg = respHeader;													// RKu: assemble user message
     } else {
-      msg = '1031:Unknown error. Please try again.'
-    }
+			msg = '1031:Unknown error. Please try again.'						// RKu: any other error
+	}
     var content = $(template({
       title: '1030:Server error occured',
       msg: msg

@@ -127,6 +127,7 @@
     "2404":"Status 404 - Dieser Service ist nicht verfügbar.",
     "2500":"Status 500 - Interner Server Fehler.",
     "2503":"Status 503 - Dieser Service ist nicht verfügbar.",
-    "2510":"Unbekannte Fehlermeldung vom Server."
+    "2510":"Unbekannte Fehlermeldung vom Server.",
 
+	"2520":"Validierungsfehler: dieser Benutzer (eMail-Adresse) ist nicht in der OSM-DB registriert."
 }
