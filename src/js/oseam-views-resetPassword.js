@@ -141,6 +141,7 @@ OSeaM.views.ResetPassword = OSeaM.View.extend({
   },
   
   onPasswordResetSuccess: function(data) {
+	this.removeAlerts();														// RKu: remove any old alerts fron the list
     var template = OSeaM.loadTemplate('alert-success');
     var content = $(template({
       title: '1402:Password requested',
@@ -150,8 +151,9 @@ OSeaM.views.ResetPassword = OSeaM.View.extend({
     this.$el.find('form').remove();
     this.$el.find('legend').after(content);
   },
+  
   onPasswordResetFailure: function(jqXHR) {
-	this.removeAlerts();														// RKu: remove old alerts fron the list
+	this.removeAlerts();														// RKu: remove any old alerts fron the list
     var template = OSeaM.loadTemplate('alert');
     var msg = '';
     if (jqXHR.status === 404) {

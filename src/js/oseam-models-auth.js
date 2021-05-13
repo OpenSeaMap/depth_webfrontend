@@ -131,8 +131,12 @@ OSeaM.models.Auth = Backbone.Model.extend({
 //            xhrFields: {
 //                withCredentials: true
 //            },
-            success: function(data){ self.logon( params ) },
-            error: function(data){ this.trigger('passwordResetFailure', data); },
+            success: function(data){
+				console.log('login dummy success'),
+				self.logon( params ) },
+            error: function(data){ 
+				console.log('login dummy error'),
+				this.trigger('passwordResetFailure', data); },
         });
     },
 	
@@ -159,6 +163,7 @@ OSeaM.models.Auth = Backbone.Model.extend({
 			{ 	
 				if ( data == "ok" )
 				{
+					console.log('User in DB vorhanden');
 					self.onLoginSuccess(); 
 					sessionStorage.setItem( "oseam_username", params.username );
 				}
@@ -202,9 +207,9 @@ OSeaM.models.Auth = Backbone.Model.extend({
     
     onLoginSuccess: function(data, success, jqXHR) {
         var usermodel = OSeaM.frontend.getUser();							//RKu: get the Data of the user profile
-        var r1 = usermodel.fetch();											//RKu: ... so we can get the forname
+        var r1 = usermodel.fetch();											//RKu: ... so we can get the forename
         jQuery.when(r1).done(function(){									//RKu: ... as fetch only work async. --> we need to wait a short while until the fetch has completed
-            if ( !OSeaM.router.loginSuccess() )								//RKu: ... now we should have a forname 
+            if ( !OSeaM.router.loginSuccess() )								//RKu: ... now we should have a forename 
                 OSeaM.frontend.startView('Welcome');						//RKu: ... and can call a 'nice welcome'
         });
         this.setAuthenticated(true);										//RKu: we have to make sure that all UserData are loaded to the model bevor we can "setAuth=true" and trigger "loggedIN"

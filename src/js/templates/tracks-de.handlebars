@@ -12,13 +12,18 @@
 		<div class="form-table">
 			<div class="form-row">
 				<div class="form-cell">
-					Fahrzeug
+					<p>Fahrzeug</p>
 				</div>
 				<div class="form-cell">
 					<select id="vesselselection" name="vesselselection" class="vesselId">
 						<option value="" disabled selected>Select your Vessel Config</option>
 					</select>
 				</div>
+				<div class="form-cell">		<!-- RKu: das ist erst einmal nur ein Test -->
+					<div id="nr-of-records"></div>
+					<div id="load-text"> Records werden geladen</div>
+				</div>
+
 			</div>
 			<div class="form-row">
 				<div class="form-cell">
@@ -28,6 +33,14 @@
 					<select id="licenseselection" name="licenseselection" class="licenseId">
 						<option value="" disabled selected>Select the Track License</option>
 					</select>
+				</div>
+				<div class="form-cell">		<!-- RKu: das ist erst einmal nur ein Test -->
+					<div class="spinner-border" role="status">
+						<strong class="sr-only" id="sr-only">... loading ...</strong>
+					</div>
+<!--					<div class="progress">
+						<div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="form-row">

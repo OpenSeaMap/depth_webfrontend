@@ -27,7 +27,7 @@ OSeaM.views.User = OSeaM.View.extend({
         var template = OSeaM.loadTemplate('user-' + language);					// default language is "en"
         var content = $(template( {
             user_name      : this.model.get('user_name'),						//RKu:
-            forename       : this.model.get('forname'),
+            forename       : this.model.get('forename'),
             surname        : this.model.get('surname'),
             organisation   : this.model.get('organisation'),
             phone          : this.model.get('phone'),							//RKu: this is just a temporary solution as long bfhphone is not really working
@@ -69,7 +69,7 @@ OSeaM.views.User = OSeaM.View.extend({
     onProfileUpdate: function () {												//RKu neu:
         
         this.model.set({														//RKu: set the new Data into the current user profile model
-            forname: document.getElementById("forename").value,
+            forename: document.getElementById("forename").value,
             surname: document.getElementById("surname").value,
             organisation:document.getElementById("organisation").value,
             country     :document.getElementById("countries").value,
@@ -87,7 +87,7 @@ OSeaM.views.User = OSeaM.View.extend({
             });																	//RKu: ... so we can send the new Data to the server Database
             
         console.log('Profile update ' +											//RKu: only for testing purpes
-               '\nVorname : '  + this.model.attributes.forname +
+               '\nVorname : '  + this.model.attributes.forename +
                '\nNachname : ' + this.model.attributes.surname +
                '\nTelefon : '  + this.model.attributes.phone);
     },

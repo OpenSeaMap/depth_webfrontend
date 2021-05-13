@@ -34,7 +34,7 @@ OSeaM.views.User = OSeaM.View.extend({
         if (checked == true){checked = 'checked'}else{checked = 'null'}         //RKu: update the view according the user expectation
         var content = $(template( {
             user_name      : this.model.get('user_name'),						//RKu:
-            forename       : this.model.get('forname'),
+            forename       : this.model.get('forename'),
             surname        : this.model.get('surname'),
             organisation   : this.model.get('organisation'),
             phone          : this.model.get('phone'),							//RKu: this is just a temporary solution as long bfhphone is not really working

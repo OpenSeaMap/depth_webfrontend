@@ -22,7 +22,7 @@ OSeaM.views.Goodby = OSeaM.View.extend({
         var language = OSeaM.frontend.getLanguage();
         var template = OSeaM.loadTemplate('goodby-' + language);
         var content = $(template({
-            firstname : usermodel.attributes.forname						//RKu: get first name of current user
+            firstname : usermodel.attributes.forename						//RKu: get first name of current user
             }));
         OSeaM.frontend.translate(content);
         this.$el.html(content);

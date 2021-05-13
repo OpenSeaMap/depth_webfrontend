@@ -14,7 +14,7 @@
 OSeaM.models.User = Backbone.Model.extend({
     defaults: {
         user_name   : null,
-        forname     : null,
+        forename    : null,
         surname     : null,
         acceptedEmailContact: null,
         organisation: null,

@@ -64,9 +64,20 @@ OSeaM.views.Tracks = OSeaM.View.extend({
       });
 	  
     },
+	
     addAndRenderViews: function() {
+	  var nor_id = document.getElementById("nr-of-records");	// RKu:
+//	  console.log(this.collection.length);						// RKu: liegt die Zahl vor?
+	  nor_id.innerHTML=this.collection.length;					// RKu: !!macht er nicht, da läuft etwas asyncron
       this.addViews();
       this.render();
+	  var nor_id = document.getElementById("nr-of-records");	// RKu:
+	  nor_id.innerHTML=this.collection.length;					// RKu:
+	  var ltxt_id = document.getElementById("load-text");		// RKu:
+	  ltxt_id.innerHTML="Records wurden geladen !";				// RKu:
+	  var sr_id = document.getElementById("sr-only");			// RKu:
+	  sr_id.innerHTML="... done ...";							// RKu:
+
     },
     
     //RKu: this function does add each track-entry, already stored on the servers database, to the current view
@@ -74,8 +85,8 @@ OSeaM.views.Tracks = OSeaM.View.extend({
       this.listEl.empty();
       this._views = [];
       var self = this;
-      this.collection.each(function(model) {		// loop until "collection.length" has reached
-        self._views.push(new OSeaM.views.Track({	// .push: add the next track entry to the array "_views" 
+      this.collection.each(function(model) {					// RKu: loop until "collection.length" has reached
+        self._views.push(new OSeaM.views.Track({				// RKu: .push: add the next track entry to the array "_views" 
           model: model,
           vessels: self.vessels,
           licenses: self.licenses
