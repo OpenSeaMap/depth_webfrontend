@@ -176,6 +176,7 @@ OSeaM.views.Welcome = OSeaM.View.extend({
         });
 	return val;
 	}
+
 });
 
 //RKu --

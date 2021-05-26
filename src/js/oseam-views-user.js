@@ -58,7 +58,7 @@ OSeaM.views.User = OSeaM.View.extend({
     onProfileUpdate: function () {												//RKu neu:
         if (this.countProfile <= 2){											//RKu for security reason only three profile updates per use of the 'user profile' function
             this.model.set({														//RKu: set the new Data into the current user profile model
-                forname: document.getElementById("forename").value,
+                forename: document.getElementById("forename").value,
                 surname: document.getElementById("surname").value,
                 organisation:document.getElementById("organisation").value,
                 country     :document.getElementById("countries").value,
@@ -88,7 +88,7 @@ OSeaM.views.User = OSeaM.View.extend({
         this.countProfile += 1;
 
         console.log('Profile update ' +											//RKu: only for testing purpes
-               '\nVorname : '  + this.model.attributes.forname +
+               '\nVorname : '  + this.model.attributes.forename +
                '\nNachname : ' + this.model.attributes.surname +
                '\nacceptEmail : ' + this.model.attributes.acceptedEmailContact +
                '\nTelefon : '  + this.model.attributes.phone);

@@ -132,11 +132,11 @@ OSeaM.models.Auth = Backbone.Model.extend({
 //                withCredentials: true
 //            },
             success: function(data){
-				console.log('login dummy success'),
-				self.logon( params ) },
+						console.log('login dummy success'),
+						self.logon( params ) },
             error: function(data){ 
-				console.log('login dummy error'),
-				this.trigger('passwordResetFailure', data); },
+						console.log('login dummy error'),
+						this.trigger('passwordResetFailure', data); },
         });
     },
 	

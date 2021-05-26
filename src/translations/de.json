@@ -12,7 +12,7 @@
     "1010":"Falsches E-Mail Format",
     "1011":"Verifikation ist unterschiedlich.",
     "1012":"Mindestens 8 Zeichen.",
-    "1013":"Falsches captcha.",
+    "1013":"Captcha stimmt nicht überein.",
     "1014":"Lizenz",
     "1015":"Ich akzeptiere die <a href=\"#license\" target=\"_blank\">Lizenz</a>.",
     "1016":"Deine E-Mail Adresse",

@@ -201,9 +201,11 @@ OSeaM.views.Register = OSeaM.View.extend({
         if (jqXHR.status === 409) {
             this.markInvalid(this.fieldUsername, '9103:Username already exists.');
             this.fieldUsername.focus();
-        } else if(response.code === 400) {
+//        } else if(response.code === 400) {
+        } else if(jqXHR.status === 401) {
         	this.markInvalid(this.fieldCaptcha, '1013:Invalid captcha.');
         	this.fieldCaptcha.val('').focus();
+            msg = '1013:Chaptcha does not match'; 
         } else {
             msg = '1031:Unknown error. Please try again.'
         }
