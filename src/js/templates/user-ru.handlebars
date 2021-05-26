@@ -1,0 +1,115 @@
+<legend data-trt="1203:User Information"></legend>
+<h5>Manage your user data</h5>
+
+<!--<div>
+
+    <div class="span8">
+        <h4>User Data</h4>
+        <h5>Manage your user data</h5> -->
+        
+<!--        <form name="user" class="form-horizontal">  -->
+<!--        <form name="user">  -->
+        <div class="control-group">
+            <p><label class="tableft50a">E-Mail*</label></p>
+            <div class="input-append">
+                <input type="text" id="user" name="user_name" placeholder="jane@doe.com" value="{{user_name}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50a">Forename</label></p>
+            <div class="input-append">
+                <input type="text" id="forename" name="forename" placeholder="Jane" value="{{forename}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50a">Surname</label></p>
+            <div class="input-append">
+                <input type="text" id="surname" name="surname" placeholder="Doe" value="{{surname}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50a">Organisation</label></p>
+            <div class="input-append">
+                <input type="text" id="organisation" name="organisation" placeholder="Hydrographic Institute" value="{{organisation}}"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50a">You may contact me via E-Mail</label></p>
+            <div class="input-append">
+<!--                <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact" checked="{{acceptedEmailContact}}"/>&nbsp;  -->
+                <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact" {{acceptedEmailContact}} />&nbsp;
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50a">Country</label></p>
+            <div class="input-append">
+                <select id="countries" class="form-control bfh-countries" data-country="US"></select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50a">Correspondence Language</label></p>
+            <div class="input-append">
+                <select id="languages" class="form-control bfh-languages" data-language="en"></select>            
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="tableft50a">Phone</label></p>
+            <div class="input-append">
+            <!--    <input id="phones" type="text" class="form-control bfh-phone" data-country="countries"/>  -->
+            <!--    <input name="phone" id="phones" type="text" class="form-control bfh-phone" data-country="countries"  placeholder="z.B. 0049 221 8853"/>  -->
+                    <input name="phone" id="phones" type="text" value="{{phone}}"  placeholder="z.B. 0049 221 8853-xxx"/>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <br>
+            <button class="btn btn-primary" id="profile-update">Submit Profile changes</button>
+            <br>
+        </div>
+<!--        </form>  RKu: die form als solche brauchen wir nicht--> 
+        
+        
+<!--        <form name="resetpassword">  RKu: die form als solche brauchen wir nicht--> 
+        <div class="control-group"><br><br>
+            <p><label class="tableft50a">Old Password</label></p>
+                <div class="controls">
+                    <input type="password" id="oldPassword" data-trt-placeholder="1005:Altes Password"/>
+                    <span class="help-inline"></span>
+                </div>
+        </div>
+        
+        <div class="control-group" style="margin-bottom:5px">
+            <p><label class="tableft50a">New Password</label></p>
+                <label class="control-label" for="{{idPassword1}}"></label>
+                <div class="controls">
+                    <input type="password" id="newPassword" name="newPassword" data-trt-placeholder="1005:Password"/>
+                    <span class="help-inline"></span>
+                </div>
+        </div>
+        
+        <div class="control-group">
+            <p><label class="tableft50a">New Password verification</label></p>
+                <div class="controls">
+                    <input type="password" id="newPassword2" data-trt-placeholder="1017:Passwort Verifizierung"/>
+                    <span class="help-inline"></span>
+                </div>
+        </div>
+        
+        <div class="control-group">
+            <br>
+            <button class="btn btn-primary" id="password-update">Submit Password changes</button>
+            <br>
+        </div>
+
+<!--        </form>  -->
+        
+<!--    </div>
+
+</div>  -->

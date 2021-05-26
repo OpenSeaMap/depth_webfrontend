@@ -1,0 +1,83 @@
+<div>
+      	
+    <div class="span8">
+        <h4>Depth Sensor - <font color="red"> use Drag & Drop</font></h4>
+        <h5>Improve the accuracy of your data by providing the exact sensor position</h5>
+
+        <div class="control-group">
+		<p><label for="depth_distanceFromStern" class="tableft50">Distance from Stern</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="depth_distanceFromStern" name="depth_distanceFromStern" placeholder="0.00" value="{{depth_distanceFromStern}}" title="Distance from stern, negative values are possible if the sensor is behind the stern"/>
+            <span class="add-on">m</span>
+			<span class="help-inline helpOsm"></span>
+        </div>
+		</div>
+
+		<div class="control-group">
+        <p><label for="depth_distanceFromCenter" class="tableft50">Distance from Centerline</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="depth_distanceFromCenter" name="depth_distanceFromCenter" placeholder="0.00" value="{{depth_distanceFromCenter}}" title="Distance from centerline, negative values = port side, positive values = starboard"/>
+            <span class="add-on">m</span>
+		<span class="help-inline helpOsm"></span>
+        </div>			
+        </div>
+
+        <div class="control-group">
+		<p><label for="depth_distanceWaterline" class="tableft50">Position below Waterline</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="depth_distanceWaterline" name="depth_distanceWaterline" placeholder="0.00" value="{{depth_distanceWaterline}}" title="Position of the sensor below the waterline" />
+            <span class="add-on">m</span>
+			<span class="help-inline helpOsm"></span>
+        </div>			
+        </div>
+
+       <p><label class="tableft50">Depth Measurement</label></p>
+        <div class="input-append">
+            <select id="depth_offsetType" name="depth_offsetType" size="1">
+              {{#select depth_offsetType}}
+              <option value="transducer">Depth below Transducer</option>
+              <option value="keel">Depth below Keel</option>
+              <option value="water">Depth below Waterline</option>
+              {{/select}}
+            </select>
+        </div>
+
+		<div class="control-group">
+        <p><label for="depth_offsetKeel" class="tableft50">Sensor offset to Keel</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="depth_offsetKeel" name="depth_offsetKeel" placeholder="0.00" value="{{depth_offsetKeel}}" title="Sensor offset to keel"/>
+            <span class="add-on">m</span>
+			<span class="help-inline helpOsm"></span> 
+        </div>			
+        </div>
+	<div  class="control-group">
+	<p><label for="depth_manufacturer" class="tableft50">Producer of Depth Sensor</label></p>
+	 <div class="input-append">
+	<datalist id="depth_manufacturer" name="depth_manufacturer">
+		<option>Airmar</option>
+        <option>B&amp;G</option>
+		<option>Garmin</option>
+		<option>Humminbird</option>
+		<option>Lowrance</option>
+		<option>Raymarine</option>
+	</datalist>
+	</div>
+	<input name="depth_manufacturer" list="depth_manufacturer" value="{{depth_manufacturer}}" type="text" />
+	<p><label for="depth_model" class="tableft50">Device Model</label></p>
+	<input id="depth_model" name="depth_model" placeholder="e.g. P39" value="{{depth_model}}" type="text" size="100" maxlength="100">
+	</p>
+	</div>
+        
+    </div>
+
+	<div class="span4">
+            <div id="vesselsize_depth" style="position:relative; float: left; top:100px left:450px; width:150px; height:250px; border:5px solid red; padding:0px; background-size:100% 100%; background-image: url(images/vessel.png);">
+                <div id="draggableSounder" style="position:absolute; top:{{top}}; left:{{left}}; width: 20px; height: 20px; border-radius:10px; background:#FF0000"></div> 
+            </div>
+        </div>
+        
+<!--        <div class="span4">
+            <div id="oseam-canvas" class="oseam-canvas"></div>
+        </div>-->	
+
+</div>

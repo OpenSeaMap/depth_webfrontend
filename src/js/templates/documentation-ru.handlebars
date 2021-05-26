@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<legend>Documentation</legend> 
+
+This is the technical documentation for adopters or the ones who want to contribute to the project.<br>
+Javadoc is also <a href="/javadoc">available</a>.<br><br>
+
+<div class="toc">
+<ol type="1">
+  <li> <a href="#anchor-doc-de-1.">Server Communication</a></li>
+  	<ol>
+  		<li><a href="#anchor-doc-de-1.1">Sign In</a></li>
+  		<li><a href="#anchor-doc-de-1.2">User Management</a></li>
+  		<li><a href="#anchor-doc-de-1.3">Tracks Management</a></li>
+  		<li><a href="#anchor-doc-de-1.4">Vessel Management</a></li>
+  		<li><a href="#anchor-doc-de-1.5">License Management</a></li>
+  	</ol>
+  </li>
+  <li><a href="#anchor-doc-de-2.">Backend Processing</a></li>
+  	<ol>
+  		<li><a href="#anchor-doc-de-2.1">Data Model</a></li>
+  		<li><a href="#anchor-doc-de-2.2">Track File Determination</a></li>
+  		<li><a href="#anchor-doc-de-2.3">Filtering</a></li>
+  		<li><a href="#anchor-doc-de-2.4">Contour Line Generation</a></li>
+  	</ol>
+
+  <li><a href="#anchor-doc-de-3.">Setup Instructions</a></li>
+  <li><a href="#anchor-doc-de-4.">Building</a></li>
+</ol>  
+</div>
+
+<br>
+
+<h3 id="anchor-doc-de-1.">1. Server Communication</h3>
+You can upload tracks via a generic REST interface. This may be interesting for third parties who want to provide an upload mechanism to the OpenSeaMap Depth project.
+This interface is being used by the webpage and the hardware logger as well.<br>
+The API can be accessed via <br> 
+https at <a href="https://depth.openseamap.org:8443/org.osm.depth.upload/api2/">https://depth.openseamap.org:8443/org.osm.depth.upload/api2/</a> or<br>
+http at <a href="http://depth.openseamap.org:8080/org.osm.depth.upload/api2/">http://depth.openseamap.org:8080/org.osm.depth.upload/api2/</a>
+
+<h4 id="anchor-doc-de-1.1">1.1 Sign In</h4>
+In order to upload any data you need to have an account.
+It is recommended to create an account through the web interface. If that does not fit your needs there is a captcha management in place where you can create a new user and need to supply the content of the captcha as a seperate field.  
+
+<h4 id="anchor-doc-de-1.2">1.2 User management</h4>
+Once you have an account you can login. Your credentials will be transported <b>unencrypted</b> over the wire unless you use https so it is recommended to use https instead of http as protocol.
+The authentication type is BASIC authentication. See the 
+
+<h4 id="anchor-doc-de-1.3">1.3 Tracks Management</h4>
+In order to list and upload tracks you need to be logged in. You will see your uploaded tracks and you may delete your own tracks. Tracks of other users are not visible for you.
+You may access the tracks via the <a href="https://depth.openseamap.org:8443/org.osm.depth.upload/api2/tracks">/tracks</a> URL.
+Uploading a track is a two step process. First you need to provide a track filename, a vesselconfigid and a licenseid through a post to the tracks URL.
+The server will return a track data structure that contains the track id. This id must be provided in a multipart message together with the uploaded file.
+See <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/src/main/java/org/osm/depth/upload/resources/TrackResource.java">TrackResource</a> and
+<a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/src/main/java/org/osm/depth/upload/messages/Track.java">Track</a> for further reference.
+
+<h4 id="anchor-doc-de-1.4">1.4 Vessel Management</h4>
+In order to upload tracks one needs to define a vessel configuration and supply the id during upload.
+You may have a look at <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/src/main/java/org/osm/depth/upload/messages/VesselConfiguration.java">VesselConfiguration</a> for data reference.
+In order to manipulate the vessel configuration have a look at the REST methods provided in <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/src/main/java/org/osm/depth/upload/resources/VesselConfigurationResource.java">Java</a>.
+
+<h4 id="anchor-doc-de-1.5">1.5 License Management</h4>
+Currently there is only one license, the PDDL available. The id of this license is 1. By providing this license id to the track upload you provide this track under the terms of the PDDL.
+It is planned to provide different licenses. However this may limit data usage to different terms.  
+
+<h3 id="anchor-doc-de-2.">2. Backend Processing</h3>
+The depth postprocessing is using a modern and highly modular component architecture based on OSGi.
+This allows for contributors to easily replace certain functionality by their own implementation.
+One side effect is that this architecture is very easily testable even in a system that has not all components installed.
+
+The depth postprocessing is structured in a three step process.
+The first step involves content type detection of uploaded files.
+The second step generates filtered track data out of sequences of tracks.
+The last and final step generates contour lines out of filtered data.
+Each step may be replaced by your own implementation if you require and each step may be skipped to account for faster testing.
+
+<h4 id="anchor-doc-de-2.1">2.1 Data Model</h4>
+The data model is a domain specific model that models measurements and their associated units. The data model unifies the different file formats by providing
+a common set of measurement contents. The data model used for measurements is based on the Eclipse Modeling Framework and can be modified through the associated Eclipse features.
+The same data model is being used for the OpenSeaMap Data Logger. 
+The data model resides in the <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.model.core">net.sf.seesea.model.core</a> bundle.<br><br>
+
+<img src="images/PositionClassDiagram.png">Class diagram for measured positions</img><br><br>
+<img src="images/MeasurementsClassDiagram.png">Class diagram for measured positions</img><br><br>
+
+The data model for track files is used to process information from and to the database. It is not modeled with EMF but with plain old java objects (POJO) that provide 
+get and set methods but must not contain any logic.  
+It resides in the <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.track.model">net.sf.seesea.track.model</a> bundle.<br>
+
+The data model for geometry is used during contour line generation. It is again not modeled with EMF for performance reasons with plain old java objects (POJO). 
+It resides in <a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.geometry">net.sf.seesea.geometry</a>.
+
+<h4 id="anchor-doc-de-2.2">2.2 Track Content Type Detection</h4>
+The uploaded files have no content type information. The track content type detection determines file formats, compression types and unfolds potentially contained
+tracks that are either specific to the track file format or due to compression. If such a contained track does occur the container track id will be set to the id of the
+containing track id file to indicate that it belongs to this id. This is important for track deletions where all contained tracks need to be deleted as well.
+<br>
+The content type detection is based on the Apache Tika framework and can detect several file and compression formats. However it is unable to detect particular track file formats.
+Therefore file formats can provide an IStreamProcessor. It is being used to detect a particular track file format and must be provided by a track file format plugin.
+<br>
+The IStreamProcessor uses a fixed amount of bytes to detect file formats without reading the whole track file. Some track file formats do not support this kind of early
+content detection because the nature of the format does not permit that in general. In that case a ITrackFileDecompressor may be provided to detect the file type.<br><br>
+
+You can provide a new file format by implementing these interface in a separate bundle and providing them as OSGi services.<br> 
+<ul>
+	<li>Create a new plugin project named net.sf.seesea.provider.navigation.&lt;yourformat&gt;.</li>
+	<li>Right click on the plugin project and Configure -> Enable DS Annotations</li>
+	<li>Open the MANIFEST.MF</li>
+	<li>In the dependencies tab add net.sf.seesea.model.core and net.sf.seesea.track.api</li>
+	<li>Create a new class implementing IStreamProcessor</li>
+	<li>Add the @Component annotation to the class</li>
+	<li>If the file format is a binary add (property="type:String=binary") after the component annotation</li>
+	<li>Create a new class implementing ITrackFileProcessor</li>
+	<li>Add the @Component(factory="trackfile.&lt;yourmimetype&gt;") annotation to the class</li>
+	<li>Extend the net.sf.seesea.data.postprocessing.data.FileType with the given mime type prefixed by "application/"</li>
+	<li>Create a new fragment project named net.sf.seesea.provider.navigation.&lt;yourformat&gt;.test</li>
+	<li>Open the MANIFEST.MF</li>
+	<li>In the dependencies tab add org.junit</li>
+	<li>Write unit tests in order to test the implementation</li>
+	<li>Add you plugin to the net.sf.seesea.data.processing.feature and launch the product</li>
+	<li>If you need additional libraries open up net.sf.seesea.thirdparty/pom.xml and add the desired library. Right click on the pom.xml and execute the Maven goal p2:site. Press F5 when finished and you will see a new target directory. Add that directory to your net.sf.seesea.backend.target target definition file and set it as target platform so the new library will resolve</li>
+</ul>
+
+The following UML sequence diagram shows the general content detection flow.<br>
+<br>
+
+<img src="images/ContentDetection.png">Sequence Diagram for Content Detection</img>
+
+<h4 id="anchor-doc-de-2.3">2.3 Filtering</h4>
+ 
+<h5>Recording Session Clustering</h5>
+Since there are many different file formats out there the following may happen:
+<ul>
+    <li>A track file contains a single recording</li>
+    <li>A track file is one of many parts of a single recording</li>
+    <li>A track file may contain multiple recordings</li>
+</ul>
+In order to provide good filtering results it is desirable to analyze the contents of the tracks per recording as noise distribution and satellite constellations do vary only slightly through a single recording.
+This requires to cluster the tracks based on their recording time and put the in an appropriate order so that recordings can be processed instead of files.
+<br>
+As an performance improvement the clustering determines further information like if there is sufficient data to be filtered, start and end time of a track and whether the track contains absolute UTC or relative recording time.
+Absolute UTC time can be used to do time corrections whereas relative time may only be suitable for positional corrections.
+
+<h5>Gauge Retrieval</h5>
+If there are any nearby gauges registered, the gauge values are being retrieved for the given track times if possible. This may be used by filters later on to correct the water level if necessary. 
+Currently only German gauges are registered and values are retrieved.
+If you want to provide an interface to query other countries I'd be happy to hear from you and we can dig into the details.
+
+<h5>Filtering</h5>
+Since some formats provide the same data through different messages at different rates and accuracy the best choice needs to be determined. This may be particular difficult if the bus or device is unreliable and does not record at equidistant intervals.
+A statistics processor picks the best data and provides that to the filter.
+Multiple pluggable filters may be run. While one filter may just pass through the raw data another one may use tide correction and models such as the Kalman Filter or Kalman Smoother to generate improved results.
+Each filter run can be stored to a different table to compare the outcome of the filtering.
+
+<h5>Kalman Filter</h5>
+The well known Kalman Filter, Kalman Smoother and the Unscented Kalman Filter have been implemented. Apart from very simple models nothing else has been tested so far. 
+Given the sensor data from GPS, log, compass, accelerometer, gyroscope, windex and offline water current prediction models this may yield a perfect opportunity to design interesting sailing boat models.
+Contact us through the mailing list if your are interested.
+
+<h5>Tide Correction</h5>
+The tide correction may be used during filtering.
+The lowest astronomical tide has been calculated with the DTU10 Tide model on a 0.125° Grid. Given an arbitrary position at sea and the height of the tide calculated at that time one can estimate the depth above LAT for any point at sea.
+It has been coded in a modular way so it is fairly easy to use the tide prediction in a stand-alone product.  
+
+<h4 id="anchor-doc-de-2.4">2.4 Contour Line Generation</h4>
+The contour line generation is still under development. Several algorithms have been tried. Since it is to be expected that OpenSeaMap will have highly clustered data that is very unevenly distributed and with a billions of points, traditional
+generation mechanism may yield undesirable. Inverse Distance weighing is known to have problems with clustered data while Kriging may yield bad results in unknown locations. Curve fitting mechanisms may have problems with local area updates if an additional track has been uploaded.
+Therefore an incremental constrained delaunay triangulation supported by a quad edge index is being developed.    
+<br>
+Given the input edges of the osm coastline and the additional points of the tracks a constrained delaunay triangulation gives good first results compared to official data. Given such large datasets performance and numerical stability are real problems
+that are currently being solved.
+
+</body>
+</html>

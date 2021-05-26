@@ -1,0 +1,81 @@
+<div>
+    <div class="span8">
+        <h4>GPS/GLONASS - <font color="red"> use Drag & Drop </font></h4>
+        <h5>Improve the accuracy of your data by providing the exact sensor position</h5>
+         
+		 <div class="control-group">
+		<p><label class="tableft50">Distance from Stern</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="gps_distanceFromStern" name="gps_distanceFromStern" placeholder="0.00" value="{{gps_distanceFromStern}}" title="Distance from stern, negative values are possible if the GPS is behind the stern"/>
+            <span class="add-on">m</span>
+				<span class="help-inline helpOsm"></span>
+        </div>
+		</div>
+		
+		<div class="control-group">
+        <p><label class="tableft50">Distance from Centerline</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="gps_distanceFromCenter" name="gps_distanceFromCenter" placeholder="0.00" value="{{gps_distanceFromCenter}}" title="Distance from centerline, negative values = port side, positive values = starboard"/>
+            <span class="add-on">m</span>
+				<span class="help-inline helpOsm"></span>
+        </div>
+		    </div>
+		
+		<div class="control-group">
+        <p><label class="tableft50">Position above Waterline</label></p>
+        <div class="input-append">
+            <input type="text" class="input-mini" id="gps_distanceWaterline" name="gps_distanceWaterline" placeholder="0.00" value="{{gps_distanceWaterline}}" title="Position of the GPS above the waterline"/>
+            <span class="add-on">m</span>
+				<span class="help-inline helpOsm"></span>
+        </div>
+    </div>
+	<div  class="control-group">
+	<p><label for="gps_manufacturer" class="tableft50">Producer</label></p>
+	 <div class="input-append">
+	<datalist id="gps_manufacturer" name="gps_manufacturer">
+	<option>AdvanSea</option>
+	<option>B&amp;G</option>
+	<option>Eagle</option>
+	<option>Ferropilot</option>
+	<option>Furuno</option>
+	<option>Garmin</option>
+	<option>GeoNav</option>
+	<option>Horizon</option>
+	<option>Humminbird</option>
+	<option>Icom</option>
+	<option>Interphase</option>
+	<option>Kongsberg</option>
+	<option>Leica</option>
+	<option>Lowrance</option>
+	<option>Magellan</option>
+	<option>Maretron</option>
+	<option>Navman</option>
+	<option>NKE</option>
+	<option>Northstar</option>
+	<option>QStarz</option>
+	<option>Raymarine</option>
+	<option>Raytheon</option>
+	<option>Samyung</option>
+	<option>Simrad</option>
+	<option>Sitex</option>
+	<option>Sperry</option>
+	<option>Trimble</option>
+	<option>VDO</option>
+	</datalist>
+	</div>
+	<input name="gps_manufacturer" list="gps_manufacturer" type="text" value="{{gps_manufacturer}}"/>
+	<p><label for="gps_model" class="tableft50">Model</label></p>
+	<input id="gps_model" name="gps_model" placeholder="e.g. Garmin eTrex 30" value="{{gps_model}}" type="text" size="100" maxlength="100">
+	</div>
+    </div>
+
+   <div class="span4">
+        <div id="vesselsize_gps" style="position:relative; float: left; top:100px left:450px; width:150px; height:250px; border:5px solid red; padding:0px; background-size:100% 100%; background-image: url(images/vessel.png);">
+            <div id="draggableGps" style="position:absolute; top:{{top}}; left:{{left}}; width: 20px; height: 20px; border-radius:10px; background:#000"></div>
+        </div>
+    </div>
+        
+<!--        <div class="span4">
+            <div id="oseam-canvas" class="oseam-canvas"></div>
+        </div>-->
+</div>

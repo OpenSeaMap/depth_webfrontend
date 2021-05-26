@@ -1,0 +1,60 @@
+<div class="oseam-modal modal hide fade" id="gaugeedit" tabindex="-1" role="dialog" aria-labelledby="x" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" id="close" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="gaugevalue">Gauges {{name}}</h3>
+    </div>
+    <div class="modal-body">
+    	<div class="span8">
+	        <h4>Gauge</h4>
+	        <h5>Edit details of gauge</h5>
+			<div class="control-group">
+				<p><label class="tableft50">Name</label></p>
+	        	<div class="input-append">
+		            <input type="text" id="name" name="name" placeholder="Gauge Name" value="{{name}}" title="Gauge Name"/>
+					<span class="help-inline helpOsm"></span>
+	        	</div>
+		    </div>
+		    
+			<div class="control-group">
+		        <p><label class="tableft50">Latitude</label></p>
+		        <div class="input-append">
+		            <input type="text" id="latitude" name="latitude" placeholder="0.0" value="{{latitude}}" title="Latitude"/>
+		            <span class="add-on">°</span>
+					<span class="help-inline helpOsm"></span>
+		        </div>
+		    </div>
+			
+			<div class="control-group">
+		        <p><label class="tableft50">Longitude</label></p>
+	        	<div class="input-append">
+		            <input type="text" id="longitude" name="longitude" placeholder="0.0" value="{{longitude}}" title="Longitude"/>
+	            	<span class="add-on">°</span>
+					<span class="help-inline helpOsm"></span>
+	        	</div>
+	    	</div>
+			<div class="control-group">
+		        <p><label class="tableft50">Reference Waterlevel</label></p>
+	        	<div class="input-append">
+		            <input type="text" id="waterlevel" name="waterlevel" placeholder="0.0" value="{{waterlevel}}" title="Gauge level to which depths should be aligned"/>
+	            	<span class="add-on">m</span>
+					<span class="help-inline helpOsm"></span>
+	        	</div>
+	    	</div>
+	    	<div class="control-group">
+	    		<p><label class="tableft50" for="gaugeType">Gauge Type</label></p>
+				<div class="input-append">
+					<select id="gaugeType" name="gaugeType">
+					<option value="RIVER">River</option>
+					<option value="LAKE">Lake</option>
+					<option value="SEA">Sea</option>
+					<option value="UNDEFINED">Other</option>
+					</select>
+				</div>
+		    </div>
+	    </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" id="oseam-cancel" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary" id="oseam-save">Save and Finish</button>
+    </div>
+</div>

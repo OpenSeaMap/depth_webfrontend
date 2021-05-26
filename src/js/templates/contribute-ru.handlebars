@@ -1,0 +1,187 @@
+<legend>Contribute</legend>
+
+<div class="toc">
+<ol type="1">
+	<li><a href="#anchor-c-en-1.">Bug Tracking and open tasks</a></li>
+    <li><a href="#anchor-c-en-2.">Binaries Backend Processing</a></li>
+  	<ol>
+    	<li><a href="#anchor-c-en-2.1">Postgres Database Setup</a></li>
+    	<ol>
+	    	<li><a href="#anchor-c-en-2.1.1">Linux</a></li>
+	    	<li><a href="#anchor-c-en-2.1.2">Windows</a></li>
+		</ol>
+    	<li><a href="#anchor-c-en-2.2">Configuration</a></li>
+    	<ol>
+	    	<li><a href="#anchor-c-en-2.2.1">Data Retrieval</a></li>
+	    	<li><a href="#anchor-c-en-2.2.2">Content Detection</a></li>
+	    	<li><a href="#anchor-c-en-2.2.3">Filtering</a></li>
+	    	<li><a href="#anchor-c-en-2.2.4">Contour Generation</a></li>
+    	</ol>
+  	</ol>
+  	<li><a href="#anchor-c-en-3.">Sources</a></li>
+  	<ol>
+    	<li><a href="#anchor-c-en-3.1">IDE Setup</a></li>
+    	<li><a href="#anchor-c-en-3.2">Run Processing</a></li>
+    	<li><a href="#anchor-c-en-3.3">Analyzing individual formats</a></li>
+    	<li><a href="#anchor-c-en-3.4">Building</a></li>
+    </ol>
+  	<li><a href="#anchor-c-en-4.">Resources</a></li>
+ </ol> 
+</div>
+
+<h3 id="anchor-c-en-1.">1. Bug Tracking and open tasks</h3>
+Known tasks and bugs may be found <a href="https://github.com/OpenSeaMap/depth_webfrontend/issues/">here</a>.<br>
+Reports for the web page can be reported there.
+Errors that may come from the server parts are reported there as well.<br>
+If you think your tracks were not processed correctly, create an issue as well stating the track id.
+
+<h3 id="anchor-c-en-2.">2. Binaries Backend Processing</h3>
+The backend processing transforms the raw data OpenSeaMap receives into filter readable data points that may be shown on a map.
+Early work has been done to create contour lines out of that data.
+The latest binaries can be found here.
+<ul>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86_64.zip" download>Windows x86_64</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-win32.win32.x86.zip" download>Windows x86_32</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86_64.zip" download>Linux x86_64</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-linux.gtk.x86.zip" download>Linux x86_32</a></li>
+	<li><a href="/releases/net.sf.seesea.postprocess.product-1.0.0-SNAPSHOT-macosx.cocoa.x86_64.zip" download>MacOSX</a></li>
+</ul>
+
+<h4 id="anchor-c-en-2.1">2.1 Postgres Database Setup</h4>
+In order to process the raw data you need to create two <a href="https://www.postgresql.org/download/">postgres</a> databases with <a href="http://postgis.net/install/">postgis</a> enabled.
+Any postgres version above 9.0 should fit the purpose. Postgis version should be 2.0 or higher.
+
+<h4 id="anchor-c-en-2.1.1">2.1.1 Linux</h4>
+Execute the following commands as postgres super user (required in order to create the postgis extension)
+<pre>psql -d postgres -c "CREATE USER osm WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD 'changeme';"
+psql -d postgres -c "CREATE DATABASE osmapi WITH OWNER = osm ENCODING = 'UTF8'";
+psql -d postgres -c "CREATE DATABASE depth WITH OWNER = osm ENCODING = 'UTF8'";
+psql -d osmapi -c "CREATE EXTENSION postgis;"
+psql -d depth -c "CREATE EXTENSION postgis;"</pre>
+A script <pre>postgres.sql</pre> that creates the two databases resides in the root folder of the application.
+
+<h4 id="anchor-c-en-2.1.2">2.1.2 Windows</h4>
+Download and install <a href="https://www.pgadmin.org/download/">PGAdmin</a>. Login as superuser.
+Create user osm with password changeme. Enable login rights in the dialog.
+<img src="images/NewUser.png"/><br/>
+Create a new database owned by user osm
+<img src="images/CreateDatabase.png"/><br/>
+Create two database osmapi and depth
+<img src="images/CreateDatabaseOSMAPI.png"/><br/>
+Create postgis extension for each database
+<img src="images/CreateExtension.png"/><br/>
+
+<ul>
+	<li>Optional: For gauge update processing (not requried by default) you need a complete opensteetmap database. Instructions how to setup such a database can be found <a href="http://wiki.openstreetmap.org/wiki/Setting_up_a_local_copy_of_the_OpenStreetMap_database,_kept_up_to_date_with_minutely_diffs">here</a></li>
+</ul>
+
+<h4 id="anchor-c-en-2.2">2.2 Configuration</h4>
+The backend processing is built on a highly modular component architecture that is based on OSGi and configured through OSGi.
+Each of the <a href=#documentation>documented</a> steps can be enabled or disabled.
+Consult each of the configuration files for detailed options. Delete or rename a configuration file if you want to disable a particular system component.
+
+<h4 id="anchor-c-en-2.2.1">2.2.1 Data Retrieval</h4>
+You will need two datasets. One is the raw recorded data from users. The other dataset contains meta-information such as the original file name.<br>
+
+There are two ways to retrieve the raw data (currently ~150GB).
+<ul>
+	<li>Download the raw data through <a href="/torrent/torrents.zip">bittorrent</a>, unzip that file and add it to your favorite torrent client. Please keep sharing for others since our bandwidth is very limited. Download the <a href="/dump">metadata</a> through the web download.</a></li>
+	<li>Become a contributor by request and download the raw data and SQL schema dumps directly</li>
+</ul>
+<br>
+
+If you want to do an early evaluation of the backend processing download a medium sized torrent and get the full metadata dump. Change the basedir parameter in net.sf.seesea.track.persistence.database.DatabaseTrackPersistence.cfg and net.sf.seesea.content.impl.ContentDetector.cfg to your torrent download location.
+The software will process the available data and generate data points for it.
+<br>
+
+To configure downloading files directly configure the file <pre>net.sf.seesea.data.sync.HttpDepthDataSync.cfg</pre>
+<pre>user=youruser
+password=yourpassword
+checkSSLCertificate=false
+apiURL=https://depth.openseamap.org:8443/org.osm.depth.upload/api2/track
+storageLocation=data
+trackRange=1000,2000
+</pre>
+
+You must provide your API username and password that you use for
+the website depth.openseamap.org. Initially the sync is configured to download track file id from 1000 to 2000 to limit bandwidth impact.
+Comment the trackRange parameter to get all tracks. The SQL data is always downloaded completely. The SQL data contains the whole database
+stripped by privacy relevant information. The server updates that file on a daily basis so it may not contain all the latest information.
+
+<h4 id="anchor-c-en-2.2.2">2.2.2 Content Detection</h4>
+Content detection determines file content types and compression and stores the detection result back to the persistent storage. Since
+the storage mechanism is pluggable the storage mechanism needs to be configured as well.
+In case you modified the password of the database to be something different than 'changeme' configure the
+<pre>net.sf.seesea.data.io.postgis.PostgresDatasourceConfiguration-*</pre> files and set the password appropriately.
+
+<h4 id="anchor-c-en-2.2.3">2.2.3 Filtering</h4>
+By default unfiltered processing is enabled so boat sensor offset correction or tide correction or sophisticated filtering
+will not occur. In order to render result on a GUI fast the data is written into four database tables where only trackpoints_raw_filter_16 stores all the data and
+the others store sampled data respective to the zoom level of the map.
+This is configured in <pre>net.sf.seesea.data.io.postgis.PostInsertGISWriter.cfg</pre>
+<pre># configures the tables to write to. Several tables are used to provide fast rendering of sampled data points
+outputTables=trackpoints_raw_filter_16,trackpoints_raw_filter_12,trackpoints_raw_filter_10,trackpoints_raw_filter_8
+# identifies the persistent output used by the filter engine
+id=filter1
+</pre>
+The unfiltered processing itself is configured in <pre>net.sf.seesea.data.postprocessing.filter.UnfilteredMeasurementProcessor.cfg</pre>
+It disables boat sensor offset correction and configures the persistent output identifier where the filter will store its output data.
+
+<h4 id="anchor-c-en-2.2.4">2.2.4 Contour Generation</h4>
+Contour generation is currently disabled. If you look at the sources there is some delaunay triangulation based contour line
+generation. 
+
+The processing takes several hours to complete. If you want to see filter results we recommend the free <a href="http://www.qgis.org/">Quantum GIS</a> tooling to get some visualizations. 
+
+<h3 id="anchor-c-en-3.">3. Sources</h3>
+The <a href="https://github.com/OpenSeaMap/depth_webfrontend.git">website</a> is hosted at Github.<br>
+The sources for the <a href="http://sourceforge.net/p/seesea/code/HEAD/tree/trunk/org.osm.depth.upload/">server</a> can be found at SourceForge.<br>
+
+The configuration is stored within the IDE in the projects folder net.sf.seesea.data.processing.feature/rootfiles/config.
+
+<h4 id="anchor-c-en-3.1">3.1 IDE Setup</h4>
+The backend processing can be developed with the Eclipse IDE. To setup the IDE go through the following steps:
+<ul>
+	<li><a href="http://www.oracle.com/technetwork/java/javase/overview/index.html">Download Java</a></li>
+	<li><a href="https://www.eclipse.org/downloads/index.php?show_instructions=TRUE">Download the Eclipse Installer</a></li>
+	<li>Start the installer</li>
+	<li>Select "Advanced Mode"</li>
+	<li>From the branch  "Eclipse.org" select either the "Java EE Developers" or the "Eclipse Committers" edition, click "Next"</li>
+	<li><a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.installers.depth/OpenSeaMapDepthBackendprocessing.setup">Download</a> the setup file and drop it to the projects folder.</li>
+	<li>Finish the wizard and wait for the installation to complete</li>
+	<li><a href="https://sourceforge.net/p/seesea/code/HEAD/tree/trunk/net.sf.seesea.installers.depth/projectSet.psf">Import</a> the project set</a></li>
+</ul>
+<br>
+
+<h4 id="anchor-c-en-3.2">3.2 Run Processing</h4>
+<ul>
+	<li>Navigate to the project net.sf.seesea.postprocess.product</li>
+	<li>Double click on net.sf.seesea.postprocess.product</li>
+	<li>Change command line parameter to -Dfelix.fileinstall.dir=${workspace_loc}\net.sf.seesea.data.processing.feature\rootfiles\config</li>
+	<li>Launch an Eclipse Application or Launch an Eclipse Application in Debug mode</li>
+</ul>
+
+<h4 id="anchor-c-en-3.3">3.3 Analyzing individual formats</h4>
+You may want to look at individual files quickly to analyze their contents or to decode the data that is stored inside.
+For example you might want to analyze why a certain file was not processed and look at the data stored.
+Another example might be that some of the files contain 1D depth data or sea floor side scan data that is currently not used by OpenSeaMap and you want to create some awesome
+map overlay with that data. Wind speeds might even be interesting for weather related analysis.<br>
+
+The different file formats like ADM, FSH, GPX, SON, NMEA and SL2 are analyzed in the appropriate net.sf.seesea.provider
+bundles. Each of the bundles has a test plugin associated with it. It contains test methods and a res folder that stores some
+files for reference testing. You easily modify the test method to reference another file to do some analysis.
+Execute that test via right click -> Run as Junit - Test. This way you don't need to do a full run to analyse some details.
+
+<h4 id="anchor-c-en-3.4">3.4 Building</h4>
+Checkout the source code:
+<pre>svn co http://svn.code.sf.net/p/seesea/code/trunk</pre>
+Change directory to the aggregator:
+<pre>cd net.sf.seesea.aggregator</pre>
+Run the maven based build
+<pre>mvn clean verify</pre>
+
+<h3 id="anchor-c-en-4.">4. Resources</h3>
+The developer communication is done via <a href="mailto:openseamap-develop@lists.sourceforge.net">mailing list</a>.<br>
+The documentation can be found at the <a href="http://wiki.openseamap.org/wiki/OpenSeaMap-dev:Portal">OpenSeaMap Developer Wiki</a>.
+Some file formats are described in the <a href="http://wiki.openstreetmap.org/wiki/SL2">OpenStreetMap Wiki</a>.
+

@@ -1,0 +1,97 @@
+<legend data-trt="1020:Register"></legend>
+<form class="form-horizontal">
+    <div class="control-group">
+        <label class="control-label" for="{{idUsername}}" data-trt="1004:Email">*</label>
+        <div class="controls">
+            <input type="text" id="{{idUsername}}" name="username" data-trt-placeholder="1016:Your Email address"/>
+            <span class="help-inline"></span>
+        </div>
+    </div>
+    <div class="control-group" style="margin-bottom:5px">
+        <label class="control-label" for="{{idPassword1}}" data-trt="1005:Password">*</label>
+        <div class="controls">
+            <input type="password" id="{{idPassword1}}" name="password" data-trt-placeholder="1005:Password"/>
+            <span class="help-inline"></span>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <input type="password" id="{{idPassword2}}" data-trt-placeholder="1017:Password verification"/>
+            <span class="help-inline"></span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="{{idCaptcha}}" data-trt="1007:Captcha">*</label>
+        <div class="controls" style="margin-bottom:5px">
+            <div id="captcha" class="loading"> </div>
+<!--            <img class="img-polaroid" src="captchaUrl" /> -->
+<!--            <button type="button" class="btn btn-link" data-trt="1008:Renew"></button>-->
+        </div>
+        <div class="controls">
+            <input type="text" id="{{idCaptcha}}" name="captcha" data-trt-placeholder="1007:Captcha"/>
+            <span class="help-inline"></span>
+        </div>
+    </div>
+<!--    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input type="checkbox" id="{{idLicense}}"></input>
+                <div data-trt="1015:blah"></div>
+            </label>
+        </div>
+</div>-->
+    </div>
+        <div class="control-group">
+            <label class="control-label">Forename</label>
+        <div class="controls">
+                <input type="text" id="forename" name="forename" placeholder="Jane"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="control-label">Surname</label></p>
+            <div class="controls">
+                <input type="text" id="surname" name="surname" placeholder="Doe"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="control-label">Organisation</label></p>
+        <div class="controls">
+                <input type="text" id="organisation" name="organisation" placeholder="Your Organisation if any" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="control-label">You may contact me via E-Mail</label></p> 
+          <!--  <div class="input-append"> -->
+		  <div class="controls">
+                <input type="checkbox" id="acceptedEmailContact" name="acceptedEmailContact"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="control-label">Country</label></p>
+        <div class="controls">
+                <select name="country" id="countries" class="form-control bfh-countries" data-country="US"></select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="control-label">Correspondence Language</label></p>
+        <div class="controls">
+                <select name="language" id="languages" class="form-control bfh-languages" data-language="en"></select>            
+            </div>
+        </div>
+
+        <div class="control-group">
+            <p><label class="control-label">Phone</label></p>
+        <div class="controls">
+                <input name="phone" id="phones" type="text" class="form-control bfh-phone" data-country="countries"  placeholder="e.g. 0049 221 8853"/>
+            </div>
+        </div>    <div class="control-group">
+        <div class="controls">
+            <button type="submit" id="{{idSubmit}}" class="btn btn-primary" data-loading-text="Loading..." data-trt="1018:Register"></button>
+        </div>
+    </div>
+</form>
