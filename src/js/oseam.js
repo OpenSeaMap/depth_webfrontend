@@ -36,6 +36,7 @@ OSeaM = {
 //	apiUrl: 'http://localhost:8000/org.osm.depth.upload/api2/',
 	apiUrl: GetApiUrl(),
     autoId: 0,
+    mapServerUrl: 'http://osm.franken.de/cgi-bin/mapserv.fcgi?',
     
     init: function() {
 		// alert ( "apiUrl: " + this.apiUrl );

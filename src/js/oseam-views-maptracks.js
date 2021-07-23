@@ -102,7 +102,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPointsTemp100 = new OpenLayers.Layer.WMS('100m temp',
-            '/cgi-bin/mapserv.fcgi?', {
+//            '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
                 layers: 'trackpoints_temp_100',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
@@ -115,7 +116,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPointsMerged100 = new OpenLayers.Layer.WMS('100m merged',
-            '/cgi-bin/mapserv.fcgi?', {
+//            '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
                 layers: 'trackpoints_merged_100',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
@@ -128,7 +130,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPointsMerged10 = new OpenLayers.Layer.WMS('10m merged',
-            '/cgi-bin/mapserv.fcgi?', {
+//            '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
                 layers: 'trackpoints_merged_10',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
@@ -140,7 +143,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPointsSingle100 = new OpenLayers.Layer.WMS('100m',
-            '/cgi-bin/mapserv.fcgi?', {
+//            '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
                 layers: 'trackpoints_single_100',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
@@ -153,7 +157,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPointsSingle10 = new OpenLayers.Layer.WMS('10m',
-            '/cgi-bin/mapserv.fcgi?', {
+//            '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
                 layers: 'trackpoints_single_10',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
@@ -166,7 +171,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPoints = new OpenLayers.Layer.WMS('100m',
-            '/cgi-bin/mapserv.fcgi?', {
+//            '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
                 layers: 'trackpoints_cor1_test_dbs,trackpoints_cor1_test,test_zoom_10_cor_1_points,test_zoom_9_cor_1_points,test_zoom_8_cor_1_points,test_zoom_7_cor_1_points,test_zoom_6_cor_1_points,test_zoom_5_cor_1_points,test_zoom_4_cor_1_points,test_zoom_3_cor_1_points,test_zoom_2_cor_1_points',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
@@ -179,7 +185,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
             }
         );
         this.layerTrackPoints10 = new OpenLayers.Layer.WMS('10m',
-                '/cgi-bin/mapserv.fcgi?', {
+//                '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
                     layers: 'trackpoints_cor1_test_dbs_10,trackpoints_cor1_test_10,test_zoom_10_cor_1_points_10,test_zoom_9_cor_1_points_10,test_zoom_8_cor_1_points_10,test_zoom_7_cor_1_points_10,test_zoom_6_cor_1_points_10,test_zoom_5_cor_1_points_10,test_zoom_4_cor_1_points_10,test_zoom_3_cor_1_points_10,test_zoom_2_cor_1_points_10',
                     numZoomLevels: 22,
                     projection: this.projectionMercator,
@@ -192,7 +199,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 }
             );
         this.layerTrackPoints_filter1 = new OpenLayers.Layer.WMS('100m Filter 1',
-                '/cgi-bin/mapserv.fcgi?', {
+//                '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
                     layers: 'trackpoints_filter1_0,trackpoints_filter1_1',
                     numZoomLevels: 22,
                     projection: this.projectionMercator,
@@ -218,7 +226,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
 //                    }
 //                );
             this.layerTrackPoints_filter2 = new OpenLayers.Layer.WMS('100m Filter 2',
-                    '/cgi-bin/mapserv.fcgi?', {
+//                    '/cgi-bin/mapserv.fcgi?', {
+                    OSeaM.mapServerUrl, {
                         layers: 'trackpoints_filter2_0,trackpoints_filter2_1',
                         numZoomLevels: 22,
                         projection: this.projectionMercator,
@@ -232,6 +241,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                 );
 //             this.layerTrackPoints10_filter2 = new OpenLayers.Layer.WMS('10m Filter 2',
 //                        '/cgi-bin/mapserv.fcgi?', {
+//                        OSeaM.mapServerUrl, {
 //                            layers: 'trackpoints_cor1_test_dbs_10,trackpoints_cor1_test_10,test_zoom_10_cor_1_points_10,test_zoom_9_cor_1_points_10,test_zoom_8_cor_1_points_10,test_zoom_7_cor_1_points_10,test_zoom_6_cor_1_points_10,test_zoom_5_cor_1_points_10,test_zoom_4_cor_1_points_10,test_zoom_3_cor_1_points_10,test_zoom_2_cor_1_points_10',
 //                            numZoomLevels: 22,
 //                            projection: this.projectionMercator,
@@ -244,7 +254,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
 //                        }
 //                    );
          this.triangulation = new OpenLayers.Layer.WMS("Triangulation",
-                    "http://osm.franken.de/cgi-bin/mapserv.fcgi?", {
+//                    "http://osm.franken.de/cgi-bin/mapserv.fcgi?", {
+                    OSeaM.mapServerUrl, {
         	 			layers: ['triangulation'], 
         	 			projection: new OpenLayers.Projection("EPSG:900913"), 
         	 			type: 'png', 
@@ -256,7 +267,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         	 		});
          
          this.msl2lat = new OpenLayers.Layer.WMS("Mean Sea Level to LAT Difference",
-                 "http://osm.franken.de/cgi-bin/mapserv.fcgi", {
+//                 "http://osm.franken.de/cgi-bin/mapserv.fcgi", {
+                 OSeaM.mapServerUrl, {
         	 			layers: "lat", 
         	 			projection: new OpenLayers.Projection("EPSG:900913"), 
         	 			type: 'png', 
@@ -267,7 +279,8 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         	 		  tileSize: new OpenLayers.Size(1024,1024)
         	 	  });
         this.layerContours = new OpenLayers.Layer.WMS("Contours",
-                '/cgi-bin/mapserv.fcgi?', {
+//                '/cgi-bin/mapserv.fcgi?', {
+              OSeaM.mapServerUrl, {
             layers: ['contour','contour2'],
             numZoomLevels: 22,
             projection: this.projectionMercator,
