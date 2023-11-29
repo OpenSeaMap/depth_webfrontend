@@ -116,7 +116,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         );
         this.layerTrackPointsMerged100 = new OpenLayers.Layer.WMS('100m merged',
             '/geoserver/openseamap/wms', {
-                layers: 'trackpoints_merged_100',
+                layers: 'openseamap:tracks_100m',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
                 type: 'png',
@@ -129,7 +129,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
         );
         this.layerTrackPointsMerged10 = new OpenLayers.Layer.WMS('10m merged',
             '/geoserver/openseamap/wms', {
-                layers: 'trackpoints_merged_10',
+                layers: 'openseamap:tracks_10m',
                 numZoomLevels: 22,
                 projection: this.projectionMercator,
                 type: 'png',
@@ -269,7 +269,7 @@ OSeaM.views.MapTracks = OSeaM.View.extend({
                   
         this.layerContours = new OpenLayers.Layer.WMS("Contours",
                 '/geoserver/openseamap/wms', {
-            layers: ['contour','contour2'],
+            layers: ['openseamap:contour2','openseamap:contour'],
             numZoomLevels: 22,
             projection: this.projectionMercator,
             type: 'png',
