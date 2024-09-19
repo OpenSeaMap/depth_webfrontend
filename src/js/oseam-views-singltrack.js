@@ -134,13 +134,14 @@ class SingleTrackController
         );
  
         this.layerTrackPointsSingle100 = new OpenLayers.Layer.WMS('100m',
-            '/geoserver/openseamap/wms', {
-                layers: 'trackpoints_single_track_100',
-                numZoomLevels: 22,
+            'https://depth.openseamap.org/geoserver/openseamap/wms', {
+                layers: 'openseamap:trackpoints_single_track_100',
+                numZoomLevels: 20,
                 projection: this.projectionMercator,
                 type: 'png',
                 transparent: true,
-				track_id: this.trackId
+				CQL_FILTER: 'track_id="'+this.trackId+'"'
+				
             },{
                 isBaseLayer: false,
                 tileSize: new OpenLayers.Size(1024,1024),
@@ -149,13 +150,14 @@ class SingleTrackController
         );
 
         this.layerTrackPointsSingle10 = new OpenLayers.Layer.WMS('10m',
-            '/geoserver/openseamap/wms', {
-                layers: 'trackpoints_single_track_10',
-                numZoomLevels: 22,
+            'https://depth.openseamap.org/geoserver/openseamap/wms', {
+                layers: 'openseamap:trackpoints_single_track_10',
+                numZoomLevels: 20,
                 projection: this.projectionMercator,
                 type: 'png',
                 transparent: true,
-				track_id: this.trackId
+				CQL_FILTER: 'track_id="'+this.trackId+'"'
+				
             },{
                 isBaseLayer: false,
                 tileSize: new OpenLayers.Size(1024,1024),
