@@ -1,5 +1,5 @@
 def configure(ctx):
-    ctx.find_program('closure-compiler', var='CLOSURECOMPILER')
+    ctx.find_program('google-closure-compiler', var='CLOSURECOMPILER')
     ctx.find_program('handlebars', var='HANDLEBARS')
     ctx.env.CLOSURECOMPILERFLAGS = '--compilation_level SIMPLE_OPTIMIZATIONS'
     ctx.env.JSSTAGE1 = [
