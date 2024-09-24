@@ -7,12 +7,30 @@ Web frontend for the depth project (http://depth.openseamap.org).
 Installation
 ------------
 
-The preferred way to build this project is now by using docker.
-In the root directory, execute
+The preferred way to build this project is now by using docker compose.
+
+To make sure that docker uses the right permissions, first grab your user ID
+and default group ID by doing ```id```. Then create a .env file containing
+two lines setting your user id and group id.
 
 ```
-docker build -t depth-build .
-docker run -v .:/depth:rw -v ./build:/release:rw depth-build
+UID=1000
+GID=1000
+```
+
+(or something that matches your uid and gid)
+
+Then, in this directory, execute
+
+```
+docker-compose build depth-builder && docker-compose run depth-builder
+```
+
+or, if you have only docker and not docker-compose
+
+```
+docker build -t depth-builder .
+docker run -v .:/depth:rw -v ./build:/release:rw --user=<your user id> depth-builder
 ```
 
 to build an image and then run the build process inside it.

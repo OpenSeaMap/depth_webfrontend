@@ -1,0 +1,19 @@
+# before you run this file, create a .env file in the same directory with the follwing contents
+#
+# UID=<your user id>
+# GID=<your default group id>
+#
+# typically, both of these would be 1000 or close.
+# then, when you build and/or run the image, they will run with your credentials,
+# allowing write access.
+
+services:
+  depth-builder:
+    image: depth-builder
+    build: .
+    user: $UID
+    group_add:
+      - $GID
+    volumes:
+      - .:/depth:rw
+      - ./build:/release:rw
