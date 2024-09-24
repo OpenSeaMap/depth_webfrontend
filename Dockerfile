@@ -1,20 +1,14 @@
 FROM debian:latest
+ARG UID=1001
+ARG GID=1001
 
 RUN apt-get -y update && apt-get -y --no-install-recommends upgrade
 RUN apt-get -y --no-install-recommends install npm python3 python-is-python3
 RUN npm i -g google-closure-compiler handlebars@1.0.12
 
-RUN adduser --disabled-password -uid 1000 build
+RUN addgroup --gid $GID builduser && adduser --uid $UID --gid $GID --disabled-password builduser
 
-VOLUME [ "/depth" ]
-RUN mkdir /depth
-
-VOLUME [ "/release" ]
-RUN mkdir /release
-
-RUN chown -R build /depth /release
-
-USER build
+USER builduser
 WORKDIR /depth
 
-CMD /bin/bash -c "cd /depth && ./waf configure && ./waf build_release && ./waf install_release"
+CMD /bin/bash -c "./waf configure && ./waf build_release && ./waf install_release"
