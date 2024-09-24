@@ -1,7 +1,7 @@
 FROM debian:latest
 
-RUN apt -y update && apt -y --no-install-recommends upgrade
-RUN apt -y --no-install-recommends install npm python3 python-is-python3
+RUN apt-get -y update && apt-get -y --no-install-recommends upgrade
+RUN apt-get -y --no-install-recommends install npm python3 python-is-python3
 RUN npm i -g google-closure-compiler handlebars@1.0.12
 
 RUN adduser --disabled-password -uid 1000 build
