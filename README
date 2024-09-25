@@ -7,29 +7,35 @@ Web frontend for the depth project (http://depth.openseamap.org).
 Installation
 ------------
 
-The Python build tool 'Waf' is used to build this repository. The
-following tools are required:
+The preferred way to build this project is now by using docker compose.
 
-  * Python2 (http://www.python.org/)
-  * Closure-Compiler (https://developers.google.com/closure/compiler/)
-    (works with version 20120403; Download: https://code.google.com/p/closure-compiler/downloads/detail?name=compiler-20120430.zip)
-  * Handlebars (http://handlebarsjs.com/precompilation.html)
-    (works with version 1.0.12)
-    > npm install -g handlebars@1.0.12
+To make sure that docker uses the right permissions, first grab your user ID
+and default group ID by doing ```id```. Then create a .env file containing
+two lines setting your user id and group id.
 
-To build this project execute the following commands:
+```
+UID=1000
+GID=1000
+```
 
-  > ./waf configure
-  > ./waf build_debug && ./waf install_debug
+(or something that matches your uid and gid)
 
-The install command will copy all necessary files into the folder
-'./debug'. To test your developments point your favourite web
-server to this directory.
+Then, in this directory, execute
 
-Note: waf requires python2. On current systems you may need to use:
-  > python2 waf configure
-  > python2 waf build_debug && ./waf install_debug
-  
+```
+docker-compose build depth-builder && docker-compose run --rm depth-builder
+```
+
+or, if you have only docker and not docker-compose
+
+```
+docker build -t depth-builder .
+docker run --rm -v .:/depth:rw -v ./build:/release:rw --user=<your user id> depth-builder
+```
+
+to build an image and then run the build process inside it.
+The results will be left in the build/release subdirectory.
+
 Debugging
 -----------------------
 In order to facilitate debugging, functionality has been added that makes the whole thing work 
