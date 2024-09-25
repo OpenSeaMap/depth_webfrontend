@@ -140,7 +140,7 @@ class SingleTrackController
                 projection: this.projectionMercator,
                 type: 'png',
                 transparent: true,
-				CQL_FILTER: 'track_id="'+this.trackId+'"'
+				CQL_FILTER: 'TRACK_ID="'+this.trackId+'"'
 				
             },{
                 isBaseLayer: false,
@@ -156,7 +156,7 @@ class SingleTrackController
                 projection: this.projectionMercator,
                 type: 'png',
                 transparent: true,
-				CQL_FILTER: 'track_id="'+this.trackId+'"'
+				CQL_FILTER: 'TRACK_ID="'+this.trackId+'"'
 				
             },{
                 isBaseLayer: false,
