@@ -23,14 +23,14 @@ GID=1000
 Then, in this directory, execute
 
 ```
-docker-compose build depth-builder && docker-compose run depth-builder
+docker-compose build depth-builder && docker-compose run --rm depth-builder
 ```
 
 or, if you have only docker and not docker-compose
 
 ```
 docker build -t depth-builder .
-docker run -v .:/depth:rw -v ./build:/release:rw --user=<your user id> depth-builder
+docker run --rm -v .:/depth:rw -v ./build:/release:rw --user=<your user id> depth-builder
 ```
 
 to build an image and then run the build process inside it.
