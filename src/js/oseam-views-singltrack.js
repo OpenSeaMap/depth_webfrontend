@@ -21,35 +21,35 @@ class SingleTrackController
 			this.trackId = 0;
 		else
 			this.trackId = track_id;
-		
+
 		var lat = parseFloat( new URLSearchParams( window.location.search ).get( "lat" ) );
 		console.log( "lat %d", lat );
 		if ( isNaN( lat ) )
 			this.lat = 40;
 		else
 			this.lat = lat;
-		
+
 		var lon = parseFloat( new URLSearchParams( window.location.search ).get( "lon" ) );
 		console.log( "lon %d", lon );
 		if ( isNaN( lon ) )
 			this.lon = 0;
 		else
 			this.lon = lon;
-		
+
 		var zoom = parseInt( new URLSearchParams( window.location.search ).get( "zoom" ) );
 		console.log( "zoom %d", zoom );
 		if ( isNaN( zoom ) )
 			this.zoom = 3;
 		else
 			this.zoom = zoom;
-		
+
 		console.log( "lat %f lon %f", this.lat, this.lon, this.zoom );
-		
+
 	}
-	
-    mapEventMove( view ) 
+
+    mapEventMove( view )
 	{
-        var fn = function(data) 
+        var fn = function(data)
 		{
 //            this.attributionControl.updateAttribution();
             this.layerBase.attribution = 'Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a>',
@@ -64,16 +64,16 @@ class SingleTrackController
 //            this.attributionControl = new OpenLayers.Control.Attribution();
             this.attributionControl.updateAttribution();
         };
-		
+
 		/*
-        if( this.map != null ) 
+        if( this.map != null )
 		{
 			var bounds = this.map.getExtent().toArray();
 			var b = this.y2lat(bounds[1]).toFixed(5);
 			var t = this.y2lat(bounds[3]).toFixed(5);
 			var l = this.x2lon(bounds[0]).toFixed(5);
 			var r = this.x2lon(bounds[2]).toFixed(5);
-			
+
 			jQuery.ajax({
 				type: 'GET',
 				url: OSeaM.apiUrl + 'license/bbox?lat1=' + b + '&lon1=' + l + '&lat2=' + t + '&lon2=' + r  ,
@@ -84,7 +84,7 @@ class SingleTrackController
 		*/
 	}
 
-    initOpenLayers() 
+    initOpenLayers()
 	{
         this.projectionWGS84    = new OpenLayers.Projection('EPSG:4326');
         this.projectionMercator = new OpenLayers.Projection('EPSG:900913');
@@ -105,7 +105,7 @@ class SingleTrackController
 //        	},
             units: 'meters'
         });
- 
+
         this.layerBase = new OpenLayers.Layer.XYZ('OpenStreetMap', [
                 'http://a.tile.openstreetmap.org/${z}/${x}/${y}.png',
                 'http://b.tile.openstreetmap.org/${z}/${x}/${y}.png',
@@ -132,7 +132,7 @@ class SingleTrackController
                 sphericalMercator: true
             }
         );
- 
+
         this.layerTrackPointsSingle100 = new OpenLayers.Layer.WMS('100m',
             'https://depth.openseamap.org/geoserver/openseamap/wms', {
                 layers: 'openseamap:trackpoints_single_track_100',
@@ -140,8 +140,8 @@ class SingleTrackController
                 projection: this.projectionMercator,
                 type: 'png',
                 transparent: true,
-				CQL_FILTER: 'track_id="'+this.trackId+'"'
-				
+				CQL_FILTER: 'track_id='+this.trackId
+
             },{
                 isBaseLayer: false,
                 tileSize: new OpenLayers.Size(1024,1024),
@@ -156,15 +156,15 @@ class SingleTrackController
                 projection: this.projectionMercator,
                 type: 'png',
                 transparent: true,
-				CQL_FILTER: 'track_id="'+this.trackId+'"'
-				
+				CQL_FILTER: 'track_id='+this.trackId
+
             },{
                 isBaseLayer: false,
                 tileSize: new OpenLayers.Size(1024,1024),
                 visibility : false
             }
         );
- 
+
         this.map.addLayers([
             this.layerBase,
 			this.layerTrackPointsSingle100,
@@ -194,10 +194,10 @@ class SingleTrackController
           ), this.zoom
         );
         this.map.events.register( 'moveend', this, this.mapEventMove);
-        
+
         this.mapEventMove(this);
     }
-	
+
     plusfacteur (a) {
         return a * (20037508.34 / 180);
     }
@@ -222,4 +222,3 @@ class SingleTrackController
         return this.plusfacteur(a);
     }
 }
-
